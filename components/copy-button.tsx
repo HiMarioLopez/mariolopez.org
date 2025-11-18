@@ -28,17 +28,17 @@ export function CopyButton({ content }: CopyButtonProps) {
       onClick={handleCopy}
       variant="outline"
       size="sm"
-      className="gap-2 font-mono text-xs"
+      className="gap-1.5 sm:gap-2 font-mono text-xs px-2.5 sm:px-3 bg-background dark:bg-background"
       aria-label="Copy to clipboard"
     >
       {copied ? (
         <>
-          <Check className="size-3" />
+          <Check className="size-3 shrink-0" />
           Copied!
         </>
       ) : (
         <>
-          <Copy className="size-3" />
+          <Copy className="size-3 shrink-0" />
           Copy
         </>
       )}

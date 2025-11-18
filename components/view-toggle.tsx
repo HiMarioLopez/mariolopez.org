@@ -33,18 +33,18 @@ export function ViewToggle() {
 
   return (
     <div 
-      className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-opacity duration-300 ${
+      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-opacity duration-300 sm:top-6 ${
         mounted ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
-      <div className="flex items-center gap-4 bg-background/95 dark:bg-background/95 backdrop-blur-md border border-border/50 rounded-lg px-4 py-2.5 shadow-lg">
+      <div className="flex items-center gap-2 sm:gap-4 bg-background/95 dark:bg-background/95 backdrop-blur-md border border-border/50 rounded-lg px-3 py-2 sm:px-4 sm:py-2.5 shadow-lg">
         <Link
           href="/human"
           onClick={(e) => handleToggle(e, "/human")}
           prefetch={true}
           onMouseEnter={() => router.prefetch("/human")}
           className={`
-            flex items-center gap-2 text-xs font-medium font-mono transition-all duration-10 ease-out
+            flex items-center gap-1.5 sm:gap-2 text-xs font-medium font-mono transition-all duration-10 ease-out
             ${
               isHuman
                 ? "text-foreground"
@@ -56,7 +56,7 @@ export function ViewToggle() {
         >
           <div
             className={`
-              w-3 h-3 rounded-full border-2 transition-all duration-10 ease-out
+              w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full border-2 transition-all duration-10 ease-out shrink-0
               ${
                 isHuman
                   ? "border-foreground bg-foreground"
@@ -73,7 +73,7 @@ export function ViewToggle() {
           prefetch={true}
           onMouseEnter={() => router.prefetch("/machine")}
           className={`
-            flex items-center gap-2 text-xs font-medium font-mono transition-all duration-10 ease-out
+            flex items-center gap-1.5 sm:gap-2 text-xs font-medium font-mono transition-all duration-10 ease-out
             ${
               !isHuman
                 ? "text-foreground"
@@ -85,7 +85,7 @@ export function ViewToggle() {
         >
           <div
             className={`
-              w-3 h-3 rounded-full border-2 transition-all duration-10 ease-out
+              w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full border-2 transition-all duration-10 ease-out shrink-0
               ${
                 !isHuman
                   ? "border-foreground bg-foreground"
