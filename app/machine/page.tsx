@@ -73,7 +73,7 @@ Source: ${LINKS.SITE_SOURCE}
   return (
     <div className="min-h-screen bg-background text-foreground">
       <ViewToggle />
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 sm:top-6 sm:right-6 sm:left-auto sm:translate-x-0">
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
         <CopyButton content={plainTextContent} />
       </div>
       <div className="flex items-center justify-center min-h-screen p-8 pt-24">
