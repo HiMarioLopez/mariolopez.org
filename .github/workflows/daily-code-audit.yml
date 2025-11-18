@@ -18,14 +18,26 @@ jobs:
       with:
         fetch-depth: 0  # Full git history
 
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 8
+
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'npm'
+        cache: 'pnpm'
 
     - name: Install deps
-      run: npm ci --include=dev  # Next.js deps
+      run: pnpm install --frozen-lockfile
+
+    - name: Read audit prompt
+      id: read-prompt
+      run: |
+        echo "prompt<<EOF" >> $GITHUB_OUTPUT
+        cat .github/audit_prompt.md >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
 
     - name: Run AI Audit
       id: audit
@@ -34,11 +46,11 @@ jobs:
         model: 'mistral-ai/ministral-3b'  # Fast/accurate (or 'xai/grok-3-mini')
         system-prompt: |
           # Code Quality & Engineering Excellence Assessment
-          ${{ file('.github/audit-prompt.md') }}  # 👈 Your FULL prompt here!
+          ${{ steps.read-prompt.outputs.prompt }}
         prompt: |
           Analyze this ENTIRE Next.js 16 + React 19 codebase: ${{ github.workspace }}
           
-          📅 Date: ${{ now }}
+          📅 Date: ${{ github.event.head_commit.timestamp }}
           📦 Check package.json for exact versions
           🎯 CRITICAL: Verify vs latest docs (nextjs.org/docs/app, react.dev)
           🔍 Scan EVERY file for your 8 assessment categories
@@ -86,7 +98,7 @@ ${audit.summary}
 ## 🚨 Issues
 ${audit.issues.map((i, idx) => `
 ### ${idx+1}. ${i.priority} - ${i.category}
-**File:** [\`${i.file}\`@${i.line}](${{ github.server_url }}/${context.repo.owner}/${context.repo.repo}/blob/${{ github.ref_name }}${i.file.replace('app', 'app')}#L${i.line})
+**File:** [\`${i.file}\`@${i.line}](${{ github.server_url }}/${context.repo.owner}/${context.repo.repo}/blob/${{ github.ref_name }}/${i.file}#L${i.line})
 
 **Issue:** ${i.issue}
 **Fix:** ${i.fix}
