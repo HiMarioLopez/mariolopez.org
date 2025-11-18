@@ -1,4 +1,5 @@
 import Script from "next/script";
+import { RESOURCE_HINTS } from "@/lib/constants";
 
 export function ResourceHints() {
   return (
@@ -10,15 +11,7 @@ export function ResourceHints() {
         dangerouslySetInnerHTML={{
           __html: `
             (function() {
-              const hints = [
-                { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-                { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
-                { rel: 'preconnect', href: 'https://music.mariolopez.org' },
-                { rel: 'dns-prefetch', href: 'https://vercel.com' },
-                { rel: 'dns-prefetch', href: 'https://github.com' },
-                { rel: 'dns-prefetch', href: 'https://www.linkedin.com' },
-                { rel: 'preload', href: '/icon.svg', as: 'image', type: 'image/svg+xml' }
-              ];
+              const hints = ${JSON.stringify(RESOURCE_HINTS)};
               
               hints.forEach(function(hint) {
                 var link = document.createElement('link');
@@ -42,4 +35,3 @@ export function ResourceHints() {
     </>
   );
 }
-

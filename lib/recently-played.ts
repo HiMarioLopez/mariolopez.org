@@ -1,113 +1,31 @@
-interface RecentlyPlayed {
-  song: string;
-  artist: string;
-  platform: string;
-  url: string;
-  timestamp: string;
-}
+import type { RecentlyPlayed } from "./types";
+import { extractTrackInfo, normalizeTrackData } from "./track-data";
+import { API_CONFIG, CACHE_CONFIG } from "./config";
+import { logError } from "./errors";
 
-interface TrackData {
-  name?: string;
-  artistName?: string;
-  song?: string;
-  artist?: string;
-  title?: string;
-  artists?: any;
-  track?: any;
-  source?: string;
-  url?: string;
-  processedTimestamp?: string;
-}
-
-function extractTrackInfo(trackData: TrackData): {
-  songName: string;
-  artistName: string;
-  platform: string;
-  url: string;
-  timestamp: string;
-} {
-  let songName = "";
-  let artistName = "";
-
-  if (trackData.name && trackData.artistName) {
-    songName = trackData.name;
-    artistName = trackData.artistName;
-  } else if (trackData.song && trackData.artist) {
-    songName = trackData.song;
-    artistName = trackData.artist;
-  } else if (trackData.track) {
-    songName = trackData.track.name;
-    artistName =
-      trackData.track.artists?.map((a: any) => a.name).join(", ") || "";
-  } else if (trackData.name && trackData.artist) {
-    songName = trackData.name;
-    artistName = trackData.artist;
-  } else if (trackData.title && trackData.artist) {
-    songName = trackData.title;
-    artistName = trackData.artist;
-  } else if (trackData.name && trackData.artists) {
-    songName = trackData.name;
-    artistName = Array.isArray(trackData.artists)
-      ? trackData.artists
-          .map((a: any) => (typeof a === "string" ? a : a.name))
-          .join(", ")
-      : trackData.artists;
-  } else {
-    songName = trackData.name || trackData.title || trackData.song || "";
-    artistName =
-      trackData.artistName ||
-      trackData.artist ||
-      (Array.isArray(trackData.artists)
-        ? trackData.artists
-            .map((a: any) => (typeof a === "string" ? a : a.name))
-            .join(", ")
-        : trackData.artists) ||
-      "";
-  }
-
-  const source = trackData.source || "";
-  let platform = "";
-  if (source === "apple") {
-    platform = "Apple Music";
-  } else if (source === "spotify") {
-    platform = "Spotify";
-  } else if (source) {
-    platform = source.charAt(0).toUpperCase() + source.slice(1);
-  } else {
-    platform = "Apple Music";
-  }
-
-  const songUrl = trackData.url || "";
-  const timestamp = trackData.processedTimestamp || "";
-
-  return {
-    songName,
-    artistName,
-    platform,
-    url: songUrl,
-    timestamp,
-  };
-}
-
+/**
+ * Fetches the most recently played track from Spotify and Apple Music
+ * Returns the most recent track based on timestamp comparison
+ *
+ * @returns Recently played track information or null if unavailable
+ */
 export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
   try {
-    const baseUrl =
-      process.env.MUSIC_API_URL || "https://music.mariolopez.org/api/nodejs/v1";
-    const spotifyUrl = `${baseUrl}/history/spotify?limit=1`;
-    const appleMusicUrl = `${baseUrl}/history/music?limit=1`;
+    const spotifyUrl = `${API_CONFIG.MUSIC_API_BASE_URL}${API_CONFIG.SPOTIFY_ENDPOINT}?limit=${API_CONFIG.DEFAULT_LIMIT}`;
+    const appleMusicUrl = `${API_CONFIG.MUSIC_API_BASE_URL}${API_CONFIG.APPLE_MUSIC_ENDPOINT}?limit=${API_CONFIG.DEFAULT_LIMIT}`;
 
     const [spotifyResponse, appleMusicResponse] = await Promise.allSettled([
       fetch(spotifyUrl, {
         headers: {
           "Content-Type": "application/json",
         },
-        next: { revalidate: 60 },
+        next: { revalidate: CACHE_CONFIG.REVALIDATE_SECONDS },
       }),
       fetch(appleMusicUrl, {
         headers: {
           "Content-Type": "application/json",
         },
-        next: { revalidate: 60 },
+        next: { revalidate: CACHE_CONFIG.REVALIDATE_SECONDS },
       }),
     ]);
 
@@ -119,20 +37,11 @@ export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
       timestamp: string;
     }> = [];
 
+    // Process Spotify response
     if (spotifyResponse.status === "fulfilled" && spotifyResponse.value.ok) {
       try {
         const spotifyData = await spotifyResponse.value.json();
-        let trackData: TrackData | null = null;
-
-        if (spotifyData.items && Array.isArray(spotifyData.items)) {
-          trackData = spotifyData.items[0];
-        } else if (Array.isArray(spotifyData)) {
-          trackData = spotifyData[0];
-        } else if (spotifyData.data && Array.isArray(spotifyData.data)) {
-          trackData = spotifyData.data[0];
-        } else {
-          trackData = spotifyData;
-        }
+        const trackData = normalizeTrackData(spotifyData);
 
         if (trackData) {
           const trackInfo = extractTrackInfo(trackData);
@@ -141,27 +50,18 @@ export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
           }
         }
       } catch (error) {
-        console.error("Error parsing Spotify response:", error);
+        logError(error, "Error parsing Spotify response");
       }
     }
 
+    // Process Apple Music response
     if (
       appleMusicResponse.status === "fulfilled" &&
       appleMusicResponse.value.ok
     ) {
       try {
         const appleMusicData = await appleMusicResponse.value.json();
-        let trackData: TrackData | null = null;
-
-        if (appleMusicData.items && Array.isArray(appleMusicData.items)) {
-          trackData = appleMusicData.items[0];
-        } else if (Array.isArray(appleMusicData)) {
-          trackData = appleMusicData[0];
-        } else if (appleMusicData.data && Array.isArray(appleMusicData.data)) {
-          trackData = appleMusicData.data[0];
-        } else {
-          trackData = appleMusicData;
-        }
+        const trackData = normalizeTrackData(appleMusicData);
 
         if (trackData) {
           const trackInfo = extractTrackInfo(trackData);
@@ -170,7 +70,7 @@ export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
           }
         }
       } catch (error) {
-        console.error("Error parsing Apple Music response:", error);
+        logError(error, "Error parsing Apple Music response");
       }
     }
 
@@ -178,6 +78,7 @@ export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
       return null;
     }
 
+    // Find the most recently played track by comparing timestamps
     const mostRecentTrack = tracks.reduce((latest, current) => {
       if (!latest.timestamp) return current;
       if (!current.timestamp) return latest;
@@ -196,10 +97,9 @@ export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
       timestamp: mostRecentTrack.timestamp,
     };
   } catch (error) {
-    console.error("Error fetching recently played song:", error);
+    logError(error, "Error fetching recently played song");
     return null;
   }
 }
 
 export type { RecentlyPlayed };
-

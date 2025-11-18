@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { FileText, ChevronDown } from "lucide-react";
+import { LINKS } from "@/lib/constants";
 
 export function ResumeDropdown() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
@@ -84,7 +85,7 @@ export function ResumeDropdown() {
         >
           <DropdownMenuItem asChild>
             <a
-              href="docs/Resume.pdf"
+              href={LINKS.RESUME_PDF}
               className="flex items-center gap-2 cursor-pointer"
             >
               <FileText className="w-4 h-4" />
@@ -93,7 +94,7 @@ export function ResumeDropdown() {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <a
-              href="docs/Resume.docx"
+              href={LINKS.RESUME_DOCX}
               className="flex items-center gap-2 cursor-pointer"
             >
               <FileText className="w-4 h-4" />
@@ -105,4 +106,3 @@ export function ResumeDropdown() {
     </div>
   );
 }
-

@@ -4,8 +4,9 @@ import { Introduction } from "@/components/introduction";
 import { SocialLinks } from "@/components/social-links";
 import { Footer } from "@/components/footer";
 import { getRecentlyPlayed } from "@/lib/recently-played";
+import { CACHE_CONFIG } from "@/lib/config";
 
-export const revalidate = 60; // Revalidate every 60 seconds (ISR)
+export const revalidate = CACHE_CONFIG.REVALIDATE_SECONDS;
 
 export default async function Home() {
   const recentlyPlayed = await getRecentlyPlayed();

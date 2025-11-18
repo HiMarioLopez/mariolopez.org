@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { BUILD_CONFIG } from "@/lib/config";
+import { LINKS } from "@/lib/constants";
 
 export function Footer() {
   const [buildTimestamp, setBuildTimestamp] = useState<string | null>(null);
@@ -8,7 +10,7 @@ export function Footer() {
 
   useEffect(() => {
     // Format date only on client side to avoid hydration mismatch
-    const buildTime = process.env.NEXT_PUBLIC_BUILD_TIME;
+    const buildTime = BUILD_CONFIG.BUILD_TIME;
     if (buildTime) {
       const formatted = new Date(buildTime).toLocaleString("en-US", {
         year: "numeric",
@@ -28,7 +30,7 @@ export function Footer() {
       <div>
         © 2025, Mario Lopez Martinez.{" "}
         <a
-          href="https://github.com/HiMarioLopez"
+          href={LINKS.GITHUB}
           target="_blank"
           rel="noopener noreferrer"
           className="link-accent"

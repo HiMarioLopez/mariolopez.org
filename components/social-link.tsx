@@ -15,7 +15,12 @@ interface SocialLinkProps {
   tooltip?: string;
 }
 
-export function SocialLink({ href, icon: Icon, children, tooltip }: SocialLinkProps) {
+export function SocialLink({
+  href,
+  icon: Icon,
+  children,
+  tooltip,
+}: SocialLinkProps) {
   const buttonContent = (
     <Button variant="social" size="lg" asChild>
       <a
@@ -47,4 +52,3 @@ export function SocialLink({ href, icon: Icon, children, tooltip }: SocialLinkPr
 
   return buttonContent;
 }
-

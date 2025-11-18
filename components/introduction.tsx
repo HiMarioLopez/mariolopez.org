@@ -7,59 +7,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import type { RecentlyPlayed } from "@/lib/recently-played";
-
-function formatTimeAgo(timestamp: string): string {
-  if (!timestamp) return "";
-
-  const now = new Date();
-  const playedAt = new Date(timestamp);
-  const diffInSeconds = Math.floor((now.getTime() - playedAt.getTime()) / 1000);
-
-  if (diffInSeconds < 60) {
-    return "just now";
-  }
-
-  const diffInMinutes = Math.floor(diffInSeconds / 60);
-  if (diffInMinutes < 60) {
-    return `${diffInMinutes} ${diffInMinutes === 1 ? "minute" : "minutes"} ago`;
-  }
-
-  const diffInHours = Math.floor(diffInMinutes / 60);
-  if (diffInHours < 24) {
-    return `${diffInHours} ${diffInHours === 1 ? "hour" : "hours"} ago`;
-  }
-
-  const diffInDays = Math.floor(diffInHours / 24);
-  if (diffInDays < 7) {
-    return `${diffInDays} ${diffInDays === 1 ? "day" : "days"} ago`;
-  }
-
-  const diffInWeeks = Math.floor(diffInDays / 7);
-  if (diffInWeeks < 4) {
-    return `${diffInWeeks} ${diffInWeeks === 1 ? "week" : "weeks"} ago`;
-  }
-
-  const diffInMonths = Math.floor(diffInDays / 30);
-  if (diffInMonths < 12) {
-    return `${diffInMonths} ${diffInMonths === 1 ? "month" : "months"} ago`;
-  }
-
-  const diffInYears = Math.floor(diffInDays / 365);
-  return `${diffInYears} ${diffInYears === 1 ? "year" : "years"} ago`;
-}
-
-function getPlatformColor(platform: string): string {
-  const platformLower = platform.toLowerCase();
-  if (platformLower.includes("apple")) {
-    // Apple Music colors: Pink/Red
-    return "text-[#FA243C] dark:text-[#FF6B9D] underline decoration-dotted decoration-[#FA243C] dark:decoration-[#FF6B9D] hover:text-[#FA243C]/80 dark:hover:text-[#FF6B9D]/80 hover:decoration-[#FA243C]/80 dark:hover:decoration-[#FF6B9D]/80 transition-colors";
-  } else if (platformLower.includes("spotify")) {
-    // Spotify colors: Green
-    return "text-[#1DB954] dark:text-[#1ED760] underline decoration-dotted decoration-[#1DB954] dark:decoration-[#1ED760] hover:text-[#1DB954]/80 dark:hover:text-[#1ED760]/80 hover:decoration-[#1DB954]/80 dark:hover:decoration-[#1ED760]/80 transition-colors";
-  }
-  // Default: Apple Music colors
-  return "text-[#FA243C] dark:text-[#FF6B9D] underline decoration-dotted decoration-[#FA243C] dark:decoration-[#FF6B9D] hover:text-[#FA243C]/80 dark:hover:text-[#FF6B9D]/80 hover:decoration-[#FA243C]/80 dark:hover:decoration-[#FF6B9D]/80 transition-colors";
-}
+import { formatTimeAgo, getPlatformColor } from "@/lib/utils";
+import { LINKS } from "@/lib/constants";
 
 interface IntroductionProps {
   recentlyPlayed: RecentlyPlayed | null;
@@ -76,7 +25,7 @@ export function Introduction({ recentlyPlayed }: IntroductionProps) {
         <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
           I'm a{" "}
           <a
-            href="https://vercel.com/careers/platform-architect-5176710004"
+            href={LINKS.VERCEL_CAREERS}
             target="_blank"
             rel="noopener noreferrer"
             className="link-accent"
@@ -85,7 +34,7 @@ export function Introduction({ recentlyPlayed }: IntroductionProps) {
           </a>
           , working with some brilliant folks at{" "}
           <a
-            href="https://vercel.com"
+            href={LINKS.VERCEL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center text-foreground/90 underline decoration-dotted decoration-foreground/70 hover:text-foreground hover:decoration-foreground transition-colors font-medium"
@@ -95,7 +44,7 @@ export function Introduction({ recentlyPlayed }: IntroductionProps) {
           , solving the most challenging problems in the industry for our
           wonderful{" "}
           <a
-            href="https://vercel.com/customers"
+            href={LINKS.VERCEL_CUSTOMERS}
             target="_blank"
             rel="noopener noreferrer"
             className="link-accent"
@@ -136,7 +85,7 @@ export function Introduction({ recentlyPlayed }: IntroductionProps) {
         ) : null}
 
         <p className="text-lg md:text-base text-muted-foreground font-light">
-          <a href="mailto:contact@mariolopez.org" className="link-accent">
+          <a href={LINKS.EMAIL} className="link-accent">
             Hit me up
           </a>
           , I don't bite!

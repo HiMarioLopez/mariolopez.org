@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { BREAKPOINTS, HERO_CONFIG } from "@/lib/constants";
 
 const ASCIIText = dynamic(() => import("@/components/ui/ascii-text"), {
   ssr: false,
@@ -13,7 +14,7 @@ export function Hero() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640); // sm breakpoint
+      setIsMobile(window.innerWidth < BREAKPOINTS.SM);
     };
 
     checkMobile();
@@ -24,7 +25,17 @@ export function Hero() {
 
   return (
     <div className="relative w-full flex flex-col items-center gap-0">
-      <div className="relative w-full flex justify-center items-center h-[250px] md:h-[350px] min-h-[250px] md:min-h-[350px]">
+      <div
+        className="relative w-full flex justify-center items-center"
+        style={{
+          height: isMobile
+            ? `${HERO_CONFIG.MOBILE_HEIGHT}px`
+            : `${HERO_CONFIG.DESKTOP_HEIGHT}px`,
+          minHeight: isMobile
+            ? `${HERO_CONFIG.MOBILE_HEIGHT}px`
+            : `${HERO_CONFIG.DESKTOP_HEIGHT}px`,
+        }}
+      >
         <div
           className="relative mx-auto w-full h-full"
           style={{ maxWidth: "100%" }}
@@ -33,9 +44,21 @@ export function Hero() {
             <ASCIIText
               text="👋🤠"
               enableWaves={false}
-              asciiFontSize={isMobile ? 7 : 9}
-              textFontSize={isMobile ? 100 : 150}
-              planeBaseHeight={isMobile ? 18 : 25}
+              asciiFontSize={
+                isMobile
+                  ? HERO_CONFIG.MOBILE_ASCII_FONT_SIZE
+                  : HERO_CONFIG.DESKTOP_ASCII_FONT_SIZE
+              }
+              textFontSize={
+                isMobile
+                  ? HERO_CONFIG.MOBILE_TEXT_FONT_SIZE
+                  : HERO_CONFIG.DESKTOP_TEXT_FONT_SIZE
+              }
+              planeBaseHeight={
+                isMobile
+                  ? HERO_CONFIG.MOBILE_PLANE_BASE_HEIGHT
+                  : HERO_CONFIG.DESKTOP_PLANE_BASE_HEIGHT
+              }
               enableMouseInteraction={false}
             />
           )}
