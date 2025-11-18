@@ -30,7 +30,7 @@ export function Footer() {
       <div>
         © 2025, Mario Lopez Martinez.{" "}
         <a
-          href={LINKS.GITHUB}
+          href={LINKS.SITE_SOURCE}
           target="_blank"
           rel="noopener noreferrer"
           className="link-accent"

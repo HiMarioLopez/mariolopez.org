@@ -64,7 +64,7 @@ DOCX: ${LINKS.RESUME_DOCX}
 
 [footer]
 © 2025, Mario Lopez Martinez
-Source: ${LINKS.GITHUB}
+Source: ${LINKS.SITE_SOURCE}
 [/footer]
 [/content_end]
 `;

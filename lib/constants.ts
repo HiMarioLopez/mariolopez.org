@@ -88,6 +88,7 @@ export const LINKS = {
   EMAIL_MACHINE: "i-am-a-machine@mariolopez.org",
   RESUME_PDF: `${BASE_URL}/docs/Resume.pdf`,
   RESUME_DOCX: `${BASE_URL}/docs/Resume.docx`,
+  SITE_SOURCE: `https://github.com/HiMarioLopez/mariolopez.org`,
 } as const;
 
 /**
