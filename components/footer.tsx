@@ -1,19 +1,25 @@
 "use client";
 
+import { useState, useEffect } from "react";
+
 export function Footer() {
-  // Get build time from environment variable (set at build time)
-  const buildTime = process.env.NEXT_PUBLIC_BUILD_TIME;
+  const [buildTimestamp, setBuildTimestamp] = useState<string | null>(null);
   
-  const buildTimestamp = buildTime
-    ? new Date(buildTime).toLocaleString("en-US", {
+  useEffect(() => {
+    // Format date only on client side to avoid hydration mismatch
+    const buildTime = process.env.NEXT_PUBLIC_BUILD_TIME;
+    if (buildTime) {
+      const formatted = new Date(buildTime).toLocaleString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
         hour: "numeric",
         minute: "2-digit",
         timeZoneName: "short",
-      })
-    : null;
+      });
+      setBuildTimestamp(formatted);
+    }
+  }, []);
 
   return (
     <footer className="relative mt-8 py-6 md:mt-0 md:absolute md:bottom-0 md:left-0 md:right-0 md:py-8 text-muted-foreground text-sm z-10 text-center w-full">
