@@ -87,30 +87,42 @@ jobs:
               return;
             }
             
-            const body = `
-# 🤖 Automated Code Audit (${new Date().toDateString()})
+            const issueSections = audit.issues.map((issue, idx) => {
+              const docsLine = issue.docs ? `**Docs:** ${issue.docs}` : '';
+              return [
+                `### ${idx + 1}. ${issue.priority} - ${issue.category}`,
+                `**File:** [\`${issue.file}\`@${issue.line}](${{ github.server_url }}/${context.repo.owner}/${context.repo.repo}/blob/${{ github.ref_name }}/${issue.file}#L${issue.line})`,
+                '',
+                `**Issue:** ${issue.issue}`,
+                `**Fix:** ${issue.fix}`,
+                docsLine,
+              ]
+                .filter(Boolean)
+                .join('\n');
+            });
 
-**Score:** ${audit.overall_score} • **Issues:** ${audit.issues.length}
+            const bestPractices =
+              audit.best_practices?.length
+                ? audit.best_practices.map((item) => `- ${item}`).join('\n')
+                : 'None';
 
-## 📋 Summary
-${audit.summary}
-
-## 🚨 Issues
-${audit.issues.map((i, idx) => `
-### ${idx+1}. ${i.priority} - ${i.category}
-**File:** [\`${i.file}\`@${i.line}](${{ github.server_url }}/${context.repo.owner}/${context.repo.repo}/blob/${{ github.ref_name }}/${i.file}#L${i.line})
-
-**Issue:** ${i.issue}
-**Fix:** ${i.fix}
-${i.docs ? `**Docs:** ${i.docs}` : ''}
-`).join('\n')}
-
-## 💡 Best Practices
-${audit.best_practices?.join('\n- ') || 'None'}
-
----
-*Powered by GitHub Models • [View run](${{ github.server_url }}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})*
-            `;
+            const body = [
+              `# 🤖 Automated Code Audit (${new Date().toDateString()})`,
+              '',
+              `**Score:** ${audit.overall_score} • **Issues:** ${audit.issues.length}`,
+              '',
+              '## 📋 Summary',
+              audit.summary,
+              '',
+              '## 🚨 Issues',
+              issueSections.join('\n\n'),
+              '',
+              '## 💡 Best Practices',
+              bestPractices,
+              '',
+              '---',
+              `*Powered by GitHub Models • [View run](${{ github.server_url }}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})*`,
+            ].join('\n');
             
             // Create or update existing audit issue
             const { data: issues } = await github.rest.issues.listForRepo({
