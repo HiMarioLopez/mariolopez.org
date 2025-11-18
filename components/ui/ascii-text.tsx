@@ -68,6 +68,9 @@ function map(
 
 const PX_RATIO = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 
+// Cache for computed font family to avoid DOM creation on every call
+let cachedFontFamily: string | null = null;
+
 interface AsciiFilterOptions {
   fontSize?: number;
   fontFamily?: string;
@@ -94,10 +97,22 @@ class AsciiFilter {
   rows: number = 0;
   deg: number = 0;
   enableMouseInteraction: boolean;
+  // Performance optimizations
+  private cachedImageDataSize: { w: number; h: number } = { w: 0, h: 0 };
+  private stringBuffer: string[] = [];
+  private lastUpdateTime: number = 0;
+  private updateThrottle: number = 16; // ~60fps default
+  private isVisible: boolean = true;
 
   constructor(
     renderer: WebGLRenderer,
-    { fontSize, fontFamily, charset, invert, enableMouseInteraction = false }: AsciiFilterOptions = {}
+    {
+      fontSize,
+      fontFamily,
+      charset,
+      invert,
+      enableMouseInteraction = false,
+    }: AsciiFilterOptions = {}
   ) {
     this.renderer = renderer;
     this.domElement = document.createElement("div");
@@ -167,10 +182,15 @@ class AsciiFilter {
       this.pre.style.zIndex = "9";
       this.pre.style.backgroundAttachment = "fixed";
       this.pre.style.mixBlendMode = "difference";
+
+      // Invalidate cached size when canvas size changes
+      this.cachedImageDataSize = { w: 0, h: 0 };
     }
   }
 
   render(scene: Scene, camera: Camera) {
+    if (!this.isVisible) return;
+
     this.renderer.render(scene, camera);
 
     const w = this.canvas.width;
@@ -181,15 +201,37 @@ class AsciiFilter {
         this.context.drawImage(this.renderer.domElement, 0, 0, w, h);
       }
 
-      this.asciify(this.context, w, h);
+      // Throttle DOM updates based on frame rate
+      const now = performance.now();
+      const shouldUpdate = now - this.lastUpdateTime >= this.updateThrottle;
+
+      if (shouldUpdate) {
+        this.asciify(this.context, w, h);
+        this.lastUpdateTime = now;
+      }
+
       if (this.enableMouseInteraction) {
         this.hue();
       }
     }
   }
 
+  setUpdateThrottle(ms: number) {
+    this.updateThrottle = ms;
+  }
+
+  setVisible(visible: boolean) {
+    this.isVisible = visible;
+  }
+
+  private lastMouseUpdate: number = 0;
+  private mouseThrottle: number = 16; // ~60fps
+
   onMouseMove(e: MouseEvent) {
+    const now = performance.now();
+    if (now - this.lastMouseUpdate < this.mouseThrottle) return;
     this.mouse = { x: e.clientX * PX_RATIO, y: e.clientY * PX_RATIO };
+    this.lastMouseUpdate = now;
   }
 
   get dx() {
@@ -207,33 +249,50 @@ class AsciiFilter {
   }
 
   asciify(ctx: CanvasRenderingContext2D, w: number, h: number) {
-    if (w && h) {
-      const imgData = ctx.getImageData(0, 0, w, h).data;
-      let str = "";
-      for (let y = 0; y < h; y++) {
-        for (let x = 0; x < w; x++) {
-          const i = x * 4 + y * 4 * w;
-          const [r, g, b, a] = [
-            imgData[i],
-            imgData[i + 1],
-            imgData[i + 2],
-            imgData[i + 3],
-          ];
+    if (!w || !h) return;
 
-          if (a === 0) {
-            str += " ";
-            continue;
-          }
-
-          let gray = (0.3 * r + 0.6 * g + 0.1 * b) / 255;
-          let idx = Math.floor((1 - gray) * (this.charset.length - 1));
-          if (this.invert) idx = this.charset.length - idx - 1;
-          str += this.charset[idx];
-        }
-        str += "\n";
-      }
-      this.pre.innerHTML = str;
+    // Get fresh image data each frame (necessary for animation)
+    // Update cached size if it changed
+    if (this.cachedImageDataSize.w !== w || this.cachedImageDataSize.h !== h) {
+      this.cachedImageDataSize = { w, h };
     }
+    const imageData = ctx.getImageData(0, 0, w, h);
+    const imgData = imageData.data;
+
+    // Pre-allocate array for string building (much faster than concatenation)
+    const totalChars = w * h + h; // chars + newlines
+    if (this.stringBuffer.length < totalChars) {
+      this.stringBuffer = new Array(totalChars);
+    }
+
+    let bufferIdx = 0;
+    const charsetLen = this.charset.length;
+    const charsetLenMinusOne = charsetLen - 1;
+
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const i = x * 4 + y * 4 * w;
+        const r = imgData[i];
+        const g = imgData[i + 1];
+        const b = imgData[i + 2];
+        const a = imgData[i + 3];
+
+        if (a === 0) {
+          this.stringBuffer[bufferIdx++] = " ";
+          continue;
+        }
+
+        const gray = (0.3 * r + 0.6 * g + 0.1 * b) / 255;
+        let idx = Math.floor((1 - gray) * charsetLenMinusOne);
+        if (this.invert) idx = charsetLen - idx - 1;
+        this.stringBuffer[bufferIdx++] = this.charset[idx];
+      }
+      this.stringBuffer[bufferIdx++] = "\n";
+    }
+
+    // Use textContent instead of innerHTML (faster and safer)
+    // Join array is much faster than string concatenation
+    this.pre.textContent = this.stringBuffer.slice(0, bufferIdx).join("");
   }
 
   dispose() {
@@ -257,6 +316,12 @@ class CanvasTxt {
   fontFamily: string;
   color: string;
   font: string;
+  private lastRenderProps: { txt: string; fontSize: number; color: string } = {
+    txt: "",
+    fontSize: 0,
+    color: "",
+  };
+  private needsRender: boolean = true;
 
   constructor(
     txt: string,
@@ -292,17 +357,40 @@ class CanvasTxt {
     }
   }
 
-  render() {
-    if (this.context) {
-      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.context.fillStyle = this.color;
-      this.context.font = this.font;
+  render(): boolean {
+    if (!this.context) return false;
 
-      const metrics = this.context.measureText(this.txt);
-      const yPos = 5 + metrics.actualBoundingBoxAscent;
+    // Only re-render if text, fontSize, or color changed
+    const propsChanged =
+      this.lastRenderProps.txt !== this.txt ||
+      this.lastRenderProps.fontSize !== this.fontSize ||
+      this.lastRenderProps.color !== this.color;
 
-      this.context.fillText(this.txt, 5, yPos);
+    if (!propsChanged && !this.needsRender) {
+      return false;
     }
+
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.context.fillStyle = this.color;
+    this.context.font = this.font;
+
+    const metrics = this.context.measureText(this.txt);
+    const yPos = 5 + metrics.actualBoundingBoxAscent;
+
+    this.context.fillText(this.txt, 5, yPos);
+
+    // Update cached props
+    this.lastRenderProps = {
+      txt: this.txt,
+      fontSize: this.fontSize,
+      color: this.color,
+    };
+    this.needsRender = false;
+    return true; // Indicates texture needs update
+  }
+
+  invalidate() {
+    this.needsRender = true;
   }
 
   get width() {
@@ -351,6 +439,12 @@ class CanvAscii {
   filter!: AsciiFilter;
   center!: { x: number; y: number };
   animationFrameId: number = 0;
+  // Performance optimizations
+  private isVisible: boolean = true;
+  private intersectionObserver: IntersectionObserver | null = null;
+  private lastUniformTime: number = -1;
+  private lastMouseInteraction: number = 0;
+  private mouseThrottleTimeout: number | null = null;
 
   constructor(
     {
@@ -392,7 +486,7 @@ class CanvAscii {
   setMesh() {
     this.textCanvas = new CanvasTxt(this.textString, {
       fontSize: this.textFontSize,
-      fontFamily: "IBM Plex Mono",
+      fontFamily: getComputedFontFamily(),
       color: this.textColor,
     });
     this.textCanvas.resize();
@@ -429,7 +523,7 @@ class CanvAscii {
     this.renderer.setClearColor(0x000000, 0);
 
     this.filter = new AsciiFilter(this.renderer, {
-      fontFamily: "IBM Plex Mono",
+      fontFamily: getComputedFontFamily(),
       fontSize: this.asciiFontSize,
       invert: true,
       enableMouseInteraction: this.enableMouseInteraction,
@@ -438,11 +532,51 @@ class CanvAscii {
     this.container.appendChild(this.filter.domElement);
     this.setSize(this.width, this.height);
 
+    // Set up visibility-based frame rate limiting
+    this.setupVisibilityObserver();
+
     if (this.enableMouseInteraction) {
-      this.container.addEventListener("mousemove", this.onMouseMove);
-      this.container.addEventListener("touchmove", this.onMouseMove);
+      // Throttle mouse events to prevent excessive updates
+      this.container.addEventListener("mousemove", this.onMouseMoveThrottled);
+      this.container.addEventListener("touchmove", this.onMouseMoveThrottled);
     }
   }
+
+  private setupVisibilityObserver() {
+    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+      return;
+    }
+
+    this.intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        const isVisible = entries[0]?.isIntersecting ?? true;
+        this.isVisible = isVisible;
+        this.filter.setVisible(isVisible);
+
+        // Adjust frame rate: 60fps when visible and interacting, 30fps when visible but not interacting
+        if (isVisible) {
+          const timeSinceInteraction =
+            performance.now() - this.lastMouseInteraction;
+          const isInteracting = timeSinceInteraction < 1000; // Consider interacting if mouse moved in last second
+          this.filter.setUpdateThrottle(isInteracting ? 16 : 33); // 60fps vs 30fps
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    this.intersectionObserver.observe(this.container);
+  }
+
+  private onMouseMoveThrottled = (evt: MouseEvent | TouchEvent) => {
+    if (this.mouseThrottleTimeout !== null) return;
+
+    this.lastMouseInteraction = performance.now();
+    this.onMouseMove(evt);
+
+    this.mouseThrottleTimeout = window.setTimeout(() => {
+      this.mouseThrottleTimeout = null;
+    }, 16); // ~60fps throttle
+  };
 
   setSize(w: number, h: number) {
     this.width = w;
@@ -487,13 +621,22 @@ class CanvAscii {
   }
 
   render() {
+    if (!this.isVisible) return;
+
     const time = new Date().getTime() * 0.001;
+    const sinTime = Math.sin(time);
 
-    this.textCanvas.render();
-    this.texture.needsUpdate = true;
+    // Only update texture if text canvas was actually re-rendered
+    const textureNeedsUpdate = this.textCanvas.render();
+    if (textureNeedsUpdate) {
+      this.texture.needsUpdate = true;
+    }
 
-    (this.mesh.material as ShaderMaterial).uniforms.uTime.value =
-      Math.sin(time);
+    // Only update uniform if value changed
+    if (this.lastUniformTime !== sinTime) {
+      (this.mesh.material as ShaderMaterial).uniforms.uTime.value = sinTime;
+      this.lastUniformTime = sinTime;
+    }
 
     if (this.enableMouseInteraction) {
       this.updateRotation();
@@ -527,15 +670,64 @@ class CanvAscii {
 
   dispose() {
     cancelAnimationFrame(this.animationFrameId);
+    if (this.mouseThrottleTimeout !== null) {
+      clearTimeout(this.mouseThrottleTimeout);
+      this.mouseThrottleTimeout = null;
+    }
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
+      this.intersectionObserver = null;
+    }
     this.filter.dispose();
     this.container.removeChild(this.filter.domElement);
     if (this.enableMouseInteraction) {
-      this.container.removeEventListener("mousemove", this.onMouseMove);
-      this.container.removeEventListener("touchmove", this.onMouseMove);
+      this.container.removeEventListener(
+        "mousemove",
+        this.onMouseMoveThrottled
+      );
+      this.container.removeEventListener(
+        "touchmove",
+        this.onMouseMoveThrottled
+      );
     }
     this.clear();
     this.renderer.dispose();
   }
+}
+
+// Helper function to get computed font family from CSS variable
+// Cached to avoid DOM creation on every call
+function getComputedFontFamily(): string {
+  if (typeof window === "undefined") {
+    return "'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', 'Consolas', 'Courier New', monospace";
+  }
+
+  // Return cached value if available
+  if (cachedFontFamily !== null) {
+    return cachedFontFamily;
+  }
+
+  // Create a temporary element to resolve the CSS variable
+  const tempEl = document.createElement("div");
+  tempEl.style.fontFamily =
+    "var(--font-geist-mono), 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', 'Consolas', 'Courier New', monospace";
+  tempEl.style.position = "absolute";
+  tempEl.style.visibility = "hidden";
+  document.body.appendChild(tempEl);
+
+  const computedFontFamily = getComputedStyle(tempEl).fontFamily;
+  document.body.removeChild(tempEl);
+
+  cachedFontFamily =
+    computedFontFamily ||
+    "'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', 'Consolas', 'Courier New', monospace";
+
+  return cachedFontFamily;
+}
+
+// Function to invalidate font cache (e.g., on theme change)
+export function invalidateFontCache() {
+  cachedFontFamily = null;
 }
 
 interface ASCIITextProps {
@@ -659,8 +851,6 @@ export default function ASCIIText({
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
-
         body {
           margin: 0;
           padding: 0;

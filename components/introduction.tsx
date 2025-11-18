@@ -112,7 +112,7 @@ export function Introduction() {
   return (
     <TooltipProvider>
       <div className="space-y-4 px-6 sm:px-0">
-        <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed font-light">
+        <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
           I'm a{" "}
           <a
             href="https://vercel.com/careers/platform-architect-5176710004"
@@ -142,52 +142,51 @@ export function Introduction() {
             customers
           </a>
           .
-          {isLoading ? (
-            <>
-              {" "}
-              My most recently played song on{" "}
-              <span className="skeleton inline-block h-[1.2em] w-28 align-middle" />{" "}
-              is{" "}
-              <span className="skeleton inline-block h-[1.2em] w-40 align-middle" />{" "}
-              by{" "}
-              <span className="skeleton inline-block h-[1.2em] w-36 align-middle" />
-              .
-            </>
-          ) : (
-            recentlyPlayed && (
-              <>
-                {" "}
-                My most recently played song on{" "}
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span className={`cursor-help ${platformClassName}`}>
-                      {recentlyPlayed.platform}
-                    </span>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Played {formatTimeAgo(recentlyPlayed.timestamp)}</p>
-                  </TooltipContent>
-                </Tooltip>{" "}
-                is{" "}
-                <a
-                  href={recentlyPlayed.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`font-medium ${platformClassName}`}
-                >
-                  {recentlyPlayed.song}
-                </a>{" "}
-                by{" "}
-                <span className="font-medium text-foreground/90">
-                  {recentlyPlayed.artist}
-                </span>
-                .
-              </>
-            )
-          )}
         </p>
 
-        <p className="text-lg md:text-xl text-muted-foreground font-light">
+        {isLoading ? (
+          <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
+            My most recently played song on{" "}
+            <span className="skeleton inline-block h-[1.2em] w-28 align-middle" />{" "}
+            is{" "}
+            <span className="skeleton inline-block h-[1.2em] w-40 align-middle" />{" "}
+            by{" "}
+            <span className="skeleton inline-block h-[1.2em] w-36 align-middle" />
+            .
+          </p>
+        ) : (
+          recentlyPlayed && (
+            <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
+              My most recently played song on{" "}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className={`cursor-help ${platformClassName}`}>
+                    {recentlyPlayed.platform}
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Played {formatTimeAgo(recentlyPlayed.timestamp)}</p>
+                </TooltipContent>
+              </Tooltip>{" "}
+              is{" "}
+              <a
+                href={recentlyPlayed.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`font-medium ${platformClassName}`}
+              >
+                {recentlyPlayed.song}
+              </a>{" "}
+              by{" "}
+              <span className="font-medium text-foreground/90">
+                {recentlyPlayed.artist}
+              </span>
+              .
+            </p>
+          )
+        )}
+
+        <p className="text-lg md:text-base text-muted-foreground font-light">
           <a href="mailto:contact@mariolopez.org" className="link-accent">
             Hit me up
           </a>

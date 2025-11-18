@@ -1,7 +1,16 @@
 "use client";
 
-import ASCIIText from "@/components/ui/ascii-text";
+import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
+
+const ASCIIText = dynamic(() => import("@/components/ui/ascii-text"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-16 h-16 flex items-center justify-center text-5xl">
+      💡
+    </div>
+  ),
+});
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -25,7 +34,7 @@ export function ThemeToggle() {
           <ASCIIText
             text="💡"
             enableWaves={false}
-            asciiFontSize={4}
+            asciiFontSize={2}
             textFontSize={80}
             planeBaseHeight={25}
             enableMouseInteraction={true}
@@ -35,4 +44,3 @@ export function ThemeToggle() {
     </div>
   );
 }
-

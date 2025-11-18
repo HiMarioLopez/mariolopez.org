@@ -1,0 +1,13 @@
+# robots.txt for mariolopez.org
+
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow API routes (not meant for search engines)
+Disallow: /api/
+
+# Disallow common non-content paths
+Disallow: /_next/
+Disallow: /admin/
+Disallow: /private/

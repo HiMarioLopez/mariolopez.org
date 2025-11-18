@@ -6,6 +6,24 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Optimize bundle size
+  experimental: {
+    optimizePackageImports: [
+      "lucide-react",
+      "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-tooltip",
+    ],
+  },
+  // Compress output
+  compress: true,
+  // Optimize production builds
+  swcMinify: true,
+  // Reduce JavaScript bundle size
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production" ? {
+      exclude: ["error", "warn"],
+    } : false,
+  },
 }
 
 export default nextConfig
