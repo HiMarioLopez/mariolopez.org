@@ -74,6 +74,12 @@ export function Introduction() {
     null
   );
   const [isLoading, setIsLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // Mark component as mounted to avoid hydration mismatch
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     // Fetch recently played song on client side to avoid hydration mismatch
@@ -165,7 +171,12 @@ export function Introduction() {
                   </span>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Played {formatTimeAgo(recentlyPlayed.timestamp)}</p>
+                  <p>
+                    Played{" "}
+                    {mounted
+                      ? formatTimeAgo(recentlyPlayed.timestamp)
+                      : "recently"}
+                  </p>
                 </TooltipContent>
               </Tooltip>{" "}
               is{" "}
