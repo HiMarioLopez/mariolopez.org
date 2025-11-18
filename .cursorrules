@@ -1,0 +1,203 @@
+# mariolopez.org - Cursor Rules
+
+## Project Overview
+
+Personal website for Mario Lopez Martinez built with Next.js 16, emphasizing performance and modern web technologies. This is a Next.js App Router application using React 19 Server Components by default.
+
+## Technology Stack
+
+### Core
+
+- **Next.js 16**: App Router architecture, Server Components by default
+- **React 19**: Latest React with Server Components support
+- **TypeScript**: Strict mode enabled, ES6 target
+- **Tailwind CSS 4**: Utility-first CSS framework
+- **pnpm**: Package manager (use `pnpm` not npm/yarn)
+
+### UI Libraries
+
+- **Radix UI**: Accessible component primitives (dropdown-menu, tooltip)
+- **Lucide React**: Icon library (use tree-shaking imports)
+- **next-themes**: Theme management with system preference detection
+- **class-variance-authority**: Component variant management
+- **clsx & tailwind-merge**: Conditional class name utilities
+
+### Data Fetching
+
+- **TanStack Query**: Client-side data fetching and caching
+- Server Components for initial data fetching when possible
+
+### 3D Graphics
+
+- **Three.js**: For interactive visualizations
+
+### Analytics & Monitoring
+
+- **Vercel Analytics**: Web analytics
+- **Vercel Speed Insights**: Performance monitoring
+- **Custom Performance Monitor**: Core Web Vitals tracking
+
+## Architecture Patterns
+
+### File Structure
+
+- `app/`: Next.js App Router pages and API routes
+- `components/`: React components (use kebab-case for file names)
+- `lib/`: Utilities, hooks, and configuration
+- `public/`: Static assets
+
+### Component Organization
+
+- Use Server Components by default (no "use client" unless needed)
+- Client components should be minimal and co-located
+- Components in `components/` directory use kebab-case naming
+- UI primitives in `components/ui/` directory
+
+### API Routes
+
+- Located in `app/api/` directory
+- Use Route Handlers (not Pages API)
+- Implement stale-while-revalidate caching pattern
+- Use centralized config from `lib/config.ts` for cache settings
+
+## Code Style & Conventions
+
+### TypeScript
+
+- Strict mode enabled
+- Use `as const` for configuration objects
+- Prefer type inference where possible
+- Use path aliases (`@/*` for root imports)
+
+### React Patterns
+
+- Server Components by default
+- Use "use client" directive only when necessary (interactivity, hooks, browser APIs)
+- Prefer composition over prop drilling
+- Use proper TypeScript types for props
+
+### Styling
+
+- Tailwind CSS utility classes
+- Use `cn()` utility (from `lib/utils.ts`) for conditional classes
+- Responsive design: mobile-first approach
+- Use CSS variables for theming (via next-themes)
+
+### Performance Best Practices
+
+- **Image Optimization**: Use Next.js Image component with AVIF/WebP
+- **Font Optimization**: Use `next/font/google` with `display: swap` and preloading
+- **Code Splitting**: Leverage Next.js automatic code splitting
+- **Caching**: Use stale-while-revalidate pattern for API routes
+- **Bundle Size**: Use tree-shaking imports (e.g., `lucide-react` individual imports)
+- **Route Prefetching**: Implement for critical routes
+
+### Caching Strategy
+
+- API routes: `stale-while-revalidate` with configurable TTLs
+- Cache config centralized in `lib/config.ts`
+- Error responses have shorter cache TTLs
+- Use CDN cache headers appropriately
+
+## Configuration
+
+### Centralized Config
+
+All configuration values are in `lib/config.ts`:
+
+- API endpoints and base URLs
+- Cache and revalidation settings
+- Cache control headers
+- Build-time environment variables
+
+**Never hardcode configuration values** - always use `lib/config.ts`.
+
+### Constants
+
+All application constants are in `lib/constants.ts`:
+
+- Platform configurations (e.g., Spotify, Apple Music)
+- UI constants (breakpoints, hero config, time formatting)
+- External links and URLs
+- Resource hints configuration
+- Performance thresholds
+
+**Avoid magic strings and hardcoded values** - always use constants from `lib/constants.ts` when available. If a constant doesn't exist, add it to `lib/constants.ts` rather than hardcoding the value.
+
+### Environment Variables
+
+- Use `NEXT_PUBLIC_*` prefix for client-side variables
+- Access via `process.env` in server components
+- Build-time variables stored in `BUILD_CONFIG`
+
+## Development Guidelines
+
+### Package Management
+
+- Always use `pnpm` (not npm or yarn)
+- Install: `pnpm install`
+- Add dependency: `pnpm add <package>`
+- Add dev dependency: `pnpm add -D <package>`
+
+### Scripts
+
+- `pnpm dev`: Development server
+- `pnpm build`: Production build
+- `pnpm start`: Production server
+- `pnpm lint`: ESLint
+
+### Code Quality
+
+- TypeScript strict mode compliance required
+- Follow existing code patterns
+- Maintain performance optimizations
+- Keep bundle size minimal
+
+## Key Features
+
+### Dual Views
+
+- `/human`: Human-readable view
+- `/machine`: Machine-readable view
+- **CRITICAL**: When content is changed on the `/human` page, **ALWAYS** assess if it should also be updated on the `/machine` page. The dual-view architecture requires content synchronization - any informational changes must be evaluated for both views.
+
+### Recently Played Music
+
+- Integrates with external API (`music.mariolopez.org`)
+- Supports Spotify and Apple Music
+- Uses TanStack Query for client-side fetching
+- Displays with platform-specific styling
+
+### Performance Monitoring
+
+- Custom Core Web Vitals tracking
+- Development-mode performance logging
+- Resource timing analysis
+
+### Resource Hints
+
+- DNS prefetching for external domains
+- Preconnect to critical origins
+- Strategic resource loading
+
+## Important Notes
+
+1. **Server Components First**: Default to Server Components, only use Client Components when necessary
+2. **Performance Focus**: This site prioritizes performance - maintain optimizations
+3. **Accessibility**: Use Radix UI components for accessible primitives
+4. **Theme Support**: Dark/light mode via next-themes with system preference detection
+5. **Error Handling**: Implement graceful degradation and error boundaries
+6. **Type Safety**: Maintain strict TypeScript typing throughout
+7. **Dual View Synchronization**: **ALWAYS** assess if content changes on `/human` should also be updated on `/machine` - this is mandatory, not optional
+
+## When Adding New Features
+
+1. Check if configuration should go in `lib/config.ts`
+2. Check if constants should go in `lib/constants.ts` (avoid magic strings)
+3. Determine if Server Component is sufficient
+4. Use existing component patterns
+5. Maintain performance optimizations
+6. Add proper TypeScript types
+7. Consider accessibility implications
+8. Test theme switching compatibility
+9. **If modifying `/human` page content**: Assess and update `/machine` page accordingly - always check both views
