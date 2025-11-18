@@ -5,11 +5,6 @@ import { useTheme } from "next-themes";
 
 const ASCIIText = dynamic(() => import("@/components/ui/ascii-text"), {
   ssr: false,
-  loading: () => (
-    <div className="w-16 h-16 flex items-center justify-center text-5xl">
-      💡
-    </div>
-  ),
 });
 
 export function ThemeToggle() {

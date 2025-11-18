@@ -22,6 +22,10 @@ const nextConfig = {
       exclude: ["error", "warn"],
     } : false,
   },
+  // Generate build timestamp at build time
+  env: {
+    NEXT_PUBLIC_BUILD_TIME: new Date().toISOString(),
+  },
 }
 
 export default nextConfig

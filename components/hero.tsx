@@ -5,11 +5,6 @@ import dynamic from "next/dynamic";
 
 const ASCIIText = dynamic(() => import("@/components/ui/ascii-text"), {
   ssr: false,
-  loading: () => (
-    <div className="relative w-full h-full flex items-center justify-center">
-      <div className="text-5xl md:text-7xl">👋🤠</div>
-    </div>
-  ),
 });
 
 export function Hero() {
