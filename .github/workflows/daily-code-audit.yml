@@ -90,7 +90,7 @@ jobs:
             const body = `
 # 🤖 Automated Code Audit (${new Date().toDateString()})
 
-**Score: ${audit.overall_score}** | **Issues: ${audit.issues.length}**
+**Score:** ${audit.overall_score} • **Issues:** ${audit.issues.length}
 
 ## 📋 Summary
 ${audit.summary}
