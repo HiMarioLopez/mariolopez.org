@@ -1,6 +1,11 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { TIME_CONSTANTS, PLATFORMS } from "./constants";
+import {
+  TIME_CONSTANTS,
+  TIME_FORMAT_LABELS,
+  TIME_THRESHOLDS,
+  PLATFORMS,
+} from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -20,40 +25,40 @@ export function formatTimeAgo(timestamp: string): string {
   const diffInSeconds = Math.floor((now.getTime() - playedAt.getTime()) / 1000);
 
   if (diffInSeconds < TIME_CONSTANTS.SECONDS_PER_MINUTE) {
-    return "just now";
+    return TIME_FORMAT_LABELS.JUST_NOW;
   }
 
   const diffInMinutes = Math.floor(
     diffInSeconds / TIME_CONSTANTS.SECONDS_PER_MINUTE
   );
   if (diffInMinutes < TIME_CONSTANTS.MINUTES_PER_HOUR) {
-    return `${diffInMinutes} ${diffInMinutes === 1 ? "minute" : "minutes"} ago`;
+    return `${diffInMinutes} ${diffInMinutes === 1 ? TIME_FORMAT_LABELS.MINUTE : TIME_FORMAT_LABELS.MINUTES} ${TIME_FORMAT_LABELS.AGO}`;
   }
 
   const diffInHours = Math.floor(
     diffInMinutes / TIME_CONSTANTS.MINUTES_PER_HOUR
   );
   if (diffInHours < TIME_CONSTANTS.HOURS_PER_DAY) {
-    return `${diffInHours} ${diffInHours === 1 ? "hour" : "hours"} ago`;
+    return `${diffInHours} ${diffInHours === 1 ? TIME_FORMAT_LABELS.HOUR : TIME_FORMAT_LABELS.HOURS} ${TIME_FORMAT_LABELS.AGO}`;
   }
 
   const diffInDays = Math.floor(diffInHours / TIME_CONSTANTS.HOURS_PER_DAY);
   if (diffInDays < TIME_CONSTANTS.DAYS_PER_WEEK) {
-    return `${diffInDays} ${diffInDays === 1 ? "day" : "days"} ago`;
+    return `${diffInDays} ${diffInDays === 1 ? TIME_FORMAT_LABELS.DAY : TIME_FORMAT_LABELS.DAYS} ${TIME_FORMAT_LABELS.AGO}`;
   }
 
   const diffInWeeks = Math.floor(diffInDays / TIME_CONSTANTS.DAYS_PER_WEEK);
-  if (diffInWeeks < 4) {
-    return `${diffInWeeks} ${diffInWeeks === 1 ? "week" : "weeks"} ago`;
+  if (diffInWeeks < TIME_THRESHOLDS.WEEKS_TO_MONTHS) {
+    return `${diffInWeeks} ${diffInWeeks === 1 ? TIME_FORMAT_LABELS.WEEK : TIME_FORMAT_LABELS.WEEKS} ${TIME_FORMAT_LABELS.AGO}`;
   }
 
   const diffInMonths = Math.floor(diffInDays / TIME_CONSTANTS.DAYS_PER_MONTH);
-  if (diffInMonths < 12) {
-    return `${diffInMonths} ${diffInMonths === 1 ? "month" : "months"} ago`;
+  if (diffInMonths < TIME_THRESHOLDS.MONTHS_TO_YEARS) {
+    return `${diffInMonths} ${diffInMonths === 1 ? TIME_FORMAT_LABELS.MONTH : TIME_FORMAT_LABELS.MONTHS} ${TIME_FORMAT_LABELS.AGO}`;
   }
 
   const diffInYears = Math.floor(diffInDays / TIME_CONSTANTS.DAYS_PER_YEAR);
-  return `${diffInYears} ${diffInYears === 1 ? "year" : "years"} ago`;
+  return `${diffInYears} ${diffInYears === 1 ? TIME_FORMAT_LABELS.YEAR : TIME_FORMAT_LABELS.YEARS} ${TIME_FORMAT_LABELS.AGO}`;
 }
 
 /**
@@ -64,14 +69,9 @@ export function formatTimeAgo(timestamp: string): string {
  */
 export function getPlatformColor(platform: string): string {
   const platformLower = platform.toLowerCase();
+  const colors = platformLower.includes(PLATFORMS.SPOTIFY.source)
+    ? PLATFORMS.SPOTIFY.colors
+    : PLATFORMS.APPLE_MUSIC.colors; // Default to Apple Music
 
-  if (platformLower.includes(PLATFORMS.APPLE_MUSIC.source)) {
-    // Apple Music colors: Pink/Red
-    return "text-[#FA243C] dark:text-[#FF6B9D] underline decoration-dotted decoration-[#FA243C] dark:decoration-[#FF6B9D] hover:text-[#FA243C]/80 dark:hover:text-[#FF6B9D]/80 hover:decoration-[#FA243C]/80 dark:hover:decoration-[#FF6B9D]/80 transition-colors underline-offset-4";
-  } else if (platformLower.includes(PLATFORMS.SPOTIFY.source)) {
-    // Spotify colors: Green
-    return "text-[#1DB954] dark:text-[#1ED760] underline decoration-dotted decoration-[#1DB954] dark:decoration-[#1ED760] hover:text-[#1DB954]/80 dark:hover:text-[#1ED760]/80 hover:decoration-[#1DB954]/80 dark:hover:decoration-[#1ED760]/80 transition-colors underline-offset-4";
-  }
-  // Default: Apple Music colors
-  return "text-[#FA243C] dark:text-[#FF6B9D] underline decoration-dotted decoration-[#FA243C] dark:decoration-[#FF6B9D] hover:text-[#FA243C]/80 dark:hover:text-[#FF6B9D]/80 hover:decoration-[#FA243C]/80 dark:hover:decoration-[#FF6B9D]/80 transition-colors underline-offset-4";
+  return `text-[${colors.light}] dark:text-[${colors.dark}] underline decoration-dotted decoration-[${colors.light}] dark:decoration-[${colors.dark}] hover:text-[${colors.light}]/80 dark:hover:text-[${colors.dark}]/80 hover:decoration-[${colors.light}]/80 dark:hover:decoration-[${colors.dark}]/80 transition-colors underline-offset-4`;
 }

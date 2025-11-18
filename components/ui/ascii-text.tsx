@@ -14,6 +14,7 @@ import {
   ShaderMaterial,
   Mesh,
 } from "three";
+import { ANIMATION_CONFIG } from "@/lib/constants";
 
 const vertexShader = `
 varying vec2 vUv;
@@ -101,7 +102,7 @@ class AsciiFilter {
   private cachedImageDataSize: { w: number; h: number } = { w: 0, h: 0 };
   private stringBuffer: string[] = [];
   private lastUpdateTime: number = 0;
-  private updateThrottle: number = 16; // ~60fps default
+  private updateThrottle: number = ANIMATION_CONFIG.FPS_60; // ~60fps default
   private isVisible: boolean = true;
 
   constructor(
@@ -225,7 +226,7 @@ class AsciiFilter {
   }
 
   private lastMouseUpdate: number = 0;
-  private mouseThrottle: number = 16; // ~60fps
+  private mouseThrottle: number = ANIMATION_CONFIG.FPS_60; // ~60fps
 
   onMouseMove(e: MouseEvent) {
     const now = performance.now();
@@ -564,8 +565,8 @@ class CanvAscii {
         if (isVisible) {
           const timeSinceInteraction =
             performance.now() - this.lastMouseInteraction;
-          const isInteracting = timeSinceInteraction < 1000; // Consider interacting if mouse moved in last second
-          this.filter.setUpdateThrottle(isInteracting ? 16 : 33); // 60fps vs 30fps
+          const isInteracting = timeSinceInteraction < ANIMATION_CONFIG.INTERACTION_TIMEOUT_MS;
+          this.filter.setUpdateThrottle(isInteracting ? ANIMATION_CONFIG.FPS_60 : ANIMATION_CONFIG.FPS_30);
         }
       },
       { threshold: 0.1 }
@@ -582,7 +583,7 @@ class CanvAscii {
 
     this.mouseThrottleTimeout = window.setTimeout(() => {
       this.mouseThrottleTimeout = null;
-    }, 16); // ~60fps throttle
+    }, ANIMATION_CONFIG.FPS_60); // ~60fps throttle
   };
 
   setSize(w: number, h: number) {

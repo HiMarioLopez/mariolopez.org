@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import { CACHE_CONFIG } from "@/lib/config";
+import { QUERY_CONFIG } from "@/lib/constants";
 
 export function QueryProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -11,7 +12,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
         defaultOptions: {
           queries: {
             staleTime: CACHE_CONFIG.REVALIDATE_SECONDS * 1000, // 60 seconds
-            gcTime: 5 * 60 * 1000, // 5 minutes (formerly cacheTime)
+            gcTime: QUERY_CONFIG.GC_TIME_MS, // 5 minutes (formerly cacheTime)
             refetchOnWindowFocus: false,
             refetchOnReconnect: false,
           },

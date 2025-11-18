@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import type { RecentlyPlayed } from "@/lib/types";
+import { CACHE_CONFIG } from "@/lib/config";
 
 async function fetchRecentlyPlayed(): Promise<RecentlyPlayed | null> {
   const response = await fetch("/api/recently-played");
@@ -18,7 +19,7 @@ export function useRecentlyPlayed() {
   return useQuery<RecentlyPlayed | null>({
     queryKey: ["recently-played"],
     queryFn: fetchRecentlyPlayed,
-    staleTime: 60 * 1000, // Consider data fresh for 60 seconds
+    staleTime: CACHE_CONFIG.REVALIDATE_SECONDS * 1000, // Consider data fresh for configured seconds
   });
 }
 

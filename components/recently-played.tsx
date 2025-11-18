@@ -1,5 +1,6 @@
 "use client";
 
+import { memo, useState } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -8,9 +9,8 @@ import {
 } from "@/components/ui/tooltip";
 import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
 import { formatTimeAgo, getPlatformColor } from "@/lib/utils";
-import { useState } from "react";
 
-export function RecentlyPlayed() {
+export const RecentlyPlayed = memo(function RecentlyPlayed() {
   const { data: recentlyPlayed, isPending } = useRecentlyPlayed();
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
@@ -73,5 +73,5 @@ export function RecentlyPlayed() {
       ) : null}
     </TooltipProvider>
   );
-}
+});
 

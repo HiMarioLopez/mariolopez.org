@@ -63,6 +63,59 @@ export const TIME_CONSTANTS = {
 } as const;
 
 /**
+ * Time format labels for human-readable strings
+ */
+export const TIME_FORMAT_LABELS = {
+  JUST_NOW: "just now",
+  MINUTE: "minute",
+  MINUTES: "minutes",
+  HOUR: "hour",
+  HOURS: "hours",
+  DAY: "day",
+  DAYS: "days",
+  WEEK: "week",
+  WEEKS: "weeks",
+  MONTH: "month",
+  MONTHS: "months",
+  YEAR: "year",
+  YEARS: "years",
+  AGO: "ago",
+} as const;
+
+/**
+ * Time thresholds for formatting
+ */
+export const TIME_THRESHOLDS = {
+  WEEKS_TO_MONTHS: 4,
+  MONTHS_TO_YEARS: 12,
+} as const;
+
+/**
+ * React Query configuration
+ */
+export const QUERY_CONFIG = {
+  GC_TIME_MINUTES: 5,
+  GC_TIME_MS: 5 * 60 * 1000, // 5 minutes in milliseconds
+} as const;
+
+/**
+ * Animation and frame rate configuration
+ */
+export const ANIMATION_CONFIG = {
+  FPS_60: 16, // ~60fps in milliseconds
+  FPS_30: 33, // ~30fps in milliseconds
+  FPS_60_SECONDS: 60,
+  INTERACTION_TIMEOUT_MS: 1000, // Consider interacting if mouse moved in last second
+} as const;
+
+/**
+ * Locale configuration
+ */
+export const LOCALE_CONFIG = {
+  DEFAULT: "en-US",
+} as const;
+
+/**
  * Base URL for the site
  * Uses environment variable if available, otherwise falls back to default
  */

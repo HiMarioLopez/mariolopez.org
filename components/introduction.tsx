@@ -1,8 +1,9 @@
 "use client";
 
+import { memo } from "react";
 import { LINKS } from "@/lib/constants";
 
-export function Introduction() {
+export const Introduction = memo(function Introduction() {
   return (
     <div className="space-y-4 px-6 sm:px-0">
       <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
@@ -38,4 +39,4 @@ export function Introduction() {
       </p>
     </div>
   );
-}
+});

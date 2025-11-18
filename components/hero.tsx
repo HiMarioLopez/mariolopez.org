@@ -1,26 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { HERO_CONFIG } from "@/lib/constants";
+import { useMediaQuery } from "@/lib/hooks/use-media-query";
 
 const ASCIIText = dynamic(() => import("@/components/ui/ascii-text"), {
   ssr: false,
 });
 
 export function Hero() {
-  const [isMobile, setIsMobile] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const isMobile = useMediaQuery("SM");
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640); // BREAKPOINTS.SM
-    };
-
-    checkMobile();
     setIsMounted(true);
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   return (
