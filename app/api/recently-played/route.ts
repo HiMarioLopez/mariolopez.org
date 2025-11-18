@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { getRecentlyPlayed } from "@/lib/recently-played";
-import { CACHE_CONFIG, CACHE_HEADERS } from "@/lib/config";
+import { CACHE_HEADERS } from "@/lib/config";
 import { createErrorResponse, logError } from "@/lib/errors";
 
-export const revalidate = CACHE_CONFIG.REVALIDATE_SECONDS;
+// Note: Must be a literal number for Next.js segment config (see CACHE_CONFIG.REVALIDATE_SECONDS)
+export const revalidate = 60;
 
 /**
  * GET /api/recently-played
