@@ -80,8 +80,30 @@ jobs:
         AUDIT_JSON: ${{ steps.audit.outputs.response }}
       with:
         script: |
+          const stripCodeFence = (text = '') => {
+            const trimmed = text.trim();
+            if (!trimmed.startsWith('```')) {
+              return trimmed;
+            }
+
+            const firstNewline = trimmed.indexOf('\n');
+            if (firstNewline === -1) {
+              return trimmed;
+            }
+
+            const withoutFence = trimmed.slice(firstNewline + 1);
+            const closingIndex = withoutFence.lastIndexOf('```');
+
+            if (closingIndex === -1) {
+              return withoutFence.trim();
+            }
+
+            return withoutFence.slice(0, closingIndex).trim();
+          };
+
           try {
-            const audit = JSON.parse(process.env.AUDIT_JSON);
+            const rawResponse = process.env.AUDIT_JSON ?? '';
+            const audit = JSON.parse(stripCodeFence(rawResponse));
             if (!audit.issues?.length) {
               core.summary.addHeading('✅ No issues found!');
               return;
