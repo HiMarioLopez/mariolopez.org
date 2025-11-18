@@ -44,6 +44,7 @@ jobs:
       uses: actions/ai-inference@v1
       with:
         model: 'mistral-ai/ministral-3b'  # Fast/accurate (or 'xai/grok-3-mini')
+        max-tokens: 1024
         system-prompt: |
           # Code Quality & Engineering Excellence Assessment
           ${{ steps.read-prompt.outputs.prompt }}
