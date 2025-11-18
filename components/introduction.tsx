@@ -9,9 +9,11 @@ import {
 import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
 import { formatTimeAgo, getPlatformColor } from "@/lib/utils";
 import { LINKS } from "@/lib/constants";
+import { useState } from "react";
 
 export function Introduction() {
   const { data: recentlyPlayed, isPending } = useRecentlyPlayed();
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   
   const platformClassName = recentlyPlayed
     ? getPlatformColor(recentlyPlayed.platform)
@@ -71,9 +73,15 @@ export function Introduction() {
         ) : recentlyPlayed ? (
           <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
             My most recently played song on{" "}
-            <Tooltip>
+            <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
               <TooltipTrigger asChild>
-                <span className={`cursor-help ${platformClassName}`}>
+                <span 
+                  className={`cursor-help touch-manipulation ${platformClassName}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setTooltipOpen(!tooltipOpen);
+                  }}
+                >
                   {recentlyPlayed.platform}
                 </span>
               </TooltipTrigger>
