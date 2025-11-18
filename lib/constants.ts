@@ -63,6 +63,14 @@ export const TIME_CONSTANTS = {
 } as const;
 
 /**
+ * Base URL for the site
+ * Uses environment variable if available, otherwise falls back to default
+ */
+export const BASE_URL =
+  (typeof process !== "undefined" && process.env.NEXT_PUBLIC_SITE_URL) ||
+  "https://mariolopez.org";
+
+/**
  * External links
  */
 export const LINKS = {
@@ -76,8 +84,8 @@ export const LINKS = {
   CHAOS_RECIPE_ENHANCER:
     "https://github.com/ChaosRecipeEnhancer/ChaosRecipeEnhancer",
   EMAIL: "mailto:contact@mariolopez.org",
-  RESUME_PDF: "docs/Resume.pdf",
-  RESUME_DOCX: "docs/Resume.docx",
+  RESUME_PDF: `${BASE_URL}/docs/Resume.pdf`,
+  RESUME_DOCX: `${BASE_URL}/docs/Resume.docx`,
 } as const;
 
 /**

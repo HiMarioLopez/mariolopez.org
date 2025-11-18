@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { PerformanceMonitor } from "@/components/performance-monitor";
 import { ResourceHints } from "@/components/resource-hints";
+import { RoutePrefetcher } from "@/components/route-prefetcher";
 import "./globals.css";
 
 const geist = Geist({
@@ -62,6 +63,7 @@ export default function RootLayout({
         className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <ResourceHints />
+        <RoutePrefetcher />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
