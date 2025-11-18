@@ -82,7 +82,7 @@ export const LINKS = {
 
 /**
  * Resource hints configuration
- * Note: icon.svg is not preloaded as favicons are automatically fetched by the browser
+ * Note: Favicons are not preloaded as they are automatically fetched by the browser
  * and preloading them can cause warnings without performance benefit
  */
 export const RESOURCE_HINTS = [
