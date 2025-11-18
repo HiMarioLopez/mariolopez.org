@@ -73,6 +73,8 @@ export const LINKS = {
   VERCEL_CUSTOMERS: "https://vercel.com/customers",
   MUSIC: "https://music.mariolopez.org",
   BLOG: "https://bolognese.mariolopez.org",
+  CHAOS_RECIPE_ENHANCER:
+    "https://github.com/ChaosRecipeEnhancer/ChaosRecipeEnhancer",
   EMAIL: "mailto:contact@mariolopez.org",
   RESUME_PDF: "docs/Resume.pdf",
   RESUME_DOCX: "docs/Resume.docx",

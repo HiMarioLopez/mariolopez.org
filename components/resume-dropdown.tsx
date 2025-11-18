@@ -63,15 +63,15 @@ export function ResumeDropdown() {
             }}
             variant="social"
             size="lg"
-            className="pointer-events-auto"
+            className="pointer-events-auto group"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
             }}
           >
-            <FileText className="w-4 h-4" />
+            <FileText className="w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0" />
             Resume
-            <ChevronDown className="w-4 h-4" />
+            <ChevronDown className="w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent

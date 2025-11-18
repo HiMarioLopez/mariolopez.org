@@ -12,7 +12,7 @@ export function BlogLink() {
         rel="noopener noreferrer"
         className="flex items-center gap-2 group"
       >
-        <span className="text-base inline-flex items-center leading-none">
+        <span className="text-base inline-flex items-center leading-none grayscale transition-all duration-200 group-hover:grayscale-0">
           🍝
         </span>
         <span>

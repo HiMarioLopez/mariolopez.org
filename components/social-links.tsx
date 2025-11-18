@@ -5,6 +5,7 @@ import { SocialLink } from "./social-link";
 import { ResumeDropdown } from "./resume-dropdown";
 import { DisabledButton } from "./disabled-button";
 import { BlogLink } from "./blog-link";
+import { ChaosRecipeLink } from "./chaos-recipe-link";
 import { LINKS } from "@/lib/constants";
 
 export function SocialLinks() {
@@ -25,6 +26,8 @@ export function SocialLinks() {
       </SocialLink>
 
       <BlogLink />
+
+      <ChaosRecipeLink />
 
       <DisabledButton icon={Bookmark} tooltip="Building.">
         Backpocket

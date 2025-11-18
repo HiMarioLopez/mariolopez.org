@@ -27,9 +27,9 @@ export function SocialLink({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2"
+        className="flex items-center gap-2 group"
       >
-        {Icon && <Icon className="w-4 h-4" />}
+        {Icon && <Icon className="w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0" />}
         {children}
       </a>
     </Button>

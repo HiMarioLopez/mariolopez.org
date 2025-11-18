@@ -39,7 +39,7 @@ export function DisabledButton({
             </Button>
           </div>
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent side="bottom">
           <p>{tooltip}</p>
         </TooltipContent>
       </Tooltip>
