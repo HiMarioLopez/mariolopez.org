@@ -13,32 +13,7 @@ export function ViewToggle() {
 
   useEffect(() => {
     setMounted(true);
-
-    // Aggressively prefetch both routes immediately
-    const prefetchRoutes = () => {
-      router.prefetch("/human");
-      router.prefetch("/robot");
-    };
-
-    // Prefetch immediately
-    prefetchRoutes();
-
-    // Keep prefetching periodically to ensure they stay cached
-    const interval = setInterval(prefetchRoutes, 2000);
-
-    // Also prefetch on visibility change (when user comes back to tab)
-    const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        prefetchRoutes();
-      }
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      clearInterval(interval);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, [router]);
+  }, []);
 
   const handleToggle = (e: React.MouseEvent, targetPath: string) => {
     if (isTransitioning || pathname === targetPath) {
@@ -56,12 +31,12 @@ export function ViewToggle() {
     }, 10);
   };
 
-  if (!mounted) {
-    return null;
-  }
-
   return (
-    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-in fade-in duration-300">
+    <div 
+      className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-opacity duration-300 ${
+        mounted ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
+    >
       <div className="flex items-center gap-4 bg-background/95 dark:bg-background/95 backdrop-blur-md border border-border/50 rounded-lg px-4 py-2.5 shadow-lg">
         <Link
           href="/human"
@@ -93,10 +68,10 @@ export function ViewToggle() {
         </Link>
 
         <Link
-          href="/robot"
-          onClick={(e) => handleToggle(e, "/robot")}
+          href="/machine"
+          onClick={(e) => handleToggle(e, "/machine")}
           prefetch={true}
-          onMouseEnter={() => router.prefetch("/robot")}
+          onMouseEnter={() => router.prefetch("/machine")}
           className={`
             flex items-center gap-2 text-xs font-medium font-mono transition-all duration-10 ease-out
             ${

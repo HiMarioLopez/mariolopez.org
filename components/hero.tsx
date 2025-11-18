@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { BREAKPOINTS, HERO_CONFIG } from "@/lib/constants";
+import { HERO_CONFIG } from "@/lib/constants";
 
 const ASCIIText = dynamic(() => import("@/components/ui/ascii-text"), {
   ssr: false,
@@ -14,7 +14,7 @@ export function Hero() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < BREAKPOINTS.SM);
+      setIsMobile(window.innerWidth < 640); // BREAKPOINTS.SM
     };
 
     checkMobile();
@@ -27,14 +27,10 @@ export function Hero() {
     <div className="relative w-full flex flex-col items-center gap-0">
       <div
         className="relative w-full flex justify-center items-center"
-        style={{
-          height: isMobile
-            ? `${HERO_CONFIG.MOBILE_HEIGHT}px`
-            : `${HERO_CONFIG.DESKTOP_HEIGHT}px`,
-          minHeight: isMobile
-            ? `${HERO_CONFIG.MOBILE_HEIGHT}px`
-            : `${HERO_CONFIG.DESKTOP_HEIGHT}px`,
-        }}
+        // Data attributes used by CSS to set responsive height immediately
+        // This prevents CLS by setting height before JS runs
+        data-mobile-height={HERO_CONFIG.MOBILE_HEIGHT}
+        data-desktop-height={HERO_CONFIG.DESKTOP_HEIGHT}
       >
         <div
           className="relative mx-auto w-full h-full"

@@ -84,6 +84,8 @@ export const LINKS = {
   CHAOS_RECIPE_ENHANCER:
     "https://github.com/ChaosRecipeEnhancer/ChaosRecipeEnhancer",
   EMAIL: "mailto:contact@mariolopez.org",
+  EMAIL_HUMAN: "mailto:i-am-a-human@mariolopez.org",
+  EMAIL_MACHINE: "i-am-a-machine@mariolopez.org",
   RESUME_PDF: `${BASE_URL}/docs/Resume.pdf`,
   RESUME_DOCX: `${BASE_URL}/docs/Resume.docx`,
 } as const;

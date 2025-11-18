@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { PerformanceMonitor } from "@/components/performance-monitor";
 import { ResourceHints } from "@/components/resource-hints";
 import { RoutePrefetcher } from "@/components/route-prefetcher";
+import { QueryProvider } from "@/components/query-provider";
 import "./globals.css";
 
 const geist = Geist({
@@ -64,14 +65,16 @@ export default function RootLayout({
       >
         <ResourceHints />
         <RoutePrefetcher />
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <QueryProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </QueryProvider>
         <Analytics />
         <PerformanceMonitor />
       </body>

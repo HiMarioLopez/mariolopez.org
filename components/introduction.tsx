@@ -6,15 +6,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import type { RecentlyPlayed } from "@/lib/recently-played";
+import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
 import { formatTimeAgo, getPlatformColor } from "@/lib/utils";
 import { LINKS } from "@/lib/constants";
 
-interface IntroductionProps {
-  recentlyPlayed: RecentlyPlayed | null;
-}
-
-export function Introduction({ recentlyPlayed }: IntroductionProps) {
+export function Introduction() {
+  const { data: recentlyPlayed, isPending } = useRecentlyPlayed();
+  
   const platformClassName = recentlyPlayed
     ? getPlatformColor(recentlyPlayed.platform)
     : "";
@@ -54,7 +52,23 @@ export function Introduction({ recentlyPlayed }: IntroductionProps) {
           .
         </p>
 
-        {recentlyPlayed ? (
+        {isPending ? (
+          <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
+            My most recently played song on{" "}
+            <span className="skeleton inline-block h-[1.2em] w-24 align-middle rounded">
+              Apple Music
+            </span>{" "}
+            is{" "}
+            <span className="skeleton inline-block h-[1.2em] w-32 align-middle rounded">
+              Song Name
+            </span>{" "}
+            by{" "}
+            <span className="skeleton inline-block h-[1.2em] w-28 align-middle rounded">
+              Artist Name
+            </span>
+            .
+          </p>
+        ) : recentlyPlayed ? (
           <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
             My most recently played song on{" "}
             <Tooltip>
@@ -85,7 +99,7 @@ export function Introduction({ recentlyPlayed }: IntroductionProps) {
         ) : null}
 
         <p className="text-lg md:text-base text-muted-foreground font-light">
-          <a href={LINKS.EMAIL} className="link-accent">
+          <a href={LINKS.EMAIL_HUMAN} className="link-accent">
             Hit me up
           </a>
           , I don't bite!
