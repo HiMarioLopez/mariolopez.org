@@ -21,7 +21,7 @@ export function RecentlyPlayed() {
   return (
     <TooltipProvider>
       {isPending ? (
-        <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light px-6 sm:px-0">
+        <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
           My most recently played song on{" "}
           <span className="skeleton inline-block h-[1.2em] w-24 align-middle rounded">
             Apple Music
@@ -37,7 +37,7 @@ export function RecentlyPlayed() {
           .
         </p>
       ) : recentlyPlayed ? (
-        <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light px-6 sm:px-0">
+        <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
           My most recently played song on{" "}
           <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
             <TooltipTrigger asChild>
