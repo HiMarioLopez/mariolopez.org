@@ -1,0 +1,124 @@
+name: "🤖 Daily Code Quality & Excellence Audit"
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Daily at 3 AM UTC (adjust: weekly = '0 0 * * 0')
+  workflow_dispatch:  # Manual trigger
+
+permissions:
+  contents: read
+  issues: write
+  models: read  # ✅ FREE GitHub Models access!
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full git history
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install deps
+      run: npm ci --include=dev  # Next.js deps
+
+    - name: Run AI Audit
+      id: audit
+      uses: actions/ai-inference@v1
+      with:
+        model: 'mistral-ai/ministral-3b'  # Fast/accurate (or 'xai/grok-3-mini')
+        system-prompt: |
+          # Code Quality & Engineering Excellence Assessment
+          ${{ file('.github/audit-prompt.md') }}  # 👈 Your FULL prompt here!
+        prompt: |
+          Analyze this ENTIRE Next.js 16 + React 19 codebase: ${{ github.workspace }}
+          
+          📅 Date: ${{ now }}
+          📦 Check package.json for exact versions
+          🎯 CRITICAL: Verify vs latest docs (nextjs.org/docs/app, react.dev)
+          🔍 Scan EVERY file for your 8 assessment categories
+          
+          Output **ONLY** valid JSON (no markdown):
+          {
+            "summary": "Executive overview (1-2 sentences)",
+            "overall_score": "A-F",
+            "issues": [
+              {
+                "priority": "High|Medium|Low",
+                "category": "e.g. Performance, Security",
+                "file": "app/page.tsx",
+                "line": 42,
+                "issue": "Specific problem",
+                "fix": "Actionable recommendation",
+                "docs": "https://nextjs.org/docs/..."
+              }
+            ],
+            "best_practices": ["3-5 general improvements"]
+          }
+
+    - name: Create/Update Audit Issue
+      if: steps.audit.outputs.response
+      uses: actions/github-script@v7
+      env:
+        AUDIT_JSON: ${{ steps.audit.outputs.response }}
+      with:
+        script: |
+          try {
+            const audit = JSON.parse(process.env.AUDIT_JSON);
+            if (!audit.issues?.length) {
+              core.summary.addHeading('✅ No issues found!');
+              return;
+            }
+            
+            const body = `
+# 🤖 Automated Code Audit (${new Date().toDateString()})
+
+**Score: ${audit.overall_score}** | **Issues: ${audit.issues.length}**
+
+## 📋 Summary
+${audit.summary}
+
+## 🚨 Issues
+${audit.issues.map((i, idx) => `
+### ${idx+1}. ${i.priority} - ${i.category}
+**File:** [\`${i.file}\`@${i.line}](${{ github.server_url }}/${context.repo.owner}/${context.repo.repo}/blob/${{ github.ref_name }}${i.file.replace('app', 'app')}#L${i.line})
+
+**Issue:** ${i.issue}
+**Fix:** ${i.fix}
+${i.docs ? `**Docs:** ${i.docs}` : ''}
+`).join('\n')}
+
+## 💡 Best Practices
+${audit.best_practices?.join('\n- ') || 'None'}
+
+---
+*Powered by GitHub Models • [View run](${{ github.server_url }}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})*
+            `;
+            
+            // Create or update existing audit issue
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              creator: 'github-actions[bot]', state: 'open'
+            });
+            const auditIssue = issues.find(i => i.title.includes('Code Audit'));
+            
+            if (auditIssue) {
+              await github.rest.issues.update({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: auditIssue.number, body
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title: `🤖 Code Quality Audit [${audit.overall_score}]`,
+                body, labels: ['automated', 'code-quality']
+              });
+            }
+          } catch (e) {
+            core.error(`Audit failed: ${e}`);
+          }
