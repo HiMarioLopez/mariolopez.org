@@ -76,6 +76,7 @@ export const BASE_URL =
 export const LINKS = {
   GITHUB: "https://github.com/HiMarioLopez",
   LINKEDIN: "https://www.linkedin.com/in/HiMarioLopez/",
+  TWITTER: "https://twitter.com/HiMarioLopez",
   VERCEL: "https://vercel.com",
   VERCEL_CAREERS: "https://vercel.com/careers/platform-architect-5176710004",
   VERCEL_CUSTOMERS: "https://vercel.com/customers",
@@ -84,7 +85,7 @@ export const LINKS = {
   CHAOS_RECIPE_ENHANCER:
     "https://github.com/ChaosRecipeEnhancer/ChaosRecipeEnhancer",
   EMAIL: "mailto:contact@mariolopez.org",
-  EMAIL_HUMAN: "mailto:i-am-a-human@mariolopez.org",
+  EMAIL_HUMAN: "mailto:i-am-a-human@mariolopez.org?subject=Hi%20Mario%20-%20I%20ran%20across%20your%20site%20and%20wanted%20to%20ask%20about...",
   EMAIL_MACHINE: "i-am-a-machine@mariolopez.org",
   RESUME_PDF: `${BASE_URL}/docs/Resume.pdf`,
   RESUME_DOCX: `${BASE_URL}/docs/Resume.docx`,

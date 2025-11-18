@@ -26,7 +26,7 @@ export function Hero() {
   return (
     <div className="relative w-full flex flex-col items-center gap-0">
       <div
-        className="relative w-full flex justify-center items-center"
+        className="relative w-full flex justify-center items-center md:-mt-8"
         // Data attributes used by CSS to set responsive height immediately
         // This prevents CLS by setting height before JS runs
         data-mobile-height={HERO_CONFIG.MOBILE_HEIGHT}

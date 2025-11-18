@@ -46,20 +46,23 @@ Listen: ${recentlyPlayed.url}
 [/section]
 
 [section: contact]
+I love to advise, mentor, and help - specifically rising college students and early-career tech professionals. Or we could just chat about anything. If you're in Houston, let's grab some coffee. Hit me up, I don't bite!
+
 Email: ${LINKS.EMAIL_MACHINE}
 [/section]
 
-[section: links]
+[section: socials]
 GitHub: ${LINKS.GITHUB}
 LinkedIn: ${LINKS.LINKEDIN}
-Now Playing: ${LINKS.MUSIC}
-Blog: ${LINKS.BLOG}
-Chaos Recipe Enhancer: ${LINKS.CHAOS_RECIPE_ENHANCER}
+Twitter: ${LINKS.TWITTER}
+Resume PDF: ${LINKS.RESUME_PDF}
+Resume DOCX: ${LINKS.RESUME_DOCX}
 [/section]
 
-[section: resume]
-PDF: ${LINKS.RESUME_PDF}
-DOCX: ${LINKS.RESUME_DOCX}
+[section: projects]
+Chaos Recipe Enhancer: ${LINKS.CHAOS_RECIPE_ENHANCER}
+Now Playing: ${LINKS.MUSIC}
+Blog: ${LINKS.BLOG}
 [/section]
 
 [footer]
