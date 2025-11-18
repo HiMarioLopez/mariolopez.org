@@ -80,6 +80,8 @@ export const LINKS = {
 
 /**
  * Resource hints configuration
+ * Note: icon.svg is not preloaded as favicons are automatically fetched by the browser
+ * and preloading them can cause warnings without performance benefit
  */
 export const RESOURCE_HINTS = [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -92,12 +94,6 @@ export const RESOURCE_HINTS = [
   { rel: "dns-prefetch", href: "https://vercel.com" },
   { rel: "dns-prefetch", href: "https://github.com" },
   { rel: "dns-prefetch", href: "https://www.linkedin.com" },
-  {
-    rel: "preload",
-    href: "/icon.svg",
-    as: "image",
-    type: "image/svg+xml",
-  },
 ] as const;
 
 /**
