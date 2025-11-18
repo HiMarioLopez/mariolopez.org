@@ -37,7 +37,7 @@ export function Introduction({ recentlyPlayed }: IntroductionProps) {
             href={LINKS.VERCEL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center text-foreground/90 underline decoration-dotted decoration-foreground/70 hover:text-foreground hover:decoration-foreground transition-colors font-medium"
+            className="inline-flex items-center text-foreground/90 underline decoration-dotted decoration-foreground/70 hover:text-foreground hover:decoration-foreground transition-colors font-medium underline-offset-4"
           >
             ▲ Vercel
           </a>
@@ -72,12 +72,12 @@ export function Introduction({ recentlyPlayed }: IntroductionProps) {
               href={recentlyPlayed.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`font-medium ${platformClassName}`}
+              className={`font-light ${platformClassName}`}
             >
               {recentlyPlayed.song}
             </a>{" "}
             by{" "}
-            <span className="font-medium text-foreground/90">
+            <span className="font-light text-foreground/90">
               {recentlyPlayed.artist}
             </span>
             .

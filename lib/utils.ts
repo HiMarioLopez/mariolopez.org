@@ -67,11 +67,11 @@ export function getPlatformColor(platform: string): string {
 
   if (platformLower.includes(PLATFORMS.APPLE_MUSIC.source)) {
     // Apple Music colors: Pink/Red
-    return "text-[#FA243C] dark:text-[#FF6B9D] underline decoration-dotted decoration-[#FA243C] dark:decoration-[#FF6B9D] hover:text-[#FA243C]/80 dark:hover:text-[#FF6B9D]/80 hover:decoration-[#FA243C]/80 dark:hover:decoration-[#FF6B9D]/80 transition-colors";
+    return "text-[#FA243C] dark:text-[#FF6B9D] underline decoration-dotted decoration-[#FA243C] dark:decoration-[#FF6B9D] hover:text-[#FA243C]/80 dark:hover:text-[#FF6B9D]/80 hover:decoration-[#FA243C]/80 dark:hover:decoration-[#FF6B9D]/80 transition-colors underline-offset-4";
   } else if (platformLower.includes(PLATFORMS.SPOTIFY.source)) {
     // Spotify colors: Green
-    return "text-[#1DB954] dark:text-[#1ED760] underline decoration-dotted decoration-[#1DB954] dark:decoration-[#1ED760] hover:text-[#1DB954]/80 dark:hover:text-[#1ED760]/80 hover:decoration-[#1DB954]/80 dark:hover:decoration-[#1ED760]/80 transition-colors";
+    return "text-[#1DB954] dark:text-[#1ED760] underline decoration-dotted decoration-[#1DB954] dark:decoration-[#1ED760] hover:text-[#1DB954]/80 dark:hover:text-[#1ED760]/80 hover:decoration-[#1DB954]/80 dark:hover:decoration-[#1ED760]/80 transition-colors underline-offset-4";
   }
   // Default: Apple Music colors
-  return "text-[#FA243C] dark:text-[#FF6B9D] underline decoration-dotted decoration-[#FA243C] dark:decoration-[#FF6B9D] hover:text-[#FA243C]/80 dark:hover:text-[#FF6B9D]/80 hover:decoration-[#FA243C]/80 dark:hover:decoration-[#FF6B9D]/80 transition-colors";
+  return "text-[#FA243C] dark:text-[#FF6B9D] underline decoration-dotted decoration-[#FA243C] dark:decoration-[#FF6B9D] hover:text-[#FA243C]/80 dark:hover:text-[#FF6B9D]/80 hover:decoration-[#FA243C]/80 dark:hover:decoration-[#FF6B9D]/80 transition-colors underline-offset-4";
 }
