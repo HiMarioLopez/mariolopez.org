@@ -1,12 +1,15 @@
-"use client";
-
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Hero } from "@/components/hero";
 import { Introduction } from "@/components/introduction";
 import { SocialLinks } from "@/components/social-links";
 import { Footer } from "@/components/footer";
+import { getRecentlyPlayed } from "@/lib/recently-played";
 
-export default function Home() {
+export const revalidate = 60; // Revalidate every 60 seconds (ISR)
+
+export default async function Home() {
+  const recentlyPlayed = await getRecentlyPlayed();
+
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center px-4 sm:px-6 md:px-8 relative grid-background">
       <ThemeToggle />
@@ -14,7 +17,7 @@ export default function Home() {
         <main className="relative z-10 isolate flex-1 flex flex-col py-8 pb-12 md:py-12 md:min-h-[calc(100vh-200px)] md:justify-center md:pb-12">
           <div className="flex flex-col items-center space-y-2">
             <Hero />
-            <Introduction />
+            <Introduction recentlyPlayed={recentlyPlayed} />
             <SocialLinks />
           </div>
         </main>

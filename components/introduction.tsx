@@ -1,20 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
-interface RecentlyPlayed {
-  song: string;
-  artist: string;
-  platform: string;
-  url: string;
-  timestamp: string;
-}
+import type { RecentlyPlayed } from "@/lib/recently-played";
 
 function formatTimeAgo(timestamp: string): string {
   if (!timestamp) return "";
@@ -69,42 +61,11 @@ function getPlatformColor(platform: string): string {
   return "text-[#FA243C] dark:text-[#FF6B9D] underline decoration-dotted decoration-[#FA243C] dark:decoration-[#FF6B9D] hover:text-[#FA243C]/80 dark:hover:text-[#FF6B9D]/80 hover:decoration-[#FA243C]/80 dark:hover:decoration-[#FF6B9D]/80 transition-colors";
 }
 
-export function Introduction() {
-  const [recentlyPlayed, setRecentlyPlayed] = useState<RecentlyPlayed | null>(
-    null
-  );
-  const [isLoading, setIsLoading] = useState(true);
+interface IntroductionProps {
+  recentlyPlayed: RecentlyPlayed | null;
+}
 
-  useEffect(() => {
-    // Fetch recently played song on client side to avoid hydration mismatch
-    setIsLoading(true);
-    fetch("/api/recently-played")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (
-          data.song &&
-          data.artist &&
-          data.platform &&
-          data.url &&
-          data.timestamp
-        ) {
-          setRecentlyPlayed(data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching recently played song:", error);
-        // Silently fail - don't show error to user
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
-
+export function Introduction({ recentlyPlayed }: IntroductionProps) {
   const platformClassName = recentlyPlayed
     ? getPlatformColor(recentlyPlayed.platform)
     : "";
@@ -144,47 +105,35 @@ export function Introduction() {
           .
         </p>
 
-        {isLoading ? (
+        {recentlyPlayed ? (
           <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
             My most recently played song on{" "}
-            <span className="skeleton inline-block h-[1.2em] w-28 align-middle" />{" "}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className={`cursor-help ${platformClassName}`}>
+                  {recentlyPlayed.platform}
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Played {formatTimeAgo(recentlyPlayed.timestamp)}</p>
+              </TooltipContent>
+            </Tooltip>{" "}
             is{" "}
-            <span className="skeleton inline-block h-[1.2em] w-40 align-middle" />{" "}
+            <a
+              href={recentlyPlayed.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`font-medium ${platformClassName}`}
+            >
+              {recentlyPlayed.song}
+            </a>{" "}
             by{" "}
-            <span className="skeleton inline-block h-[1.2em] w-36 align-middle" />
+            <span className="font-medium text-foreground/90">
+              {recentlyPlayed.artist}
+            </span>
             .
           </p>
-        ) : (
-          recentlyPlayed && (
-            <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
-              My most recently played song on{" "}
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className={`cursor-help ${platformClassName}`}>
-                    {recentlyPlayed.platform}
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Played {formatTimeAgo(recentlyPlayed.timestamp)}</p>
-                </TooltipContent>
-              </Tooltip>{" "}
-              is{" "}
-              <a
-                href={recentlyPlayed.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`font-medium ${platformClassName}`}
-              >
-                {recentlyPlayed.song}
-              </a>{" "}
-              by{" "}
-              <span className="font-medium text-foreground/90">
-                {recentlyPlayed.artist}
-              </span>
-              .
-            </p>
-          )
-        )}
+        ) : null}
 
         <p className="text-lg md:text-base text-muted-foreground font-light">
           <a href="mailto:contact@mariolopez.org" className="link-accent">

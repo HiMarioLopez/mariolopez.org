@@ -1,3 +1,5 @@
+"use client";
+
 import { Github, Linkedin, Music, Bookmark, Link } from "lucide-react";
 import { SocialLink } from "./social-link";
 import { ResumeDropdown } from "./resume-dropdown";

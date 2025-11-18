@@ -518,8 +518,15 @@ class CanvAscii {
   }
 
   setRenderer() {
-    this.renderer = new WebGLRenderer({ antialias: false, alpha: true });
-    this.renderer.setPixelRatio(1);
+    // Optimize WebGL renderer settings for performance
+    this.renderer = new WebGLRenderer({ 
+      antialias: false, 
+      alpha: true,
+      powerPreference: "high-performance",
+      stencil: false,
+      depth: false,
+    });
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); // Cap pixel ratio for performance
     this.renderer.setClearColor(0x000000, 0);
 
     this.filter = new AsciiFilter(this.renderer, {

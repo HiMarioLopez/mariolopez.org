@@ -1,40 +1,49 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
-
-const ASCIIText = dynamic(() => import("@/components/ui/ascii-text"), {
-  ssr: false,
-});
+import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
   };
 
+  if (!mounted) {
+    return (
+      <div className="fixed bottom-3 right-3 z-50">
+        <button
+          className="w-16 h-16 flex items-center justify-center rounded-full bg-background/80 backdrop-blur-sm border border-border shadow-lg hover:scale-110 transition-transform cursor-pointer"
+          aria-label="Toggle theme"
+          disabled
+        >
+          <span className="text-3xl">💡</span>
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed bottom-3 right-3 z-50">
       <button
         onClick={toggleTheme}
-        className="cursor-pointer hover:opacity-80 transition-opacity"
-        aria-label="Toggle theme"
+        className="w-16 h-16 flex items-center justify-center rounded-full bg-background/80 backdrop-blur-sm border border-border shadow-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer group"
+        aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
       >
-        <div
-          className="relative w-16 h-16 flex items-center justify-center"
-          style={{ maxWidth: "64px", maxHeight: "64px" }}
+        <span
+          className="text-3xl transition-transform duration-300 group-hover:rotate-12"
+          role="img"
+          aria-hidden="true"
         >
-          <ASCIIText
-            text="💡"
-            enableWaves={false}
-            asciiFontSize={2}
-            textFontSize={80}
-            planeBaseHeight={25}
-            enableMouseInteraction={true}
-          />
-        </div>
+          {theme === "dark" ? "💡" : "🌙"}
+        </span>
       </button>
     </div>
   );
