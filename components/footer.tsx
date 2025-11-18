@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 
 export function Footer() {
   const [buildTimestamp, setBuildTimestamp] = useState<string | null>(null);
-  
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     // Format date only on client side to avoid hydration mismatch
     const buildTime = process.env.NEXT_PUBLIC_BUILD_TIME;
@@ -19,10 +20,11 @@ export function Footer() {
       });
       setBuildTimestamp(formatted);
     }
+    setIsLoading(false);
   }, []);
 
   return (
-    <footer className="relative mt-8 py-6 md:mt-0 md:absolute md:bottom-0 md:left-0 md:right-0 md:py-8 text-muted-foreground text-sm z-10 text-center w-full">
+    <footer className="relative mt-auto py-6 md:mt-0 md:absolute md:bottom-0 md:left-0 md:right-0 md:py-8 text-muted-foreground text-sm z-10 text-center w-full">
       <div>
         © 2025, Mario Lopez Martinez.{" "}
         <a
@@ -35,11 +37,23 @@ export function Footer() {
         </a>
         .
       </div>
-      <div className="mt-2">
-        <span className="text-muted-foreground/80">
-          {buildTimestamp ? `Last updated ${buildTimestamp}.` : "Last updated."}
-        </span>
-      </div>
+      {(isLoading || buildTimestamp) && (
+        <div className="mt-2">
+          <span className="text-muted-foreground/80">
+            {isLoading ? (
+              <>
+                Last updated{" "}
+                <span className="skeleton inline-block h-[1.2em] w-57 align-middle rounded">
+                  January 15, 2025, 3:45 PM PST
+                </span>
+                .
+              </>
+            ) : (
+              `Last updated ${buildTimestamp}.`
+            )}
+          </span>
+        </div>
+      )}
     </footer>
   );
 }
