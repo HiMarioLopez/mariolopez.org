@@ -16,8 +16,6 @@ const nextConfig = {
   },
   // Compress output
   compress: true,
-  // Optimize production builds
-  swcMinify: true,
   // Reduce JavaScript bundle size
   compiler: {
     removeConsole: process.env.NODE_ENV === "production" ? {
