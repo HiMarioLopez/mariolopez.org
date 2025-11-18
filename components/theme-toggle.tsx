@@ -1,47 +1,38 @@
-'use client'
+"use client";
 
-import * as React from 'react'
-import { Moon, Sun } from 'lucide-react'
-import { useTheme } from 'next-themes'
-
-import { Button } from '@/components/ui/button'
+import ASCIIText from "@/components/ui/ascii-text";
+import { useTheme } from "next-themes";
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
+  const { theme, setTheme } = useTheme();
 
-  // useEffect only runs on the client, so now we can safely show the UI
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) {
-    return (
-      <Button
-        variant="outline"
-        size="icon"
-        className="bg-transparent border-neutral-800 text-neutral-300 hover:bg-white hover:text-black hover:border-white transition-all duration-200"
-      >
-        <Sun className="h-[1.2rem] w-[1.2rem]" />
-        <span className="sr-only">Toggle theme</span>
-      </Button>
-    )
-  }
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+  };
 
   return (
-    <Button
-      variant="outline"
-      size="icon"
-      onClick={() => {
-        const newTheme = theme === 'dark' ? 'light' : 'dark'
-        setTheme(newTheme)
-      }}
-      className="bg-transparent border-border text-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-200 relative"
-    >
-      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
-    </Button>
-  )
+    <div className="fixed bottom-3 right-3 z-50">
+      <button
+        onClick={toggleTheme}
+        className="cursor-pointer hover:opacity-80 transition-opacity"
+        aria-label="Toggle theme"
+      >
+        <div
+          className="relative w-16 h-16 flex items-center justify-center"
+          style={{ maxWidth: "64px", maxHeight: "64px" }}
+        >
+          <ASCIIText
+            text="💡"
+            enableWaves={false}
+            asciiFontSize={4}
+            textFontSize={80}
+            planeBaseHeight={25}
+            enableMouseInteraction={true}
+          />
+        </div>
+      </button>
+    </div>
+  );
 }
 
