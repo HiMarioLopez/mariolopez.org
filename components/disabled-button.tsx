@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -54,18 +55,14 @@ export function DisabledButton({
             >
               <div className="flex items-center gap-2 relative z-10 pointer-events-none">
                 {logo ? (
-                  <picture className="flex items-center justify-center">
-                    <source srcSet={logo.webp} type="image/webp" />
-                    <img
-                      src={logo.png}
-                      alt={logo.alt}
-                      width={32}
-                      height={32}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-5 w-auto rounded-sm"
-                    />
-                  </picture>
+                  <Image
+                    src={logo.png}
+                    alt={logo.alt}
+                    width={32}
+                    height={32}
+                    className="h-5 w-auto rounded-sm"
+                    quality={90}
+                  />
                 ) : Icon ? (
                   <Icon className="w-4 h-4" />
                 ) : null}
