@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useRef, startTransition } from "react";
 import { BREAKPOINTS } from "@/lib/constants";
 
 /**
@@ -9,23 +9,42 @@ import { BREAKPOINTS } from "@/lib/constants";
  * @returns Boolean indicating if the media query matches
  */
 export function useMediaQuery(query: string | keyof typeof BREAKPOINTS): boolean {
-  const [matches, setMatches] = useState(false);
-
-  useEffect(() => {
-    // Convert breakpoint key to media query string if needed
-    // For breakpoint keys, check if screen is smaller than the breakpoint (mobile-first)
-    const mediaQuery =
+  // Convert breakpoint key to media query string if needed
+  // For breakpoint keys, check if screen is smaller than the breakpoint (mobile-first)
+  const mediaQuery = useMemo(
+    () =>
       query in BREAKPOINTS
         ? `(max-width: ${BREAKPOINTS[query as keyof typeof BREAKPOINTS] - 1}px)`
-        : query;
+        : query,
+    [query]
+  );
 
+  const [matches, setMatches] = useState(() => {
+    // Lazy initialization ensures this only runs on client side
+    if (typeof window === "undefined") {
+      return false;
+    }
+    return window.matchMedia(mediaQuery).matches;
+  });
+
+  const prevMediaQueryRef = useRef(mediaQuery);
+
+  useEffect(() => {
     // Check if window is available (SSR safety)
     if (typeof window === "undefined") {
       return;
     }
 
     const mediaQueryList = window.matchMedia(mediaQuery);
-    setMatches(mediaQueryList.matches);
+    
+    // Only update state if mediaQuery actually changed (not on initial mount)
+    if (prevMediaQueryRef.current !== mediaQuery) {
+      prevMediaQueryRef.current = mediaQuery;
+      // Use startTransition to mark this as a non-urgent update
+      startTransition(() => {
+        setMatches(mediaQueryList.matches);
+      });
+    }
 
     // Use the native change event listener (more performant than resize)
     const handler = (event: MediaQueryListEvent) => {
@@ -41,7 +60,7 @@ export function useMediaQuery(query: string | keyof typeof BREAKPOINTS): boolean
       mediaQueryList.addListener(handler);
       return () => mediaQueryList.removeListener(handler);
     }
-  }, [query]);
+  }, [mediaQuery]);
 
   return matches;
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import { formatTimeAgo } from "@/lib/utils";
 
 /**
@@ -9,13 +9,8 @@ import { formatTimeAgo } from "@/lib/utils";
  * @returns Formatted time ago string (e.g., "5 minutes ago", "2 hours ago")
  */
 export function useFormatTimeAgo(timestamp: string | undefined): string {
-  const [formatted, setFormatted] = useState("");
-
-  useEffect(() => {
-    if (timestamp) {
-      setFormatted(formatTimeAgo(timestamp));
-    }
+  // Use useMemo instead of useState + useEffect to avoid setState in effect warning
+  return useMemo(() => {
+    return timestamp ? formatTimeAgo(timestamp) : "";
   }, [timestamp]);
-
-  return formatted;
 }

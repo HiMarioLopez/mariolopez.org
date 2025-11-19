@@ -6,8 +6,6 @@ import { logError } from "@/lib/errors";
  * Errors logged here will appear in Vercel's runtime logs dashboard
  */
 
-export const runtime = "edge";
-
 export async function POST(request: NextRequest) {
   try {
     const errorData = await request.json();

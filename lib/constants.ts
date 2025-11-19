@@ -147,7 +147,8 @@ export const LINKS = {
     "https://github.com/ChaosRecipeEnhancer/ChaosRecipeEnhancer",
   CORDSTRUCK: "#", // TODO: Update with actual Cordstruck URL
   EMAIL: "mailto:contact@mariolopez.org",
-  EMAIL_HUMAN: "mailto:i-am-a-human@mariolopez.org?subject=Hi%20Mario%20-%20I%20ran%20across%20your%20site%20and%20wanted%20to%20ask%20about...",
+  EMAIL_HUMAN:
+    "mailto:i-am-a-human@mariolopez.org?subject=Hi%20Mario%20-%20I%20ran%20across%20your%20site%20and%20wanted%20to%20ask%20about...",
   EMAIL_MACHINE: "i-am-a-machine@mariolopez.org",
   RESUME_PDF: `${BASE_URL}/docs/Resume.pdf`,
   RESUME_DOCX: `${BASE_URL}/docs/Resume.docx`,
@@ -156,16 +157,8 @@ export const LINKS = {
 
 /**
  * Resource hints configuration
- * Note: Favicons are not preloaded as they are automatically fetched by the browser
- * and preloading them can cause warnings without performance benefit
  */
 export const RESOURCE_HINTS = [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
   { rel: "preconnect", href: "https://music.mariolopez.org" },
   { rel: "dns-prefetch", href: "https://vercel.com" },
   { rel: "dns-prefetch", href: "https://github.com" },

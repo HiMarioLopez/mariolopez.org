@@ -1,7 +1,7 @@
 "use client";
 
 import { useRecentlyPlayedSection } from "./machine-recently-played";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 
 interface MachineContentDisplayProps {
   contentBefore: string;
@@ -17,12 +17,11 @@ export function MachineContentDisplay({
   contentBefore,
   contentAfter,
 }: MachineContentDisplayProps) {
-  const [mounted, setMounted] = useState(false);
+  const [mounted] = useState(() => {
+    // Lazy initialization ensures this only runs on client side
+    return true;
+  });
   const recentlyPlayedSection = useRecentlyPlayedSection();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const plainTextContent = useMemo(() => {
     // Only include dynamic section after mount to avoid hydration mismatch
