@@ -1,6 +1,6 @@
-# mariolopez.org
+# mariolopez.org 👋🤠
 
-Personal website built with Next.js, emphasizing performance and modern web technologies.
+My personal website built with Next.js, emphasizing performance and modern web technologies.
 
 ## Technical Overview
 
@@ -11,7 +11,7 @@ This is a Next.js 16 application using the App Router architecture, TypeScript, 
 ### App Router
 
 - Server Components by default for optimal performance
-- Route Handlers for API endpoints (`/api/recently-played`)
+- Route Handlers for API endpoints (`/api/recently-played`, `/api/errors`)
 - Layout-based routing with nested layouts
 - Automatic code splitting and route-based optimization
 
@@ -60,6 +60,24 @@ This is a Next.js 16 application using the App Router architecture, TypeScript, 
 - **Vercel Speed Insights**: Performance monitoring
 - **Custom Performance Monitor**: Core Web Vitals tracking (LCP, FID, CLS, FCP, TTFB)
 
+### Error Handling & Monitoring
+
+- **Error Handler**: Client-side error capture (JavaScript errors, unhandled rejections, console errors)
+- **Error Boundary**: React error boundary with graceful fallback
+- **Error API**: Server-side error logging endpoint (`/api/errors`)
+- **Error Logging**: Centralized error logging utilities with Vercel Analytics integration
+
+### Testing
+
+- **Vitest**: Fast unit testing framework
+- **Testing Library**: React component testing utilities
+- **jsdom**: DOM environment for tests
+
+### Code Quality
+
+- **Husky**: Git hooks for pre-commit checks
+- **Commitlint**: Commit message linting with conventional commits
+
 ### Other
 
 - **class-variance-authority**: Component variant management
@@ -93,19 +111,38 @@ This is a Next.js 16 application using the App Router architecture, TypeScript, 
 - Error boundary patterns with graceful degradation
 - Theme switching without layout shift
 
+## Error Handling
+
+The application includes comprehensive error handling:
+
+- **Client-Side Errors**: Captures JavaScript errors, unhandled promise rejections, and console errors
+- **React Errors**: Error boundary catches component errors without breaking the entire app
+- **Error Reporting**: Errors are logged to Vercel Analytics and the `/api/errors` endpoint
+- **Graceful Degradation**: Errors are logged but don't break the user experience
+- **Development Logging**: Detailed error information in development mode
+
 ## Project Structure
 
 ```plaintext
 app/
-  api/recently-played/    # API route handler
+  api/
+    errors/               # Error logging API route
+    recently-played/      # Music API route handler
   human/                  # Human view page
   machine/                # Machine view page
   layout.tsx              # Root layout with providers
 components/               # React components
+  ui/                    # UI primitives (Radix UI components)
 lib/                      # Utilities and configuration
   config.ts              # Centralized configuration
+  constants.ts           # Application constants
+  errors.ts              # Error handling utilities
+  hooks/                 # Custom React hooks
   performance.ts         # Performance monitoring utilities
   recently-played.ts     # Music API integration
+scripts/                  # Utility scripts
+  check-links.ts         # Link checking script
+__tests__/               # Test files
 ```
 
 ## Development
@@ -125,6 +162,21 @@ pnpm start
 
 # Lint code
 pnpm lint
+
+# Run tests
+pnpm test
+
+# Run tests with UI
+pnpm test:ui
+
+# Run tests once (CI mode)
+pnpm test:run
+
+# Check links (local)
+pnpm check-links:local
+
+# Check links (production)
+pnpm check-links:prod
 ```
 
 ## Configuration
@@ -135,6 +187,14 @@ Key configuration is centralized in `lib/config.ts`:
 - Cache and revalidation settings
 - Cache control headers
 - Build-time environment variables
+
+Application constants are centralized in `lib/constants.ts`:
+
+- Platform configurations (Spotify, Apple Music)
+- UI constants (breakpoints, hero config, time formatting)
+- External links and URLs
+- Resource hints configuration
+- Performance thresholds
 
 ## License
 
