@@ -9,13 +9,15 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
-import { formatTimeAgo, getPlatformColor } from "@/lib/utils";
+import { useFormatTimeAgo } from "@/lib/hooks/use-format-time-ago";
+import { getPlatformColor } from "@/lib/utils";
 import { SONG_LINK_COLORS } from "@/lib/constants";
 
 export const RecentlyPlayed = memo(function RecentlyPlayed() {
   const { data: recentlyPlayed, isPending } = useRecentlyPlayed();
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const { resolvedTheme } = useTheme();
+  const timeAgo = useFormatTimeAgo(recentlyPlayed?.timestamp);
 
   const platformColors = recentlyPlayed
     ? getPlatformColor(recentlyPlayed.platform)
@@ -66,7 +68,7 @@ export const RecentlyPlayed = memo(function RecentlyPlayed() {
               </span>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Played {formatTimeAgo(recentlyPlayed.timestamp)}</p>
+              {timeAgo ? <p>Played {timeAgo}</p> : null}
             </TooltipContent>
           </Tooltip>{" "}
           is{" "}

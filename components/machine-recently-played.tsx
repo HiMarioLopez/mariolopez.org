@@ -1,7 +1,7 @@
 "use client";
 
 import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
-import { formatTimeAgo } from "@/lib/utils";
+import { useFormatTimeAgo } from "@/lib/hooks/use-format-time-ago";
 import { useMemo } from "react";
 
 /**
@@ -10,19 +10,16 @@ import { useMemo } from "react";
  */
 export function useRecentlyPlayedSection(): string {
   const { data: recentlyPlayed } = useRecentlyPlayed();
+  const timeAgo = useFormatTimeAgo(recentlyPlayed?.timestamp);
 
   return useMemo(() => {
-    if (!recentlyPlayed) {
+    if (!recentlyPlayed || !timeAgo) {
       return "";
     }
 
-    return `My most recently played song on ${recentlyPlayed.platform} is "${
-      recentlyPlayed.song
-    }" by ${recentlyPlayed.artist} (played ${formatTimeAgo(
-      recentlyPlayed.timestamp
-    )}).
+    return `My most recently played song on ${recentlyPlayed.platform} is "${recentlyPlayed.song}" by ${recentlyPlayed.artist} (played ${timeAgo}).
 
 Listen: ${recentlyPlayed.url}
 `;
-  }, [recentlyPlayed]);
+  }, [recentlyPlayed, timeAgo]);
 }
