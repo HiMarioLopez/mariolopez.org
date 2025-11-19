@@ -40,7 +40,7 @@ pnpm check-links:local
 
 #### CI/CD
 
-**GitHub Actions** - Already configured! See `.github/workflows/check-links.yml`
+**GitHub Actions** - Already configured! See `.github/workflows/daily-check-links.yml`
 
 The workflow:
 

@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # Full git history
+        fetch-depth: 1
 
     - name: Setup pnpm
       uses: pnpm/action-setup@v4

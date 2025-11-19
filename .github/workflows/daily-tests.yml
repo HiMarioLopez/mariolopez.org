@@ -1,24 +1,15 @@
-name: Check Links
+name: "🧪 Daily Unit Tests"
 
 on:
-  # Run daily at 2 AM UTC (adjust timezone as needed)
   schedule:
-    - cron: '0 2 * * *'
-  # Also run on push to main and pull requests
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  # Allow manual triggering
+    - cron: '0 4 * * *' # Daily at 4 AM UTC
   workflow_dispatch:
 
 jobs:
-  check-links:
-    name: Check for broken links
+  run-tests:
+    name: Run unit tests
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -41,8 +32,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Check links on production site
-        run: pnpm check-links:prod
+      - name: Run unit tests
         env:
-          NEXT_PUBLIC_SITE_URL: https://mariolopez.org
+          CI: true
+        run: pnpm test:run
 
