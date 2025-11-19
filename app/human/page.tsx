@@ -11,7 +11,7 @@ export default function HumanPage() {
       <ThemeToggle />
       <ViewToggle />
       <div className="flex-1 flex flex-col w-full max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-20">
-        <main className="relative z-10 isolate flex-1 flex flex-col py-8 pb-12 md:py-12 md:min-h-[calc(100vh-200px)] md:justify-center md:pb-12">
+        <main className="relative z-10 isolate flex flex-col py-8 pb-12 md:py-12 md:pb-24 md:flex-1 md:justify-center">
           <div className="flex flex-col items-center space-y-2">
             <Hero />
             <Introduction />

@@ -25,7 +25,7 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="relative mt-auto py-6 md:mt-0 md:absolute md:bottom-0 md:left-0 md:right-0 md:py-8 text-muted-foreground text-sm z-10 text-center w-full">
+    <footer className="relative mt-auto py-6 md:py-8 text-muted-foreground text-sm z-10 text-center w-full">
       <div>
         © 2025, Mario Lopez Martinez.{" "}
         <a
