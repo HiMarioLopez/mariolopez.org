@@ -189,6 +189,8 @@ All application constants are in `lib/constants.ts`:
 5. **Error Handling**: Implement graceful degradation and error boundaries
 6. **Type Safety**: Maintain strict TypeScript typing throughout
 7. **Dual View Synchronization**: **ALWAYS** assess if content changes on `/human` should also be updated on `/machine` - this is mandatory, not optional
+8. **Next.js Best Practices**: **NEVER** suppress hydration warnings (`suppressHydrationWarning`) or other Next.js warnings. Address the root cause instead of suppressing warnings. Prefer stable, well-supported patterns over workarounds that hide issues.
+   - **Exception**: `suppressHydrationWarning` on the `<html>` tag is required and recommended by `next-themes` for theme providers. This is a documented, intentional pattern to handle theme detection during hydration and is acceptable.
 
 ## When Adding New Features
 
