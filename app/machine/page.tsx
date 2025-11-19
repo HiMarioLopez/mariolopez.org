@@ -95,7 +95,7 @@ BAYLOR UNIVERSITY, SCHOOL OF ENGINEERING & COMPUTER SCIENCE, B.S. COMPUTER SCIEN
 [/section]
 
 [section: contact]
-I love to advise, mentor, and help - specifically rising college students and early-career tech professionals. I'm also passionate about presenting and public speaking, and I'm open to speaking engagements at conferences, meetups, and events. If you're in Houston, let's grab some coffee. If you're not, happy to hop on a call. Hit me up, I don't bite!
+I mentor students and early-career professionals and speak at events. In Houston? Let's grab a coffee. Elsewhere? Conversation can flow through the wire. Hit me up - I don't bite!
 
 Email: ${LINKS.EMAIL_MACHINE}
 [/section]
