@@ -6,6 +6,8 @@ import { PerformanceMonitor } from "@/components/performance-monitor";
 import { RoutePrefetcher } from "@/components/route-prefetcher";
 import { QueryProvider } from "@/components/query-provider";
 import { ResourceHints } from "@/components/resource-hints";
+import { ErrorHandler } from "@/components/error-handler";
+import { ErrorBoundary } from "@/components/error-boundary";
 import "./globals.css";
 
 const geist = Geist({
@@ -65,18 +67,21 @@ export default async function RootLayout({
       >
         <ResourceHints />
         <RoutePrefetcher />
-        <QueryProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </QueryProvider>
+        <ErrorBoundary>
+          <QueryProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </QueryProvider>
+        </ErrorBoundary>
         <Analytics />
         <PerformanceMonitor />
+        <ErrorHandler />
       </body>
     </html>
   );

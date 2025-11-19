@@ -60,15 +60,20 @@ export function createErrorResponse(
 
 /**
  * Logs errors appropriately based on environment
- * Only logs in development, avoids console.error in production
+ * Logs to console which appears in Vercel's runtime logs dashboard
  *
  * @param error - Error to log
  * @param context - Context where error occurred
  */
 export function logError(error: unknown, context: string): void {
+  const errorMessage = error instanceof Error ? error.message : String(error);
+  const errorStack = error instanceof Error ? error.stack : undefined;
+
+  // Log to console (appears in Vercel dashboard runtime logs)
+  console.error(`[${context}]`, errorMessage, errorStack || error);
+
+  // Additional development-only logging for detailed debugging
   if (process.env.NODE_ENV === "development") {
-    console.error(`[${context}]`, error);
+    console.error(`[${context}] Full error object:`, error);
   }
-  // In production, you might want to send to an error tracking service
-  // Example: Sentry.captureException(error, { tags: { context } });
 }
