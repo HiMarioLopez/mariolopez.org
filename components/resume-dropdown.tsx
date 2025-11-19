@@ -46,13 +46,18 @@ export function ResumeDropdown() {
     }, 150);
   };
 
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsResumeOpen(!isResumeOpen);
+  };
+
   return (
     <div
-      className="relative inline-block"
+      className="relative inline-block touch-manipulation"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <DropdownMenu open={isResumeOpen} modal={false}>
+      <DropdownMenu open={isResumeOpen} onOpenChange={setIsResumeOpen} modal={false}>
         <DropdownMenuTrigger asChild>
           <Button
             ref={(el) => {
@@ -64,10 +69,7 @@ export function ResumeDropdown() {
             variant="social"
             size="lg"
             className="pointer-events-auto group"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
+            onClick={handleClick}
           >
             <FileText className="w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0" />
             Resume
