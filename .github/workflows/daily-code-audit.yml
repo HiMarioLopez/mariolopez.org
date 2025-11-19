@@ -32,6 +32,11 @@ jobs:
     - name: Install deps
       run: pnpm install --frozen-lockfile
 
+    - name: Capture metadata
+      id: meta
+      run: |
+        echo "run_date=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
     - name: Read audit prompt
       id: read-prompt
       run: |
@@ -51,7 +56,7 @@ jobs:
         prompt: |
           Analyze this ENTIRE Next.js 16 + React 19 codebase: ${{ github.workspace }}
           
-          📅 Date: ${{ github.event.head_commit.timestamp }}
+          📅 Date: ${{ steps.meta.outputs.run_date }}
           📦 Check package.json for exact versions
           🎯 CRITICAL: Verify vs latest docs (nextjs.org/docs/app, react.dev)
           🔍 Scan EVERY file for your 8 assessment categories
