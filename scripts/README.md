@@ -25,7 +25,7 @@ The link checker:
 - ✅ Skips `mailto:`, `#`, and `javascript:` links
 - ✅ Retries failed links automatically
 - ✅ Has a 10-second timeout per link
-- ✅ Checks all links - no exceptions
+- ✅ Checks all links except the ones hosts refuse to serve to bots (see below)
 
 ### Integration
 
@@ -56,3 +56,14 @@ For other CI platforms:
 - name: Check links
   run: pnpm check-links:prod
 ```
+
+### Allowed Failures
+
+Some platforms (like LinkedIn) intentionally block automated link checkers and return status code `999`.  
+These links are declared in `scripts/check-links.ts` under the `allowedFailures` array and are skipped during checks.
+
+Current list:
+
+- `https://www.linkedin.com/in/HiMarioLopez/`
+
+To skip additional flaky links, add them to the `allowedFailures` array.

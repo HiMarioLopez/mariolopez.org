@@ -8,7 +8,8 @@ import { check } from "linkinator";
 
 const args = process.argv.slice(2);
 const checkProduction = args.includes("--production");
-const checkLocal = args.includes("--local") || (!checkProduction && !args.includes("--url"));
+const checkLocal =
+  args.includes("--local") || (!checkProduction && !args.includes("--url"));
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mariolopez.org";
 const LOCAL_URL = "http://localhost:3000";
@@ -18,6 +19,11 @@ const skipPatterns = [
   "mailto:", // Email links
   "#", // Anchor links
   "javascript:", // JavaScript links
+];
+
+// Links that we intentionally allow to "fail" because the host blocks bots (e.g., LinkedIn)
+const allowedFailures = [
+  "https://www.linkedin.com/in/HiMarioLopez/", // LinkedIn link that returns status 999 for bots, See: https://stackoverflow.com/q/46214017
 ];
 
 async function checkServerRunning(url: string): Promise<boolean> {
@@ -45,7 +51,14 @@ async function checkLinks(url: string) {
     retry: true,
     linksToSkip: async (link: string) => {
       // Skip links matching patterns (mailto, anchors, javascript, etc.)
-      return skipPatterns.some((pattern) => link.startsWith(pattern));
+      if (skipPatterns.some((pattern) => link.startsWith(pattern))) {
+        return true;
+      }
+      // Skip known flaky links (e.g., LinkedIn returns status 999 for bots)
+      if (allowedFailures.includes(link)) {
+        return true;
+      }
+      return false;
     },
   });
 
@@ -119,4 +132,3 @@ async function main() {
 }
 
 main();
-
