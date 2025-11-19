@@ -1,5 +1,2 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# Run unit tests before committing
-pnpm test:run
+pnpm build
+pnpm test
