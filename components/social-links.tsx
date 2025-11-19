@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Linkedin, Twitter, Music, Bookmark, Link } from "lucide-react";
+import { Github, Linkedin, Twitter, Music, Bookmark } from "lucide-react";
 import { SocialLink } from "./social-link";
 import { ResumeDropdown } from "./resume-dropdown";
 import { DisabledButton } from "./disabled-button";
@@ -53,7 +53,14 @@ export function SocialLinks() {
             Backpocket
           </DisabledButton>
 
-          <DisabledButton icon={Link} tooltip="Building.">
+          <DisabledButton
+            logo={{
+              webp: "/images/CordstruckLogo.webp",
+              png: "/images/CordstruckLogo.png",
+              alt: "Cordstruck logo",
+            }}
+            tooltip="Building."
+          >
             Cordstruck
           </DisabledButton>
         </div>

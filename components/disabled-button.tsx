@@ -11,16 +11,27 @@ import { LucideIcon } from "lucide-react";
 import { ReactNode, useState } from "react";
 
 interface DisabledButtonProps {
-  icon: LucideIcon;
+  icon?: LucideIcon;
+  logo?: {
+    webp: string;
+    png: string;
+    alt: string;
+  };
   children: ReactNode;
   tooltip: string;
 }
 
+// Ensure at least one of icon or logo is provided
+type DisabledButtonPropsWithIcon = DisabledButtonProps & { icon: LucideIcon; logo?: never };
+type DisabledButtonPropsWithLogo = DisabledButtonProps & { logo: { webp: string; png: string; alt: string }; icon?: never };
+type DisabledButtonPropsType = DisabledButtonPropsWithIcon | DisabledButtonPropsWithLogo;
+
 export function DisabledButton({
   icon: Icon,
+  logo,
   children,
   tooltip,
-}: DisabledButtonProps) {
+}: DisabledButtonPropsType) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -42,7 +53,22 @@ export function DisabledButton({
               aria-disabled="true"
             >
               <div className="flex items-center gap-2 relative z-10 pointer-events-none">
-                <Icon className="w-4 h-4" />
+                {logo ? (
+                  <picture className="flex items-center justify-center">
+                    <source srcSet={logo.webp} type="image/webp" />
+                    <img
+                      src={logo.png}
+                      alt={logo.alt}
+                      width={32}
+                      height={32}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-5 w-auto rounded-sm"
+                    />
+                  </picture>
+                ) : Icon ? (
+                  <Icon className="w-4 h-4" />
+                ) : null}
                 {children}
               </div>
             </Button>
