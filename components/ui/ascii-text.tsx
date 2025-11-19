@@ -121,6 +121,7 @@ interface AsciiFilterOptions {
   charset?: string;
   invert?: boolean;
   enableMouseInteraction?: boolean;
+  skipAsciiText?: boolean; // Skip ASCII character generation, just render pixelated canvas
 }
 
 class AsciiFilter {
@@ -148,6 +149,8 @@ class AsciiFilter {
   private updateThrottle: number = ANIMATION_CONFIG.FPS_60; // ~60fps default
   private isVisible: boolean = true;
 
+  skipAsciiText: boolean;
+
   constructor(
     renderer: WebGLRenderer,
     {
@@ -156,6 +159,7 @@ class AsciiFilter {
       charset,
       invert,
       enableMouseInteraction = false,
+      skipAsciiText = false,
     }: AsciiFilterOptions = {}
   ) {
     this.renderer = renderer;
@@ -186,10 +190,16 @@ class AsciiFilter {
       charset ??
       " .'`^\",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
     this.enableMouseInteraction = enableMouseInteraction ?? false;
+    this.skipAsciiText = skipAsciiText ?? false;
 
     if (this.context) {
       this.context.imageSmoothingEnabled = false;
       this.context.imageSmoothingEnabled = false;
+    }
+
+    // Hide pre element if skipping ASCII text (just show pixelated canvas)
+    if (this.skipAsciiText) {
+      this.pre.style.display = "none";
     }
 
     if (this.enableMouseInteraction) {
@@ -225,6 +235,17 @@ class AsciiFilter {
       this.pre.style.margin = "0";
       this.pre.style.padding = "0";
       this.pre.style.lineHeight = "1em";
+      // Using <br> tags instead of \n, so white-space: pre is not strictly needed
+      // But keeping it for consistency and to preserve any spacing
+      this.pre.style.whiteSpace = "pre";
+      this.pre.style.display = "block";
+      // Set explicit dimensions based on rows/cols to ensure Firefox renders all lines
+      // Firefox may need explicit sizing to properly calculate layout
+      // Use actual character width for accurate width calculation
+      const actualCharWidth = charWidth;
+      this.pre.style.width = `${this.cols * actualCharWidth}px`;
+      this.pre.style.height = `${this.rows * this.fontSize}px`;
+      this.pre.style.minHeight = `${this.rows * this.fontSize}px`;
       this.pre.style.position = "absolute";
       this.pre.style.left = "50%";
       this.pre.style.top = "50%";
@@ -232,6 +253,7 @@ class AsciiFilter {
       this.pre.style.zIndex = "9";
       this.pre.style.backgroundAttachment = "fixed";
       this.pre.style.mixBlendMode = "difference";
+      this.pre.style.overflow = "visible";
       // Prevent text selection (especially important for Safari Command+A)
       this.pre.style.userSelect = "none";
       this.pre.style.setProperty("-webkit-user-select", "none");
@@ -260,13 +282,16 @@ class AsciiFilter {
         this.context.drawImage(this.renderer.domElement, 0, 0, w, h);
       }
 
-      // Throttle DOM updates based on frame rate
-      const now = performance.now();
-      const shouldUpdate = now - this.lastUpdateTime >= this.updateThrottle;
+      // Only generate ASCII text if not skipped (for pixelated-only mode)
+      if (!this.skipAsciiText) {
+        // Throttle DOM updates based on frame rate
+        const now = performance.now();
+        const shouldUpdate = now - this.lastUpdateTime >= this.updateThrottle;
 
-      if (shouldUpdate) {
-        this.asciify(this.context, w, h);
-        this.lastUpdateTime = now;
+        if (shouldUpdate) {
+          this.asciify(this.context, w, h);
+          this.lastUpdateTime = now;
+        }
       }
 
       if (this.enableMouseInteraction) {
@@ -346,12 +371,16 @@ class AsciiFilter {
         if (this.invert) idx = charsetLen - idx - 1;
         this.stringBuffer[bufferIdx++] = this.charset[idx];
       }
-      this.stringBuffer[bufferIdx++] = "\n";
+      // Use <br> tags instead of \n for Firefox compatibility
+      // Firefox has issues rendering multiple lines with \n in pre elements
+      this.stringBuffer[bufferIdx++] = "<br>";
     }
 
-    // Use textContent instead of innerHTML (faster and safer)
+    // Use innerHTML with <br> tags for Firefox compatibility
+    // Firefox has rendering issues with \n characters in pre elements with certain CSS
     // Join array is much faster than string concatenation
-    this.pre.textContent = this.stringBuffer.slice(0, bufferIdx).join("");
+    const htmlContent = this.stringBuffer.slice(0, bufferIdx).join("");
+    this.pre.innerHTML = htmlContent;
   }
 
   dispose() {
@@ -497,6 +526,7 @@ class CanvAscii {
   renderer!: WebGLRenderer;
   filter!: AsciiFilter;
   center!: { x: number; y: number };
+  private isFirefox: boolean;
   animationFrameId: number = 0;
   // Performance optimizations
   private isVisible: boolean = true;
@@ -529,6 +559,11 @@ class CanvAscii {
     this.height = height;
     this.enableWaves = enableWaves;
     this.enableMouseInteraction = enableMouseInteraction ?? false;
+
+    // Detect Firefox to skip ASCII text overlay (Firefox has rendering issues)
+    this.isFirefox =
+      typeof navigator !== "undefined" &&
+      navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 
     this.camera = new PerspectiveCamera(45, this.width / this.height, 1, 1000);
     this.camera.position.z = 40;
@@ -588,13 +623,15 @@ class CanvAscii {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); // Cap pixel ratio for performance
     this.renderer.setClearColor(0x000000, 0);
 
+    // Create filter for all browsers, but skip ASCII text generation in Firefox
+    // Firefox gets pixelated canvas effect without ASCII characters
     this.filter = new AsciiFilter(this.renderer, {
       fontFamily: getComputedFontFamily(),
       fontSize: this.asciiFontSize,
       invert: true,
       enableMouseInteraction: this.enableMouseInteraction,
+      skipAsciiText: this.isFirefox, // Skip ASCII text in Firefox, keep pixelated canvas
     });
-
     this.container.appendChild(this.filter.domElement);
     this.setSize(this.width, this.height);
 
@@ -617,6 +654,7 @@ class CanvAscii {
       (entries) => {
         const isVisible = entries[0]?.isIntersecting ?? true;
         this.isVisible = isVisible;
+
         this.filter.setVisible(isVisible);
 
         // Adjust frame rate: 60fps when visible and interacting, 30fps when visible but not interacting
@@ -711,6 +749,7 @@ class CanvAscii {
       this.updateRotation();
     }
 
+    // Render through filter (handles both ASCII text and pixelated canvas modes)
     this.filter.render(this.scene, this.camera);
   }
 
@@ -948,10 +987,14 @@ export default function ASCIIText({
           -ms-user-select: none;
           padding: 0;
           line-height: 1em;
+          white-space: pre;
+          display: block;
           text-align: left;
           position: absolute;
-          left: 0;
-          top: 0;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          overflow: visible;
           background-image: radial-gradient(circle, #ff6188 0%, #fc9867 50%, #ffd866 100%);
           background-attachment: fixed;
           -webkit-text-fill-color: transparent;
