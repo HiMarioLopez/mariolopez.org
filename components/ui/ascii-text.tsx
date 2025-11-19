@@ -166,6 +166,11 @@ class AsciiFilter {
     this.domElement.style.width = "100%";
     this.domElement.style.height = "100%";
     this.domElement.style.pointerEvents = "none";
+    // Prevent text selection on container (especially important for Safari Command+A)
+    this.domElement.style.userSelect = "none";
+    this.domElement.style.setProperty("-webkit-user-select", "none");
+    this.domElement.style.setProperty("-moz-user-select", "none");
+    this.domElement.style.setProperty("-ms-user-select", "none");
 
     this.pre = document.createElement("pre");
     this.domElement.appendChild(this.pre);
@@ -227,6 +232,15 @@ class AsciiFilter {
       this.pre.style.zIndex = "9";
       this.pre.style.backgroundAttachment = "fixed";
       this.pre.style.mixBlendMode = "difference";
+      // Prevent text selection (especially important for Safari Command+A)
+      this.pre.style.userSelect = "none";
+      this.pre.style.setProperty("-webkit-user-select", "none");
+      this.pre.style.setProperty("-moz-user-select", "none");
+      this.pre.style.setProperty("-ms-user-select", "none");
+      // Prevent selection highlighting
+      this.pre.style.setProperty("-webkit-touch-callout", "none");
+      // Set unselectable attribute for older Safari versions
+      this.pre.setAttribute("unselectable", "on");
 
       // Invalidate cached size when canvas size changes
       this.cachedImageDataSize = { w: 0, h: 0 };
@@ -929,6 +943,9 @@ export default function ASCIIText({
         .ascii-text-container pre {
           margin: 0;
           user-select: none;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
           padding: 0;
           line-height: 1em;
           text-align: left;
@@ -939,8 +956,24 @@ export default function ASCIIText({
           background-attachment: fixed;
           -webkit-text-fill-color: transparent;
           -webkit-background-clip: text;
+          -webkit-touch-callout: none;
           z-index: 9;
           mix-blend-mode: difference;
+        }
+
+        .ascii-text-container pre::selection {
+          background: transparent;
+        }
+
+        .ascii-text-container pre::-moz-selection {
+          background: transparent;
+        }
+
+        .ascii-text-container {
+          user-select: none;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
         }
       `}</style>
     </div>
