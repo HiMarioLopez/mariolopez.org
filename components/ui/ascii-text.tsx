@@ -1,4 +1,47 @@
-// Component ported and enhanced from https://codepen.io/JuanFuentes/pen/eYEeoyE
+/**
+ * Component ported and enhanced from https://codepen.io/JuanFuentes/pen/eYEeoyE
+ * The React Bits ASCII Text component source code is available at https://github.com/react-bits/ascii-text
+ *
+ * Heavily modified to fit the needs of the project with extensive performance optimizations and improvements.
+ *
+ * PERFORMANCE ENHANCEMENTS:
+ * - Frame rate throttling: Adaptive frame rate (60fps when visible/interacting, 30fps when visible/not interacting)
+ *   using configurable throttles from ANIMATION_CONFIG constants
+ * - Visibility-based rendering: IntersectionObserver pauses rendering when component is not visible
+ * - String buffer optimization: Pre-allocated array buffer for ASCII conversion instead of string concatenation,
+ *   using array.join() for final output (significantly faster)
+ * - Canvas rendering optimization: CanvasTxt only re-renders when text, fontSize, or color actually change
+ * - Texture update optimization: Texture.needsUpdate only set when canvas actually re-rendered
+ * - Uniform update optimization: Shader uniform only updated when time value actually changes
+ * - Mouse event throttling: Mouse/touch events throttled to prevent excessive updates
+ * - Pixel ratio capping: Device pixel ratio capped at 2x to prevent excessive rendering overhead
+ * - WebGL renderer optimizations: Disabled stencil/depth buffers, set powerPreference to "high-performance"
+ * - Canvas context optimization: Added willReadFrequently: true hint for better performance
+ * - Font family caching: Computed font family cached to avoid repeated DOM operations
+ *
+ * CODE QUALITY IMPROVEMENTS:
+ * - Tree-shaking imports: Changed from `import * as THREE` to specific named imports from 'three'
+ * - Better TypeScript typing: Improved type safety throughout
+ * - Conditional mouse interaction: Made mouse interaction optional via enableMouseInteraction prop
+ * - Proper cleanup: Added cleanup for IntersectionObserver, timeouts, and event listeners
+ * - Better error handling: Added guards for undefined/null checks
+ *
+ * FEATURE ADDITIONS:
+ * - Font cache invalidation: Exported invalidateFontCache() function for theme changes
+ * - CSS variable support: Uses CSS custom properties (--font-geist-mono) with fallback chain
+ * - Configurable interaction: enableMouseInteraction prop to toggle mouse-based effects
+ * - Interaction timeout tracking: Tracks last interaction time to adjust frame rate dynamically
+ * - Camera position adjustment: Camera z-position changed from 30 to 40 for better view
+ *
+ * REMOVED FEATURES:
+ * - Google Fonts import: Removed inline @import for IBM Plex Mono (now uses CSS variables)
+ * - Some redundant inline styles: Cleaned up duplicate style declarations
+ *
+ * ARCHITECTURE CHANGES:
+ * - Uses centralized constants: ANIMATION_CONFIG from lib/constants.ts for frame rate values
+ * - Server Component compatible: Added "use client" directive for React Server Components compatibility
+ * - Better separation of concerns: Performance optimizations isolated within class methods
+ */
 
 "use client";
 
@@ -520,8 +563,8 @@ class CanvAscii {
 
   setRenderer() {
     // Optimize WebGL renderer settings for performance
-    this.renderer = new WebGLRenderer({ 
-      antialias: false, 
+    this.renderer = new WebGLRenderer({
+      antialias: false,
       alpha: true,
       powerPreference: "high-performance",
       stencil: false,
@@ -565,8 +608,11 @@ class CanvAscii {
         if (isVisible) {
           const timeSinceInteraction =
             performance.now() - this.lastMouseInteraction;
-          const isInteracting = timeSinceInteraction < ANIMATION_CONFIG.INTERACTION_TIMEOUT_MS;
-          this.filter.setUpdateThrottle(isInteracting ? ANIMATION_CONFIG.FPS_60 : ANIMATION_CONFIG.FPS_30);
+          const isInteracting =
+            timeSinceInteraction < ANIMATION_CONFIG.INTERACTION_TIMEOUT_MS;
+          this.filter.setUpdateThrottle(
+            isInteracting ? ANIMATION_CONFIG.FPS_60 : ANIMATION_CONFIG.FPS_30
+          );
         }
       },
       { threshold: 0.1 }
