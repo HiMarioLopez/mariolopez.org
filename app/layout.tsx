@@ -3,9 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "next-themes";
 import { PerformanceMonitor } from "@/components/performance-monitor";
-import { ResourceHints } from "@/components/resource-hints";
 import { RoutePrefetcher } from "@/components/route-prefetcher";
 import { QueryProvider } from "@/components/query-provider";
+import { ResourceHints } from "@/components/resource-hints";
 import "./globals.css";
 
 const geist = Geist({

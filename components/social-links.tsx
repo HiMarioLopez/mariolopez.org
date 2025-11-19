@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { Github, Linkedin, Twitter, Music, Bookmark } from "lucide-react";
 import { SocialLink } from "./social-link";
 import { ResumeDropdown } from "./resume-dropdown";
@@ -10,7 +11,7 @@ import { CallToAction } from "./call-to-action";
 import { RecentlyPlayed } from "./recently-played";
 import { LINKS } from "@/lib/constants";
 
-export function SocialLinks() {
+export const SocialLinks = memo(function SocialLinks() {
   return (
     <div className="flex flex-col gap-6 pt-6 px-6 sm:px-0 w-full">
       {/* Socials Section */}
@@ -72,4 +73,4 @@ export function SocialLinks() {
       </div>
     </div>
   );
-}
+});

@@ -35,7 +35,15 @@ function deferInitialization(callback: () => void): (() => void) | undefined {
 export function PerformanceMonitor() {
   useEffect(() => {
     const cleanup = deferInitialization(() => {
-      initPerformanceMonitoring();
+      try {
+        initPerformanceMonitoring();
+      } catch (error) {
+        // Silently fail - performance monitoring errors shouldn't affect the app
+        // Log in development for debugging
+        if (process.env.NODE_ENV === "development") {
+          console.error("Performance monitoring initialization failed:", error);
+        }
+      }
     });
 
     return cleanup;

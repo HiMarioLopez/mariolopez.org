@@ -1,23 +1,27 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 /**
- * Prefetches both /human and /machine routes on initial mount
- * to enable instant navigation. Next.js caches prefetched routes,
- * so we only need to prefetch once.
+ * Prefetches the non-current route on initial mount to enable instant navigation.
+ * Next.js Link components already prefetch on hover, so we only need to prefetch
+ * the route the user isn't currently on.
  */
 export function RoutePrefetcher() {
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    // Prefetch both routes once on mount
-    // Next.js will cache these, and Link components will handle
-    // additional prefetching on hover
-    router.prefetch("/human");
-    router.prefetch("/machine");
-  }, [router]);
+    // Only prefetch the route the user isn't currently on
+    // Next.js Link components handle hover prefetching automatically
+    const isHuman = pathname === "/human" || pathname === "/";
+    if (isHuman) {
+      router.prefetch("/machine");
+    } else {
+      router.prefetch("/human");
+    }
+  }, [router, pathname]);
 
   return null;
 }

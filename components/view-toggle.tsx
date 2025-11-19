@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 export function ViewToggle() {
@@ -9,11 +9,6 @@ export function ViewToggle() {
   const router = useRouter();
   const isHuman = pathname === "/human" || pathname === "/";
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const handleToggle = (e: React.MouseEvent, targetPath: string) => {
     if (isTransitioning || pathname === targetPath) {
@@ -33,16 +28,13 @@ export function ViewToggle() {
 
   return (
     <div 
-      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-opacity duration-300 sm:top-6 ${
-        mounted ? "opacity-100" : "opacity-0 pointer-events-none"
-      }`}
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-in fade-in duration-300 sm:top-6"
     >
       <div className="flex items-center gap-2 sm:gap-4 bg-background/95 dark:bg-background/95 backdrop-blur-md border border-border/50 rounded-lg px-3 py-2 sm:px-4 sm:py-2.5 shadow-lg">
         <Link
           href="/human"
           onClick={(e) => handleToggle(e, "/human")}
           prefetch={true}
-          onMouseEnter={() => router.prefetch("/human")}
           className={`
             flex items-center gap-1.5 sm:gap-2 text-xs font-medium font-mono transition-all duration-10 ease-out
             ${
@@ -71,7 +63,6 @@ export function ViewToggle() {
           href="/machine"
           onClick={(e) => handleToggle(e, "/machine")}
           prefetch={true}
-          onMouseEnter={() => router.prefetch("/machine")}
           className={`
             flex items-center gap-1.5 sm:gap-2 text-xs font-medium font-mono transition-all duration-10 ease-out
             ${

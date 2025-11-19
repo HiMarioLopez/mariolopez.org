@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { HERO_CONFIG } from "@/lib/constants";
 import { useMediaQuery } from "@/lib/hooks/use-media-query";
@@ -10,12 +9,7 @@ const ASCIIText = dynamic(() => import("@/components/ui/ascii-text"), {
 });
 
 export function Hero() {
-  const [isMounted, setIsMounted] = useState(false);
   const isMobile = useMediaQuery("SM");
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   return (
     <div className="relative w-full flex flex-col items-center gap-0">
@@ -30,28 +24,26 @@ export function Hero() {
           className="relative mx-auto w-full h-full"
           style={{ maxWidth: "100%" }}
         >
-          {isMounted && (
-            <ASCIIText
-              text="👋🤠"
-              enableWaves={false}
-              asciiFontSize={
-                isMobile
-                  ? HERO_CONFIG.MOBILE_ASCII_FONT_SIZE
-                  : HERO_CONFIG.DESKTOP_ASCII_FONT_SIZE
-              }
-              textFontSize={
-                isMobile
-                  ? HERO_CONFIG.MOBILE_TEXT_FONT_SIZE
-                  : HERO_CONFIG.DESKTOP_TEXT_FONT_SIZE
-              }
-              planeBaseHeight={
-                isMobile
-                  ? HERO_CONFIG.MOBILE_PLANE_BASE_HEIGHT
-                  : HERO_CONFIG.DESKTOP_PLANE_BASE_HEIGHT
-              }
-              enableMouseInteraction={false}
-            />
-          )}
+          <ASCIIText
+            text="👋🤠"
+            enableWaves={false}
+            asciiFontSize={
+              isMobile
+                ? HERO_CONFIG.MOBILE_ASCII_FONT_SIZE
+                : HERO_CONFIG.DESKTOP_ASCII_FONT_SIZE
+            }
+            textFontSize={
+              isMobile
+                ? HERO_CONFIG.MOBILE_TEXT_FONT_SIZE
+                : HERO_CONFIG.DESKTOP_TEXT_FONT_SIZE
+            }
+            planeBaseHeight={
+              isMobile
+                ? HERO_CONFIG.MOBILE_PLANE_BASE_HEIGHT
+                : HERO_CONFIG.DESKTOP_PLANE_BASE_HEIGHT
+            }
+            enableMouseInteraction={false}
+          />
         </div>
       </div>
       <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-mono text-start w-full mx-auto -mt-2 px-6 sm:px-0">
