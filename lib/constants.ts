@@ -26,6 +26,14 @@ export const PLATFORMS = {
 } as const;
 
 /**
+ * Song link colors (agnostic of platform)
+ */
+export const SONG_LINK_COLORS = {
+  light: "#3B82F6", // blue-500
+  dark: "#60A5FA", // blue-400
+} as const;
+
+/**
  * Breakpoint values (matching Tailwind defaults)
  */
 export const BREAKPOINTS = {

@@ -1,6 +1,7 @@
 "use client";
 
 import { memo, useState } from "react";
+import { useTheme } from "next-themes";
 import {
   Tooltip,
   TooltipContent,
@@ -9,14 +10,24 @@ import {
 } from "@/components/ui/tooltip";
 import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
 import { formatTimeAgo, getPlatformColor } from "@/lib/utils";
+import { SONG_LINK_COLORS } from "@/lib/constants";
 
 export const RecentlyPlayed = memo(function RecentlyPlayed() {
   const { data: recentlyPlayed, isPending } = useRecentlyPlayed();
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const { resolvedTheme } = useTheme();
 
-  const platformClassName = recentlyPlayed
+  const platformColors = recentlyPlayed
     ? getPlatformColor(recentlyPlayed.platform)
-    : "";
+    : null;
+
+  const platformColor =
+    platformColors && resolvedTheme === "dark"
+      ? platformColors.dark
+      : platformColors?.light;
+
+  const songLinkColor =
+    resolvedTheme === "dark" ? SONG_LINK_COLORS.dark : SONG_LINK_COLORS.light;
 
   return (
     <TooltipProvider>
@@ -42,7 +53,10 @@ export const RecentlyPlayed = memo(function RecentlyPlayed() {
           <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
             <TooltipTrigger asChild>
               <span
-                className={`cursor-help touch-manipulation ${platformClassName}`}
+                className="cursor-help touch-manipulation transition-colors"
+                style={{
+                  color: platformColor,
+                }}
                 onClick={(e) => {
                   e.stopPropagation();
                   setTooltipOpen(!tooltipOpen);
@@ -60,18 +74,20 @@ export const RecentlyPlayed = memo(function RecentlyPlayed() {
             href={recentlyPlayed.url}
             target="_blank"
             rel="noopener noreferrer"
-            className={`font-light ${platformClassName}`}
+            className="font-light underline decoration-wavy underline-offset-4 transition-colors song-link"
+            style={
+              {
+                color: songLinkColor,
+                textDecorationColor: songLinkColor,
+                "--song-link-color": songLinkColor,
+              } as React.CSSProperties & { "--song-link-color": string }
+            }
           >
-            {recentlyPlayed.song}
-          </a>{" "}
-          by{" "}
-          <span className="font-light text-foreground/90">
-            {recentlyPlayed.artist}
-          </span>
+            {recentlyPlayed.song} by {recentlyPlayed.artist}
+          </a>
           .
         </p>
       ) : null}
     </TooltipProvider>
   );
 });
-

@@ -62,16 +62,17 @@ export function formatTimeAgo(timestamp: string): string {
 }
 
 /**
- * Gets platform-specific CSS classes for styling
+ * Gets platform-specific color values for styling
  *
  * @param platform - Platform name (e.g., "Apple Music", "Spotify")
- * @returns CSS class string with platform colors
+ * @returns Object with light and dark color values
  */
-export function getPlatformColor(platform: string): string {
+export function getPlatformColor(platform: string): {
+  light: string;
+  dark: string;
+} {
   const platformLower = platform.toLowerCase();
-  const colors = platformLower.includes(PLATFORMS.SPOTIFY.source)
+  return platformLower.includes(PLATFORMS.SPOTIFY.source)
     ? PLATFORMS.SPOTIFY.colors
     : PLATFORMS.APPLE_MUSIC.colors; // Default to Apple Music
-
-  return `text-[${colors.light}] dark:text-[${colors.dark}] underline decoration-dotted decoration-[${colors.light}] dark:decoration-[${colors.dark}] hover:text-[${colors.light}]/80 dark:hover:text-[${colors.dark}]/80 hover:decoration-[${colors.light}]/80 dark:hover:decoration-[${colors.dark}]/80 transition-colors underline-offset-4`;
 }
