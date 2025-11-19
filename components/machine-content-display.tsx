@@ -1,7 +1,7 @@
 "use client";
 
 import { useRecentlyPlayedSection } from "./machine-recently-played";
-import { useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 interface MachineContentDisplayProps {
   contentBefore: string;
@@ -17,11 +17,19 @@ export function MachineContentDisplay({
   contentBefore,
   contentAfter,
 }: MachineContentDisplayProps) {
+  const [mounted, setMounted] = useState(false);
   const recentlyPlayedSection = useRecentlyPlayedSection();
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const plainTextContent = useMemo(() => {
-    return contentBefore + recentlyPlayedSection + contentAfter;
-  }, [contentBefore, recentlyPlayedSection, contentAfter]);
+    // Only include dynamic section after mount to avoid hydration mismatch
+    return (
+      contentBefore + (mounted ? recentlyPlayedSection : "") + contentAfter
+    );
+  }, [contentBefore, contentAfter, recentlyPlayedSection, mounted]);
 
   return (
     <pre className="font-mono text-sm text-foreground whitespace-pre-wrap leading-relaxed">
