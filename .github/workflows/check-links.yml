@@ -1,0 +1,44 @@
+name: Check Links
+
+on:
+  # Run daily at 2 AM UTC (adjust timezone as needed)
+  schedule:
+    - cron: '0 2 * * *'
+  # Also run on push to main and pull requests
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  check-links:
+    name: Check for broken links
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check links on production site
+        run: pnpm check-links:prod
+        env:
+          NEXT_PUBLIC_SITE_URL: https://mariolopez.org
+
