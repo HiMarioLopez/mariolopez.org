@@ -9,11 +9,16 @@ import { RESOURCE_HINTS } from "@/lib/constants";
  */
 export function ResourceHints() {
   // Pre-serialize hints for efficient injection
-  const hintsData = RESOURCE_HINTS.map((hint) => ({
-    rel: hint.rel,
-    href: hint.href,
-    crossOrigin: hint.crossOrigin,
-  }));
+  const hintsData = RESOURCE_HINTS.map((hint) => {
+    const base = {
+      rel: hint.rel,
+      href: hint.href,
+    };
+    if ("crossOrigin" in hint && hint.crossOrigin) {
+      return { ...base, crossOrigin: hint.crossOrigin };
+    }
+    return base;
+  });
 
   return (
     <Script
