@@ -14,10 +14,10 @@
   "socials": {
     "socials_title": "Redes Sociales",
     "projects_title": "Proyectos",
-    "github": "Github",
+    "github": "GitHub",
     "linkedin": "LinkedIn",
     "twitter": "Twitter",
-    "now_playing": "Reproduciendo",
+    "now_playing": "Reproduciendo ahora",
     "blog": "Blog",
     "backpocket": "Backpocket",
     "cordstruck": "Cordstruck",
@@ -28,22 +28,22 @@
       "docx": "DOCX"
     },
     "building": "Construyendo.",
-    "recently_played_label": "Reproduciendo",
+    "recently_played_label": "Reproduciendo ahora",
     "cta": {
-      "text": "¿Interesado en trabajar juntos?",
+      "text": "¿Te late que trabajemos juntos?",
       "button": "Ponte en contacto"
     }
   },
   "recently_played_sentence": {
     "part1": "Mi canción reproducida más recientemente en",
     "part2": "es",
-    "part3": "por",
+    "part3": "de",
     "played": "Reproducida"
   },
   "contact": {
-    "text": "Mentoreo a estudiantes y profesionales en sus inicios y doy charlas en eventos. ¿En Houston? Vamos por un café. ¿En otro lugar? La conversación puede fluir a través de la red.",
+    "text": "Mentoreo a estudiantes y profesionales al inicio de su carrera y doy pláticas en eventos. ¿En Houston? Vamos por un café. ¿En otro lugar? La conversación puede fluir por internet.",
     "email_link_text": "Contáctame",
-    "closing": "- ¡no muerdo!"
+    "closing": "- ¡No muerdo!"
   },
   "footer": {
     "copyright": "© 2025, Mario Lopez Martinez.",
@@ -57,8 +57,8 @@
     "auto": "AUTO",
     "light": "CLARO",
     "dark": "OSCURO",
-    "aria_switch_human": "Cambiar a vista Humana",
-    "aria_switch_machine": "Cambiar a vista de Máquina",
+    "aria_switch_human": "Cambiar a vista humana",
+    "aria_switch_machine": "Cambiar a vista de máquina",
     "aria_toggle_theme": "Alternar tema",
     "language": "IDIOMA",
     "aria_toggle_language": "Cambiar idioma"
@@ -73,38 +73,38 @@
     "header": "Mario Lopez Martinez",
     "about_section": "Soy un Arquitecto de Plataforma (%s), trabajando con gente brillante en Vercel (%s), resolviendo los problemas más desafiantes de la industria para nuestros maravillosos clientes (%s).",
     "resume_section": {
-      "intro": "Autorizado para trabajar en los EE. UU. sin restricciones. Fluidez bilingüe en inglés y español. Referencias disponibles bajo petición.",
+      "intro": "Autorizado para trabajar en los EE. UU. sin restricciones. Fluidez bilingüe en inglés y español. Referencias disponibles previa solicitud.",
       "experience_title": "EXPERIENCIA A TIEMPO COMPLETO",
       "jobs": [
         {
           "title": "VERCEL, ARQUITECTO DE PLATAFORMA [IC4]",
           "date": "DICIEMBRE 2025 – PRESENTE",
-          "description": "• Impulso la arquitectura y estrategia de rendimiento para las cuentas más estratégicas de Vercel, liderando despliegues listos para producción de cargas de trabajo modernas web y de IA, y codificando las mejores prácticas en planos reutilizables que escalan la adopción de los clientes."
+          "description": "• Impulso la arquitectura y la estrategia de rendimiento para las cuentas más estratégicas de Vercel, liderando despliegues listos para producción de cargas de trabajo web y de IA modernas, y codificando las mejores prácticas en guías reutilizables que impulsan la adopción por parte de los clientes a escala."
         },
         {
-          "title": "AMAZON WEB SERVICES, ARQUITECTO DE SOLUCIONES - SOFTWARE, INTERNET, Y PROVEEDORES DE MODELOS DE IA GENERATIVA [L5]",
+          "title": "AMAZON WEB SERVICES, ARQUITECTO DE SOLUCIONES - SOFTWARE, INTERNET Y PROVEEDORES DE MODELOS DE IA GENERATIVA [L5]",
           "date": "AGOSTO 2025 – NOVIEMBRE 2025",
-          "description": "• Lideré revisiones de arquitectura para clientes ISV y nativos de internet (hasta $500M ARR), mejorando la confiabilidad, seguridad y eficiencia de costos según el AWS Well-Architected Framework, identificando $50K/mes en ahorros tras evaluar cargas de trabajo variadas.\n• Asesoré a CTO/CISO/VP de Ingeniería sobre estrategia en la nube, dimensionamiento y modernización, influyendo en más de $12M en gasto anual en AWS y guiando diseños listos para producción para cargas de trabajo a gran escala orientadas al cliente.\n• Colaboré con equipos de producto, soporte y especialistas para resolver problemas críticos (incluyendo un defecto en Amazon SES Mail Manager) y desbloquear cargas de trabajo complejas en RDS, fortaleciendo la adopción y confianza en la plataforma para una cuenta estratégica clave."
+          "description": "• Lideré revisiones de arquitectura para clientes ISV y nativos de Internet (hasta $500M ARR), mejorando la confiabilidad, seguridad y eficiencia de costos según el AWS Well-Architected Framework, e identificando $50K/mes en ahorros tras evaluar cargas de trabajo variadas.\n• Asesoré a CTO/CISO/VP de Ingeniería sobre estrategia en la nube, dimensionamiento y modernización, influyendo en más de $12M en gasto anual en AWS y guiando diseños listos para producción para cargas de trabajo a gran escala orientadas al cliente.\n• Colaboré con equipos de producto, soporte y especialistas para resolver problemas críticos (incluyendo un defecto en Amazon SES Mail Manager) y destrabar cargas de trabajo complejas en RDS, fortaleciendo la adopción y confianza en la plataforma para una cuenta estratégica clave."
         },
         {
           "title": "AMAZON WEB SERVICES, ARQUITECTO DE APLICACIONES EN LA NUBE (ARQUITECTO DE SOFTWARE) [L5]",
           "date": "ABRIL 2024 – AGOSTO 2025",
-          "description": "• Lideré la entrega técnica de la modernización del centro de contacto de Allstate Insurance, desplegando una solución personalizada de Amazon Connect con frontend en React y microservicios serverless en Node.js para migrar a más de 500 agentes a producción, resultando en $62,000 en reducciones inmediatas de costos de licencias (proyectado $1.3M+ en 5 años).\n• Encabecé la arquitectura y desarrollo de una nueva infraestructura de Notificación de Subastas para Amazon Logistics, dirigiendo la implementación técnica para un equipo de 7 SDEs usando Java y internal build systems (Brazil, Pipelines) para mejorar un componente crítico de la red logística global de Amazon."
+          "description": "• Lideré la entrega técnica de la modernización del centro de contacto de Allstate Insurance, desplegando una solución personalizada de Amazon Connect con frontend en React y microservicios serverless en Node.js para migrar a producción a más de 500 agentes, lo que resultó en $62,000 en reducciones inmediatas de costos de licencias (proyectado $1.3M+ en 5 años).\n• Encabecé la arquitectura y el desarrollo de una nueva infraestructura de notificación de subastas para Amazon Logistics, dirigiendo la implementación técnica para un equipo de 7 SDEs usando Java y sistemas internos de construcción (Brazil, Pipelines) para mejorar un componente crítico de la red logística global de Amazon."
         },
         {
           "title": "AMAZON WEB SERVICES, DESARROLLADOR DE APLICACIONES EN LA NUBE (INGENIERO DE SOFTWARE BACKEND) [L4]",
           "date": "SEPTIEMBRE 2022 – MARZO 2024",
-          "description": "• Creé una solución de procesamiento por lotes basada en eventos, Python y contenedores a través de Terraform IaC que mejoró significativamente la eficiencia para los desafíos de transferencia de datos entre cuentas de Johnson & Johnson, logrando una ganancia de eficiencia del proceso de más del 97.5%."
+          "description": "• Creé una solución de procesamiento por lotes basada en eventos, en Python y contenedores, mediante Terraform IaC, que mejoró significativamente la eficiencia para los desafíos de transferencia de datos entre cuentas de Johnson & Johnson, logrando una ganancia de eficiencia del proceso de más del 97.5%."
         },
         {
           "title": "GARTNER INC., INGENIERO DE SOFTWARE FULL-STACK",
           "date": "NOVIEMBRE 2021 – SEPTIEMBRE 2022",
-          "description": "• Fui pionero en la adopción del framework frontend Next.js (basado en React) en la empresa después de construir independientemente 2 Pruebas de Concepto a gran escala y organizar 3 talleres técnicos; mi equipo fue el primero en nuestra empresa en adoptar esta tecnología, permitiéndonos definir el futuro de la ingeniería frontend en Gartner."
+          "description": "• Fui pionero en la adopción del framework frontend Next.js (basado en React) en la empresa después de construir independientemente 2 pruebas de concepto a gran escala y organizar 3 talleres técnicos; mi equipo fue el primero en nuestra empresa en adoptar esta tecnología, lo que nos permitió definir el futuro de la ingeniería frontend en Gartner."
         },
         {
           "title": "EXXONMOBIL CORPORATION, INGENIERO DE SOFTWARE FULL-STACK",
           "date": "JULIO 2020 – OCTUBRE 2021",
-          "description": "• Construí y desplegué una API RESTful aprovechando el framework .NET 5 desde cero, como esfuerzo individual. La API procesó más de 4 millones de respuestas diarias en 12 endpoints, permitiendo a 6 equipos asegurar el acceso a más de 80 TB de datos de activos de campo.\n• Retiré una solución de base de datos on-premise y migré a una solución alojada en la nube, lo que llevó a ahorros de costos de más de $10,000/mes.\n• Aproveché Redis Cache y optimicé consultas SQL para reducir los tiempos de respuesta de la API de 10 segundos a ~.25 segundos."
+          "description": "• Construí y desplegué una API RESTful aprovechando el framework .NET 5 desde cero, como esfuerzo individual. La API procesó más de 4 millones de respuestas diarias en 12 endpoints, permitiendo a 6 equipos asegurar el acceso a más de 80 TB de datos de activos de campo.\n• Retiré una solución de base de datos local (on-premise) y migré a una solución alojada en la nube, lo que llevó a ahorros de costos de más de $10,000/mes.\n• Aproveché Redis Cache y optimicé consultas SQL para reducir los tiempos de respuesta de la API de 10 segundos a 0.25 segundos."
         }
       ],
       "leadership_title": "LIDERAZGO Y VOLUNTARIADO",
@@ -117,15 +117,15 @@
         {
           "title": "PROYECTO DE CÓDIGO ABIERTO – SOFTWARE DE AUTOMATIZACIÓN DE ESCRITORIO, DESARROLLADOR LÍDER Y ARQUITECTO",
           "date": "ENERO 2022 – PRESENTE",
-          "description": "• Liderando un equipo distribuido globalmente de 19 desarrolladores para mantener y agregar nueva funcionalidad a nuestro Cliente de Escritorio .NET WPF habilitado para la nube con más de 20,000 usuarios activos (y más de 325,000 descargas totales) en un ciclo de lanzamiento constante de 3 meses."
+          "description": "• Lidero un equipo distribuido globalmente de 19 desarrolladores para mantener y agregar nueva funcionalidad a nuestro cliente de escritorio .NET WPF habilitado para la nube con más de 20,000 usuarios activos (y más de 325,000 descargas totales) en un ciclo de lanzamiento constante de 3 meses."
         }
       ],
       "education_title": "EDUCACIÓN",
-      "education": "UNIVERSIDAD BAYLOR, ESCUELA DE INGENIERÍA Y CIENCIAS DE LA COMPUTACIÓN, L.C. CIENCIAS DE LA COMPUTACIÓN – MAYO 2020"
+      "education": "UNIVERSIDAD BAYLOR, ESCUELA DE INGENIERÍA Y CIENCIAS DE LA COMPUTACIÓN, LICENCIATURA EN CIENCIAS DE LA COMPUTACIÓN (B.S. COMPUTER SCIENCE) – MAYO 2020"
     },
     "contact_section": {
-      "text": "Mentoreo a estudiantes y profesionales en sus inicios y doy charlas en eventos. ¿En Houston? Vamos por un café. ¿En otro lugar? La conversación puede fluir a través de la red. Contáctame - ¡no muerdo!",
-      "email_label": "Correo:"
+      "text": "Mentoreo a estudiantes y profesionales al inicio de su carrera y doy pláticas en eventos. ¿En Houston? Vamos por un café. ¿En otro lugar? La conversación puede fluir por internet. Contáctame - ¡No muerdo!",
+      "email_label": "Correo electrónico:"
     },
     "socials_labels": {
       "github": "GitHub:",
@@ -136,7 +136,7 @@
     },
     "projects_labels": {
       "chaos_recipe_enhancer": "Chaos Recipe Enhancer:",
-      "now_playing": "Reproduciendo:",
+      "now_playing": "Reproduciendo ahora:",
       "blog": "Blog:",
       "backpocket": "Backpocket:",
       "cordstruck": "Cordstruck:",
@@ -144,6 +144,6 @@
       "building_status": "Construyendo."
     },
     "footer_label": "Código:",
-    "recently_played_template": "Mi canción reproducida más recientemente en %platform% es \"%song%\" por %artist% (reproducida %timeAgo%).\n\nEscuchar: %url%\n"
+    "recently_played_template": "Mi canción reproducida más recientemente en %platform% fue \"%song%\" de %artist% (reproducida hace %timeAgo%).\n\nEscuchar: %url%\n"
   }
 }
