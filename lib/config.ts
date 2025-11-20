@@ -39,3 +39,21 @@ export const CACHE_HEADERS = {
 export const BUILD_CONFIG = {
   BUILD_TIME_FORMATTED: process.env.NEXT_PUBLIC_BUILD_TIME_FORMATTED || null,
 } as const;
+
+/**
+ * Visitor count API configuration
+ */
+export const VISITOR_COUNT_CONFIG = {
+  REDIS_KEY_PREFIX: "visitor_count",
+  REDIS_IP_KEY_PREFIX: "visitor_ip:",
+  CACHE_TTL_SECONDS: 10,
+  CACHE_STALE_WHILE_REVALIDATE_SECONDS: 30,
+} as const;
+
+/**
+ * Visitor count cache headers
+ */
+export const VISITOR_COUNT_CACHE_HEADERS = {
+  GET: `public, s-maxage=${VISITOR_COUNT_CONFIG.CACHE_TTL_SECONDS}, stale-while-revalidate=${VISITOR_COUNT_CONFIG.CACHE_STALE_WHILE_REVALIDATE_SECONDS}`,
+  POST: "no-store",
+} as const;

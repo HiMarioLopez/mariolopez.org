@@ -161,3 +161,14 @@ export const RESOURCE_HINTS = [
 export const PERFORMANCE_THRESHOLDS = {
   SLOW_RESOURCE_MS: 1000,
 } as const;
+
+/**
+ * Visitor counter configuration
+ */
+export const VISITOR_COUNTER_CONFIG = {
+  DIGIT_COUNT: 6,
+  PADDING_CHAR: "0",
+  DEFAULT_DISPLAY: "000000",
+  LABEL: "# of hits",
+  IP_DEDUPLICATION_TTL_SECONDS: 30,
+} as const;
