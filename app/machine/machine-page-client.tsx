@@ -19,7 +19,7 @@ export function MachinePageClient({
   contentBefore,
   contentAfter,
 }: MachinePageClientProps) {
-  const recentlyPlayedSection = useRecentlyPlayedSection();
+  const { content: recentlyPlayedSection } = useRecentlyPlayedSection();
 
   // Compute full content for the copy button
   const fullContent = useMemo(() => {

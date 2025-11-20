@@ -8,11 +8,14 @@ import { useMemo } from "react";
  * Client Component that generates the dynamic recently-played section string
  * This is the only part that needs to be client-side due to data fetching
  */
-export function useRecentlyPlayedSection(): string {
-  const { data: recentlyPlayed } = useRecentlyPlayed();
+export function useRecentlyPlayedSection(): {
+  content: string;
+  isLoading: boolean;
+} {
+  const { data: recentlyPlayed, isPending } = useRecentlyPlayed();
   const timeAgo = useFormatTimeAgo(recentlyPlayed?.timestamp);
 
-  return useMemo(() => {
+  const content = useMemo(() => {
     if (!recentlyPlayed || !timeAgo) {
       return "";
     }
@@ -22,4 +25,9 @@ export function useRecentlyPlayedSection(): string {
 Listen: ${recentlyPlayed.url}
 `;
   }, [recentlyPlayed, timeAgo]);
+
+  return {
+    content,
+    isLoading: isPending,
+  };
 }
