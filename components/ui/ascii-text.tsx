@@ -177,9 +177,11 @@ class AsciiFilter {
     this.domElement.style.setProperty("-ms-user-select", "none");
 
     this.pre = document.createElement("pre");
+    this.pre.style.pointerEvents = "none";
     this.domElement.appendChild(this.pre);
 
     this.canvas = document.createElement("canvas");
+    this.canvas.style.pointerEvents = "none";
     this.context = this.canvas.getContext("2d", { willReadFrequently: true });
     this.domElement.appendChild(this.canvas);
 
@@ -956,6 +958,7 @@ export default function ASCIIText({
         position: "absolute",
         width: "100%",
         height: "100%",
+        pointerEvents: "none",
       }}
     >
       <style>{`
@@ -970,6 +973,7 @@ export default function ASCIIText({
           top: 0;
           width: 100%;
           height: 100%;
+          pointer-events: none;
           image-rendering: optimizeSpeed;
           image-rendering: -moz-crisp-edges;
           image-rendering: -o-crisp-edges;
@@ -995,6 +999,7 @@ export default function ASCIIText({
           top: 50%;
           transform: translate(-50%, -50%);
           overflow: visible;
+          pointer-events: none;
           background-image: radial-gradient(circle, #ff6188 0%, #fc9867 50%, #ffd866 100%);
           background-attachment: fixed;
           -webkit-text-fill-color: transparent;
@@ -1017,6 +1022,7 @@ export default function ASCIIText({
           -webkit-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;
+          pointer-events: none;
         }
       `}</style>
     </div>
