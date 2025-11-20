@@ -25,9 +25,17 @@ interface DisabledButtonProps {
 }
 
 // Ensure at least one of icon or logo is provided
-type DisabledButtonPropsWithIcon = DisabledButtonProps & { icon: LucideIcon; logo?: never };
-type DisabledButtonPropsWithLogo = DisabledButtonProps & { logo: { webp: string; png: string; alt: string }; icon?: never };
-type DisabledButtonPropsType = DisabledButtonPropsWithIcon | DisabledButtonPropsWithLogo;
+type DisabledButtonPropsWithIcon = DisabledButtonProps & {
+  icon: LucideIcon;
+  logo?: never;
+};
+type DisabledButtonPropsWithLogo = DisabledButtonProps & {
+  logo: { webp: string; png: string; alt: string };
+  icon?: never;
+};
+type DisabledButtonPropsType =
+  | DisabledButtonPropsWithIcon
+  | DisabledButtonPropsWithLogo;
 
 export function DisabledButton({
   icon: Icon,
@@ -42,11 +50,13 @@ export function DisabledButton({
     <TooltipProvider delayDuration={100}>
       <Tooltip open={open} onOpenChange={setOpen}>
         <TooltipTrigger asChild>
-          <div 
+          <div
             className="inline-block touch-manipulation group"
             onClick={(e) => {
               e.stopPropagation();
-              setOpen(!open);
+              if (!open) {
+                setOpen(true);
+              }
             }}
           >
             <Button
@@ -63,13 +73,29 @@ export function DisabledButton({
                     alt={logo.alt}
                     width={32}
                     height={32}
-                    className={cn("h-5 w-auto rounded-sm grayscale transition-all duration-200 group-hover:grayscale-0", open && "grayscale-0", logoClassName)}
+                    className={cn(
+                      "h-5 w-auto rounded-sm grayscale transition-all duration-200 group-hover:grayscale-0",
+                      open && "grayscale-0",
+                      logoClassName
+                    )}
                     quality={90}
                   />
                 ) : Icon ? (
-                  <Icon className="w-4 h-4" />
+                  <Icon
+                    className={cn(
+                      "w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0",
+                      open && "grayscale-0"
+                    )}
+                  />
                 ) : null}
-                {children}
+                <span
+                  className={cn(
+                    "grayscale transition-all duration-200 group-hover:grayscale-0",
+                    open && "grayscale-0"
+                  )}
+                >
+                  {children}
+                </span>
               </div>
             </Button>
           </div>
