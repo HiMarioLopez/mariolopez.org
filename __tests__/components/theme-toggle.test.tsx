@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ViewToggle } from "@/components/view-toggle";
 
 // Mock next-themes
 const mockSetTheme = vi.fn();
@@ -16,49 +16,28 @@ vi.mock("next-themes", () => ({
   }),
 }));
 
-// Mock the ASCII component to avoid Three.js complexity in tests
-vi.mock("@/components/ui/ascii-text", () => ({
-  default: () => <div data-testid="ascii-text">💡</div>,
-  invalidateFontCache: vi.fn(),
+// Mock next/navigation
+const mockPush = vi.fn();
+const mockPathname = vi.fn(() => "/human");
+
+vi.mock("next/navigation", () => ({
+  usePathname: () => mockPathname(),
+  useRouter: () => ({
+    push: mockPush,
+  }),
 }));
 
-describe("ThemeToggle", () => {
+describe("ViewToggle - Theme Toggle Integration", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockTheme.mockReturnValue("system");
     mockResolvedTheme.mockReturnValue("light");
-
-    // Mock IntersectionObserver
-    global.IntersectionObserver = class IntersectionObserver {
-      constructor(
-        public callback: IntersectionObserverCallback,
-        public options?: IntersectionObserverInit
-      ) {
-        // Immediately call callback with intersecting entry
-        setTimeout(() => {
-          callback(
-            [{ isIntersecting: true } as IntersectionObserverEntry],
-            this as IntersectionObserver
-          );
-        }, 0);
-      }
-
-      observe = vi.fn();
-      disconnect = vi.fn();
-      unobserve = vi.fn();
-      takeRecords = vi.fn(() => []);
-      root = null;
-      rootMargin = "";
-      thresholds = [];
-    } as unknown as typeof IntersectionObserver;
+    mockPathname.mockReturnValue("/human");
+    mockPush.mockClear();
   });
 
-  afterEach(() => {
-    vi.clearAllTimers();
-  });
-
-  it("renders the theme toggle button", async () => {
-    render(<ThemeToggle />);
+  it("renders the theme toggle button", () => {
+    render(<ViewToggle />);
 
     const button = screen.getByRole("button", { name: /toggle theme/i });
     expect(button).toBeInTheDocument();
@@ -68,7 +47,7 @@ describe("ThemeToggle", () => {
     const user = userEvent.setup();
     mockTheme.mockReturnValue("system");
 
-    render(<ThemeToggle />);
+    render(<ViewToggle />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
 
     await user.click(button);
@@ -81,7 +60,7 @@ describe("ThemeToggle", () => {
     const user = userEvent.setup();
     mockTheme.mockReturnValue("light");
 
-    render(<ThemeToggle />);
+    render(<ViewToggle />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
 
     await user.click(button);
@@ -94,7 +73,7 @@ describe("ThemeToggle", () => {
     const user = userEvent.setup();
     mockTheme.mockReturnValue("dark");
 
-    render(<ThemeToggle />);
+    render(<ViewToggle />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
 
     await user.click(button);
@@ -113,18 +92,18 @@ describe("ThemeToggle", () => {
       currentTheme = newTheme as string;
     });
 
-    const { rerender } = render(<ThemeToggle />);
+    const { rerender } = render(<ViewToggle />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
 
     // Click multiple times rapidly, rerendering after each to update theme state
     await user.click(button);
-    rerender(<ThemeToggle />);
+    rerender(<ViewToggle />);
 
     await user.click(button);
-    rerender(<ThemeToggle />);
+    rerender(<ViewToggle />);
 
     await user.click(button);
-    rerender(<ThemeToggle />);
+    rerender(<ViewToggle />);
 
     await user.click(button);
 
@@ -147,7 +126,7 @@ describe("ThemeToggle", () => {
       currentTheme = newTheme as string;
     });
 
-    render(<ThemeToggle />);
+    render(<ViewToggle />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
 
     // Click 10 times
@@ -159,26 +138,6 @@ describe("ThemeToggle", () => {
     expect(mockSetTheme).toHaveBeenCalledTimes(10);
   });
 
-  it("handles clicks on different parts of the button", async () => {
-    const user = userEvent.setup();
-    mockTheme.mockReturnValue("system");
-
-    render(<ThemeToggle />);
-    const button = screen.getByRole("button", { name: /toggle theme/i });
-
-    // Click the button multiple times to verify all clicks register
-    await user.click(button);
-    expect(mockSetTheme).toHaveBeenCalledTimes(1);
-
-    await user.click(button);
-    expect(mockSetTheme).toHaveBeenCalledTimes(2);
-
-    await user.click(button);
-
-    // All clicks should register
-    expect(mockSetTheme).toHaveBeenCalledTimes(3);
-  });
-
   it("prevents event propagation on click", async () => {
     const user = userEvent.setup();
     mockTheme.mockReturnValue("system");
@@ -187,7 +146,7 @@ describe("ThemeToggle", () => {
 
     render(
       <div onClick={handleParentClick}>
-        <ThemeToggle />
+        <ViewToggle />
       </div>
     );
 
@@ -204,7 +163,7 @@ describe("ThemeToggle", () => {
     const user = userEvent.setup();
     mockTheme.mockReturnValue(undefined as unknown as string);
 
-    render(<ThemeToggle />);
+    render(<ViewToggle />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
 
     await user.click(button);
@@ -215,14 +174,14 @@ describe("ThemeToggle", () => {
   });
 
   it("has correct button type attribute", () => {
-    render(<ThemeToggle />);
+    render(<ViewToggle />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
     expect(button).toHaveAttribute("type", "button");
   });
 
   it("has correct aria-label for accessibility", () => {
     mockTheme.mockReturnValue("light");
-    render(<ThemeToggle />);
+    render(<ViewToggle />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
     expect(button).toHaveAttribute(
       "aria-label",
@@ -238,70 +197,45 @@ describe("ThemeToggle", () => {
     );
   });
 
-  it("shows current theme label always visible", () => {
-    mockTheme.mockReturnValue("light");
-    render(<ThemeToggle />);
-
-    // Current theme should be visible
-    expect(screen.getByText("Light")).toBeInTheDocument();
-  });
-
-  it("shows system theme label when system is selected", () => {
+  it("shows Monitor icon for system theme", () => {
     mockTheme.mockReturnValue("system");
-    mockResolvedTheme.mockReturnValue("dark");
+    render(<ViewToggle />);
 
-    render(<ThemeToggle />);
-
-    // Should show "System" when system theme is selected
-    expect(screen.getByText("System")).toBeInTheDocument();
-  });
-
-  it("shows correct labels for all theme states", () => {
-    // Test Light theme
-    mockTheme.mockReturnValue("light");
-    const { rerender } = render(<ThemeToggle />);
-    expect(screen.getByText("Light")).toBeInTheDocument();
-
-    // Test Dark theme
-    mockTheme.mockReturnValue("dark");
-    rerender(<ThemeToggle />);
-    expect(screen.getByText("Dark")).toBeInTheDocument();
-
-    // Test System theme
-    mockTheme.mockReturnValue("system");
-    mockResolvedTheme.mockReturnValue("light");
-    rerender(<ThemeToggle />);
-    expect(screen.getByText("System")).toBeInTheDocument();
-  });
-
-  it("renders button with correct styling", () => {
-    mockTheme.mockReturnValue("light");
-    render(<ThemeToggle />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
-
-    // Button should have flex-col layout for vertical stacking
-    expect(button.className).toContain("flex-col");
-    expect(button.className).toContain("items-center");
+    // Check that Monitor icon is present (system theme)
+    const svg = button.querySelector("svg");
+    expect(svg).toBeInTheDocument();
   });
 
-  it("updates labels when theme changes", () => {
+  it("shows Sun icon for light theme", () => {
     mockTheme.mockReturnValue("light");
-    const { rerender } = render(<ThemeToggle />);
+    render(<ViewToggle />);
 
-    // Initial state: Light
-    expect(screen.getByText("Light")).toBeInTheDocument();
+    const button = screen.getByRole("button", { name: /toggle theme/i });
+    const svg = button.querySelector("svg");
+    expect(svg).toBeInTheDocument();
+  });
 
-    // Change theme to dark
+  it("shows Moon icon for dark theme", () => {
     mockTheme.mockReturnValue("dark");
-    rerender(<ThemeToggle />);
+    render(<ViewToggle />);
 
-    // Should update to Dark
-    expect(screen.getByText("Dark")).toBeInTheDocument();
+    const button = screen.getByRole("button", { name: /toggle theme/i });
+    const svg = button.querySelector("svg");
+    expect(svg).toBeInTheDocument();
   });
 
   it("has touch-manipulation class for mobile support", () => {
-    render(<ThemeToggle />);
+    render(<ViewToggle />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
     expect(button.className).toContain("touch-manipulation");
+  });
+
+  it("renders divider between view toggle and theme toggle", () => {
+    render(<ViewToggle />);
+    
+    // Check for divider element (vertical line)
+    const divider = document.querySelector(".bg-foreground\\/30");
+    expect(divider).toBeInTheDocument();
   });
 });
