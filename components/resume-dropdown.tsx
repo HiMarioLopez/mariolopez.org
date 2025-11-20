@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FileText, ChevronDown } from "lucide-react";
 import { LINKS } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 
 interface ResumeDropdownProps {
   dict: {
@@ -17,9 +18,10 @@ interface ResumeDropdownProps {
     pdf: string;
     docx: string;
   };
+  className?: string;
 }
 
-export function ResumeDropdown({ dict }: ResumeDropdownProps) {
+export function ResumeDropdown({ dict, className }: ResumeDropdownProps) {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [buttonWidth, setButtonWidth] = useState<number | undefined>(undefined);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -61,7 +63,7 @@ export function ResumeDropdown({ dict }: ResumeDropdownProps) {
 
   return (
     <div
-      className="relative inline-block touch-manipulation"
+      className={cn("relative inline-block touch-manipulation w-full sm:w-auto", className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -76,12 +78,14 @@ export function ResumeDropdown({ dict }: ResumeDropdownProps) {
             }}
             variant="social"
             size="lg"
-            className="pointer-events-auto group"
+            className="pointer-events-auto group w-full sm:w-auto justify-between sm:justify-center px-3 sm:px-6"
             onClick={handleClick}
           >
-            <FileText className="w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0" />
-            {dict.label}
-            <ChevronDown className="w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0" />
+            <div className="flex items-center gap-2 min-w-0">
+              <FileText className="w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0 shrink-0" />
+              <span className="truncate">{dict.label}</span>
+            </div>
+            <ChevronDown className="w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0 shrink-0 ml-2" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent

@@ -60,7 +60,7 @@ export const SocialLinks = memo(function SocialLinks({ dict, recentlyPlayedDict,
         <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">
           {dict.socials_title}
         </h2>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center gap-3">
           <SocialLink href={LINKS.GITHUB} icon={Github}>
             {dict.github}
           </SocialLink>
@@ -82,7 +82,7 @@ export const SocialLinks = memo(function SocialLinks({ dict, recentlyPlayedDict,
         <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">
           {dict.projects_title}
         </h2>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center gap-3">
           <ChaosRecipeLink />
 
           <SocialLink href={LINKS.MUSIC} icon={Music} iconColor={musicIconColor}>

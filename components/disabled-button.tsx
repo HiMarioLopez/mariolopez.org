@@ -22,6 +22,7 @@ interface DisabledButtonProps {
   logoClassName?: string;
   children: ReactNode;
   tooltip: string;
+  className?: string;
 }
 
 // Ensure at least one of icon or logo is provided
@@ -43,6 +44,7 @@ export function DisabledButton({
   logoClassName,
   children,
   tooltip,
+  className,
 }: DisabledButtonPropsType) {
   const [open, setOpen] = useState(false);
 
@@ -51,7 +53,7 @@ export function DisabledButton({
       <Tooltip open={open} onOpenChange={setOpen}>
         <TooltipTrigger asChild>
           <div
-            className="inline-block touch-manipulation group"
+            className={cn("inline-block touch-manipulation group w-full sm:w-auto", className)}
             onClick={(e) => {
               e.stopPropagation();
               setOpen(!open);
@@ -61,10 +63,10 @@ export function DisabledButton({
               variant="outline"
               size="lg"
               disabled
-              className="bg-background! dark:bg-background! opacity-100! border-yellow-600 border-dashed text-yellow-500 cursor-not-allowed transition-all duration-200 font-medium relative overflow-hidden disabled-button-pattern"
+              className="bg-background! dark:bg-background! opacity-100! border-yellow-600 border-dashed text-yellow-500 cursor-not-allowed transition-all duration-200 font-medium relative overflow-hidden disabled-button-pattern w-full sm:w-auto px-3 sm:px-6"
               aria-disabled="true"
             >
-              <div className="flex items-center gap-2 relative z-10 pointer-events-none">
+              <div className="flex items-center justify-center gap-2 relative z-10 pointer-events-none w-full min-w-0">
                 {logo ? (
                   <Image
                     src={logo.png}
@@ -72,7 +74,7 @@ export function DisabledButton({
                     width={32}
                     height={32}
                     className={cn(
-                      "h-5 w-auto rounded-sm grayscale transition-all duration-200 group-hover:grayscale-0",
+                      "h-5 w-auto rounded-sm grayscale transition-all duration-200 group-hover:grayscale-0 shrink-0",
                       open && "grayscale-0",
                       logoClassName
                     )}
@@ -81,14 +83,14 @@ export function DisabledButton({
                 ) : Icon ? (
                   <Icon
                     className={cn(
-                      "w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0",
+                      "w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0 shrink-0",
                       open && "grayscale-0"
                     )}
                   />
                 ) : null}
                 <span
                   className={cn(
-                    "grayscale transition-all duration-200 group-hover:grayscale-0",
+                    "grayscale transition-all duration-200 group-hover:grayscale-0 truncate",
                     open && "grayscale-0"
                   )}
                 >

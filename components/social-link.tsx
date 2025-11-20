@@ -15,6 +15,7 @@ interface SocialLinkProps {
   children: ReactNode;
   tooltip?: string;
   iconColor?: string;
+  className?: string;
 }
 
 export function SocialLink({
@@ -23,22 +24,28 @@ export function SocialLink({
   children,
   tooltip,
   iconColor,
+  className,
 }: SocialLinkProps) {
   const buttonContent = (
-    <Button variant="social" size="lg" asChild>
+    <Button 
+      variant="social" 
+      size="lg" 
+      className={cn("w-full sm:w-auto px-3 sm:px-6", className)} 
+      asChild
+    >
       <a
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2 group"
+        className="flex items-center justify-center gap-2 group min-w-0"
       >
         {Icon && (
           <Icon
-            className={cn("w-4 h-4 icon-grayscale-hover")}
+            className={cn("w-4 h-4 icon-grayscale-hover shrink-0")}
             style={iconColor ? { color: iconColor } : undefined}
           />
         )}
-        {children}
+        <span className="truncate">{children}</span>
       </a>
     </Button>
   );
