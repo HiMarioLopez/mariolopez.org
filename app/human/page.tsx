@@ -11,7 +11,7 @@ export default function HumanPage() {
       <ThemeToggle />
       <ViewToggle />
       <div className="flex-1 flex flex-col w-full max-w-3xl min-h-0">
-        <main className="relative z-10 isolate flex flex-col flex-1 justify-center pt-36 pb-12 md:pt-44 md:pb-24">
+        <main className="relative z-10 isolate flex flex-col flex-1 justify-center pb-12 md:pt-44 md:pb-24">
           <div className="flex flex-col items-center space-y-2">
             <Hero />
             <Introduction />
