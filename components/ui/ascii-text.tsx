@@ -334,6 +334,12 @@ class AsciiFilter {
     this.domElement.style.filter = `hue-rotate(${this.deg.toFixed(1)}deg)`;
   }
 
+  setRandomHue() {
+    // Generate random hue rotation (0-360 degrees)
+    this.deg = Math.random() * 360;
+    this.domElement.style.filter = `hue-rotate(${this.deg.toFixed(1)}deg)`;
+  }
+
   asciify(ctx: CanvasRenderingContext2D, w: number, h: number) {
     if (!w || !h) return;
 
@@ -729,6 +735,10 @@ class CanvAscii {
     this.mesh.rotation.y += (y - this.mesh.rotation.y) * 0.05;
   }
 
+  setRandomHue() {
+    this.filter.setRandomHue();
+  }
+
   render() {
     if (!this.isVisible) return;
 
@@ -950,15 +960,23 @@ export default function ASCIIText({
     enableMouseInteraction,
   ]);
 
+  const handleClick = () => {
+    if (asciiRef.current) {
+      asciiRef.current.setRandomHue();
+    }
+  };
+
   return (
     <div
       ref={containerRef}
       className="ascii-text-container"
+      onClick={handleClick}
       style={{
         position: "absolute",
         width: "100%",
         height: "100%",
-        pointerEvents: "none",
+        pointerEvents: "auto",
+        cursor: "pointer",
       }}
     >
       <style>{`
@@ -1022,7 +1040,6 @@ export default function ASCIIText({
           -webkit-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;
-          pointer-events: none;
         }
       `}</style>
     </div>
