@@ -140,7 +140,7 @@
 @layer components {
   /* Centralized link styling */
   .link-accent {
-    @apply text-yellow-500 dark:text-yellow-500 underline decoration-dotted decoration-yellow-500 dark:decoration-yellow-500 hover:text-yellow-300 hover:decoration-yellow-300 dark:hover:text-yellow-400 dark:hover:decoration-yellow-400 transition-colors underline-offset-4;
+    @apply text-yellow-500 underline decoration-dotted decoration-yellow-500 hover:text-yellow-400 hover:decoration-yellow-400 transition-colors underline-offset-4;
   }
 
   /* Song link styling (blue, agnostic of platform) */

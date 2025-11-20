@@ -16,11 +16,11 @@ export function BlogLink() {
           🍝
         </span>
         <span>
-          <span className="underline decoration-dotted decoration-2 underline-offset-3 decoration-foreground/30 group-hover:text-rose-400 group-hover:decoration-rose-400 dark:group-hover:text-rose-300 dark:group-hover:decoration-rose-300 transition-colors">
+          <span className="underline decoration-dotted decoration-2 underline-offset-3 decoration-foreground/30 group-hover:text-rose-400 group-hover:decoration-rose-400 transition-colors">
             B
           </span>
           o
-          <span className="underline decoration-dotted decoration-2 underline-offset-3 decoration-foreground/30 group-hover:text-rose-400 group-hover:decoration-rose-400 dark:group-hover:text-rose-300 dark:group-hover:decoration-rose-300 transition-colors">
+          <span className="underline decoration-dotted decoration-2 underline-offset-3 decoration-foreground/30 group-hover:text-rose-400 group-hover:decoration-rose-400 transition-colors">
             log
           </span>
           nese
