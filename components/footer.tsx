@@ -1,25 +1,7 @@
-"use client";
-
-import { useState } from "react";
 import { BUILD_CONFIG } from "@/lib/config";
-import { LINKS, LOCALE_CONFIG } from "@/lib/constants";
+import { LINKS } from "@/lib/constants";
 
 export function Footer() {
-  // Format date only on client side to avoid hydration mismatch
-  // Using lazy initialization to ensure it only runs after hydration
-  const [buildTimestamp] = useState<string | null>(() => {
-    const buildTime = BUILD_CONFIG.BUILD_TIME;
-    if (!buildTime) return null;
-    return new Date(buildTime).toLocaleString(LOCALE_CONFIG.DEFAULT, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      timeZoneName: "short",
-    });
-  });
-
   return (
     <footer className="relative mt-auto py-6 md:py-8 text-muted-foreground text-sm z-10 text-center w-full">
       <div>
@@ -34,10 +16,10 @@ export function Footer() {
         </a>
         .
       </div>
-      {buildTimestamp && (
+      {BUILD_CONFIG.BUILD_TIME_FORMATTED && (
         <div className="mt-2">
           <span className="text-muted-foreground/80">
-            Last updated {buildTimestamp}.
+            Last updated {BUILD_CONFIG.BUILD_TIME_FORMATTED}.
           </span>
         </div>
       )}

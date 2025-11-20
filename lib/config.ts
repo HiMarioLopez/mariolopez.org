@@ -37,5 +37,5 @@ export const CACHE_HEADERS = {
  * Build configuration
  */
 export const BUILD_CONFIG = {
-  BUILD_TIME: process.env.NEXT_PUBLIC_BUILD_TIME || new Date().toISOString(),
+  BUILD_TIME_FORMATTED: process.env.NEXT_PUBLIC_BUILD_TIME_FORMATTED || null,
 } as const;

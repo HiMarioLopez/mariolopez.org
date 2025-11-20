@@ -25,9 +25,17 @@ const nextConfig = {
       exclude: ["error", "warn"],
     } : false,
   },
-  // Generate build timestamp at build time
+  // Generate build timestamp and formatted date at build time
   env: {
     NEXT_PUBLIC_BUILD_TIME: new Date().toISOString(),
+    NEXT_PUBLIC_BUILD_TIME_FORMATTED: new Date().toLocaleString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      timeZoneName: "short",
+    }),
   },
 }
 
