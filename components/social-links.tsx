@@ -9,9 +9,18 @@ import { BlogLink } from "./blog-link";
 import { ChaosRecipeLink } from "./chaos-recipe-link";
 import { CallToAction } from "./call-to-action";
 import { RecentlyPlayed } from "./recently-played";
-import { LINKS } from "@/lib/constants";
+import { LINKS, PLATFORMS } from "@/lib/constants";
+import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
+import { getPlatformColor } from "@/lib/utils";
 
 export const SocialLinks = memo(function SocialLinks() {
+  const { data: recentlyPlayed } = useRecentlyPlayed();
+  
+  // Get the platform color dynamically, fallback to Spotify green
+  const musicIconColor = recentlyPlayed?.platform
+    ? getPlatformColor(recentlyPlayed.platform)
+    : PLATFORMS.SPOTIFY.color;
+
   return (
     <div className="flex flex-col gap-6 pt-6 px-6 sm:px-0 w-full">
       {/* Socials Section */}
@@ -44,7 +53,7 @@ export const SocialLinks = memo(function SocialLinks() {
         <div className="flex flex-wrap items-center gap-3">
           <ChaosRecipeLink />
 
-          <SocialLink href={LINKS.MUSIC} icon={Music}>
+          <SocialLink href={LINKS.MUSIC} icon={Music} iconColor={musicIconColor}>
             Now Playing
           </SocialLink>
 

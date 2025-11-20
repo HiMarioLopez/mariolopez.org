@@ -7,12 +7,14 @@ import {
 } from "@/components/ui/tooltip";
 import { LucideIcon } from "lucide-react";
 import { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 interface SocialLinkProps {
   href: string;
   icon?: LucideIcon;
   children: ReactNode;
   tooltip?: string;
+  iconColor?: string;
 }
 
 export function SocialLink({
@@ -20,6 +22,7 @@ export function SocialLink({
   icon: Icon,
   children,
   tooltip,
+  iconColor,
 }: SocialLinkProps) {
   const buttonContent = (
     <Button variant="social" size="lg" asChild>
@@ -29,7 +32,12 @@ export function SocialLink({
         rel="noopener noreferrer"
         className="flex items-center gap-2 group"
       >
-        {Icon && <Icon className="w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0" />}
+        {Icon && (
+          <Icon
+            className={cn("w-4 h-4 icon-grayscale-hover")}
+            style={iconColor ? { color: iconColor } : undefined}
+          />
+        )}
         {children}
       </a>
     </Button>

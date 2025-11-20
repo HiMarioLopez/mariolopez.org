@@ -143,6 +143,17 @@
     @apply text-yellow-500 underline decoration-dotted decoration-yellow-500 hover:text-yellow-400 hover:decoration-yellow-400 transition-colors underline-offset-4;
   }
 
+  /* Icon grayscale - only apply on hover-capable devices (desktop) */
+  .icon-grayscale-hover {
+    @apply transition-all duration-200;
+  }
+
+  @media (hover: hover) {
+    .icon-grayscale-hover {
+      @apply grayscale group-hover:grayscale-0;
+    }
+  }
+
   /* Song link styling (blue, agnostic of platform) */
   .song-link:hover {
     color: color-mix(
