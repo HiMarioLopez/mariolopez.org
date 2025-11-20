@@ -17,11 +17,11 @@ export function BlogLink({ className }: { className?: string }) {
           🍝
         </span>
         <span className="truncate">
-          <span className="underline decoration-dotted decoration-2 underline-offset-3 decoration-foreground/30 group-hover:text-rose-400 group-hover:decoration-rose-400 transition-colors">
+          <span className="underline decoration-dotted decoration-2 underline-offset-3 transition-colors text-rose-400 decoration-rose-400 sm:text-inherit sm:decoration-foreground/30 sm:group-hover:text-rose-400 sm:group-hover:decoration-rose-400">
             B
           </span>
           o
-          <span className="underline decoration-dotted decoration-2 underline-offset-3 decoration-foreground/30 group-hover:text-rose-400 group-hover:decoration-rose-400 transition-colors">
+          <span className="underline decoration-dotted decoration-2 underline-offset-3 transition-colors text-rose-400 decoration-rose-400 sm:text-inherit sm:decoration-foreground/30 sm:group-hover:text-rose-400 sm:group-hover:decoration-rose-400">
             log
           </span>
           nese
