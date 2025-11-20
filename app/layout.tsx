@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "next-themes";
 import { PerformanceMonitor } from "@/components/performance-monitor";
 import { RoutePrefetcher } from "@/components/route-prefetcher";
@@ -80,6 +81,7 @@ export default async function RootLayout({
           </QueryProvider>
         </ErrorBoundary>
         <Analytics />
+        <SpeedInsights />
         <PerformanceMonitor />
         <ErrorHandler />
       </body>
