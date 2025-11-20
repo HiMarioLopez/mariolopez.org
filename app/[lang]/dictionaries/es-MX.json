@@ -144,6 +144,6 @@
       "building_status": "Construyendo."
     },
     "footer_label": "Código:",
-    "recently_played_template": "Mi canción reproducida más recientemente en %platform% fue \"%song%\" de %artist% (reproducida hace %timeAgo%).\n\nEscuchar: %url%\n"
+    "recently_played_template": "Mi canción reproducida más recientemente en %platform% fue \"%song%\" de %artist% (reproducida %timeAgo%).\n\nEscuchar: %url%\n"
   }
 }
