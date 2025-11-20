@@ -6,6 +6,7 @@ import { useState, useMemo } from "react";
 interface MachineContentDisplayProps {
   contentBefore: string;
   contentAfter: string;
+  recentlyPlayedTemplate?: string;
 }
 
 /**
@@ -50,13 +51,14 @@ function RecentlyPlayedSkeleton() {
 export function MachineContentDisplay({
   contentBefore,
   contentAfter,
+  recentlyPlayedTemplate,
 }: MachineContentDisplayProps) {
   const [mounted] = useState(() => {
     // Lazy initialization ensures this only runs on client side
     return true;
   });
   const { content: recentlyPlayedSection, isLoading } =
-    useRecentlyPlayedSection();
+    useRecentlyPlayedSection(recentlyPlayedTemplate);
 
   const content = useMemo(() => {
     // Only include dynamic section after mount to avoid hydration mismatch

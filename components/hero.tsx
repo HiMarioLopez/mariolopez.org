@@ -8,7 +8,13 @@ const ASCIIText = dynamic(() => import("@/components/ui/ascii-text"), {
   ssr: false,
 });
 
-export function Hero() {
+interface HeroProps {
+  dict: {
+    greeting: string;
+  };
+}
+
+export function Hero({ dict }: HeroProps) {
   const isMobile = useMediaQuery("SM");
 
   return (
@@ -47,7 +53,7 @@ export function Hero() {
         </div>
       </div>
       <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-mono text-start w-full mx-auto -mt-2 px-6 sm:px-0">
-        Howdy hey, I'm Mario.
+        {dict.greeting}
       </h1>
     </div>
   );

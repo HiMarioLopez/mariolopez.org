@@ -9,7 +9,8 @@ import { QueryProvider } from "@/components/query-provider";
 import { ResourceHints } from "@/components/resource-hints";
 import { ErrorHandler } from "@/components/error-handler";
 import { ErrorBoundary } from "@/components/error-boundary";
-import "./globals.css";
+import "../globals.css";
+import { Locale } from "./dictionaries";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -56,13 +57,20 @@ export const metadata: Metadata = {
   },
 };
 
+export async function generateStaticParams() {
+  return [{ lang: "en-US" }, { lang: "es-MX" }];
+}
+
 export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ lang: string }>;
 }>) {
+  const { lang } = await params;
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={lang} suppressHydrationWarning>
       <body
         className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}
       >

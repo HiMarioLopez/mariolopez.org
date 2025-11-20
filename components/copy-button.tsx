@@ -6,9 +6,14 @@ import { Button } from "@/components/ui/button";
 
 interface CopyButtonProps {
   content: string;
+  dict?: {
+    label: string;
+    copied: string;
+    aria_label: string;
+  };
 }
 
-export function CopyButton({ content }: CopyButtonProps) {
+export function CopyButton({ content, dict }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -23,26 +28,30 @@ export function CopyButton({ content }: CopyButtonProps) {
     }
   };
 
+  // Defaults if dict is not provided
+  const label = dict?.label ?? "Copy";
+  const copiedLabel = dict?.copied ?? "Copied!";
+  const ariaLabel = dict?.aria_label ?? "Copy to clipboard";
+
   return (
     <Button
       onClick={handleCopy}
       variant="outline"
       size="sm"
       className="gap-1.5 sm:gap-2 font-mono text-xs px-2.5 sm:px-3 bg-background dark:bg-background"
-      aria-label="Copy to clipboard"
+      aria-label={ariaLabel}
     >
       {copied ? (
         <>
           <Check className="size-3 shrink-0" />
-          Copied!
+          {copiedLabel}
         </>
       ) : (
         <>
           <Copy className="size-3 shrink-0" />
-          Copy
+          {label}
         </>
       )}
     </Button>
   );
 }
-

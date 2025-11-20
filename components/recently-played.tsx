@@ -12,7 +12,16 @@ import { useFormatTimeAgo } from "@/lib/hooks/use-format-time-ago";
 import { getPlatformColor } from "@/lib/utils";
 import { SONG_LINK_COLOR } from "@/lib/constants";
 
-export const RecentlyPlayed = memo(function RecentlyPlayed() {
+interface RecentlyPlayedProps {
+  dict?: {
+    part1: string;
+    part2: string;
+    part3: string;
+    played: string;
+  };
+}
+
+export const RecentlyPlayed = memo(function RecentlyPlayed({ dict }: RecentlyPlayedProps) {
   const { data: recentlyPlayed, isPending } = useRecentlyPlayed();
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const timeAgo = useFormatTimeAgo(recentlyPlayed?.timestamp);
@@ -21,19 +30,24 @@ export const RecentlyPlayed = memo(function RecentlyPlayed() {
     ? getPlatformColor(recentlyPlayed.platform)
     : null;
 
+  const part1 = dict?.part1 ?? "My most recently played song on";
+  const part2 = dict?.part2 ?? "is";
+  const part3 = dict?.part3 ?? "by";
+  const playedLabel = dict?.played ?? "Played";
+
   return (
     <TooltipProvider>
       {isPending ? (
         <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
-          My most recently played song on{" "}
+          {part1}{" "}
           <span className="skeleton inline-block h-[1.2em] w-24 align-middle rounded">
             Apple Music
           </span>{" "}
-          is{" "}
+          {part2}{" "}
           <span className="skeleton inline-block h-[1.2em] w-32 align-middle rounded">
             Song Name
           </span>{" "}
-          by{" "}
+          {part3}{" "}
           <span className="skeleton inline-block h-[1.2em] w-28 align-middle rounded">
             Artist Name
           </span>
@@ -41,7 +55,7 @@ export const RecentlyPlayed = memo(function RecentlyPlayed() {
         </p>
       ) : recentlyPlayed ? (
         <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
-          My most recently played song on{" "}
+          {part1}{" "}
           <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
             <TooltipTrigger asChild>
               <span
@@ -58,10 +72,10 @@ export const RecentlyPlayed = memo(function RecentlyPlayed() {
               </span>
             </TooltipTrigger>
             <TooltipContent>
-              {timeAgo ? <p>Played {timeAgo}</p> : null}
+              {timeAgo ? <p>{playedLabel} {timeAgo}</p> : null}
             </TooltipContent>
           </Tooltip>{" "}
-          is{" "}
+          {part2}{" "}
           <a
             href={recentlyPlayed.url}
             target="_blank"
@@ -75,7 +89,7 @@ export const RecentlyPlayed = memo(function RecentlyPlayed() {
               } as React.CSSProperties & { "--song-link-color": string }
             }
           >
-            {recentlyPlayed.song} by {recentlyPlayed.artist}
+            {recentlyPlayed.song} {part3} {recentlyPlayed.artist}
           </a>
           .
         </p>

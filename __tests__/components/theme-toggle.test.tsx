@@ -3,6 +3,22 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ViewToggle } from "@/components/view-toggle";
 
+// Mock dictionary prop
+const mockDict = {
+  human: "HUMAN",
+  machine: "MACHINE",
+  auto: "AUTO",
+  light: "LIGHT",
+  dark: "DARK",
+  aria_switch_human: "Switch to Human view",
+  aria_switch_machine: "Switch to Machine view",
+  aria_toggle_theme: "Toggle theme",
+  language: "LANGUAGE",
+  aria_toggle_language: "Switch language",
+};
+
+const mockLang = "en-US";
+
 // Mock next-themes
 const mockSetTheme = vi.fn();
 const mockTheme = vi.fn(() => "system");
@@ -18,7 +34,7 @@ vi.mock("next-themes", () => ({
 
 // Mock next/navigation
 const mockPush = vi.fn();
-const mockPathname = vi.fn(() => "/human");
+const mockPathname = vi.fn(() => "/en-US/human");
 
 vi.mock("next/navigation", () => ({
   usePathname: () => mockPathname(),
@@ -32,12 +48,12 @@ describe("ViewToggle - Theme Toggle Integration", () => {
     vi.clearAllMocks();
     mockTheme.mockReturnValue("system");
     mockResolvedTheme.mockReturnValue("light");
-    mockPathname.mockReturnValue("/human");
+    mockPathname.mockReturnValue("/en-US/human");
     mockPush.mockClear();
   });
 
   it("renders the theme toggle button", () => {
-    render(<ViewToggle />);
+    render(<ViewToggle dict={mockDict} lang={mockLang} />);
 
     const button = screen.getByRole("button", { name: /toggle theme/i });
     expect(button).toBeInTheDocument();
@@ -47,7 +63,7 @@ describe("ViewToggle - Theme Toggle Integration", () => {
     const user = userEvent.setup();
     mockTheme.mockReturnValue("system");
 
-    render(<ViewToggle />);
+    render(<ViewToggle dict={mockDict} lang={mockLang} />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
 
     await user.click(button);
@@ -60,7 +76,7 @@ describe("ViewToggle - Theme Toggle Integration", () => {
     const user = userEvent.setup();
     mockTheme.mockReturnValue("light");
 
-    render(<ViewToggle />);
+    render(<ViewToggle dict={mockDict} lang={mockLang} />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
 
     await user.click(button);
@@ -73,7 +89,7 @@ describe("ViewToggle - Theme Toggle Integration", () => {
     const user = userEvent.setup();
     mockTheme.mockReturnValue("dark");
 
-    render(<ViewToggle />);
+    render(<ViewToggle dict={mockDict} lang={mockLang} />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
 
     await user.click(button);
@@ -92,18 +108,18 @@ describe("ViewToggle - Theme Toggle Integration", () => {
       currentTheme = newTheme as string;
     });
 
-    const { rerender } = render(<ViewToggle />);
+    const { rerender } = render(<ViewToggle dict={mockDict} lang={mockLang} />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
 
     // Click multiple times rapidly, rerendering after each to update theme state
     await user.click(button);
-    rerender(<ViewToggle />);
+    rerender(<ViewToggle dict={mockDict} lang={mockLang} />);
 
     await user.click(button);
-    rerender(<ViewToggle />);
+    rerender(<ViewToggle dict={mockDict} lang={mockLang} />);
 
     await user.click(button);
-    rerender(<ViewToggle />);
+    rerender(<ViewToggle dict={mockDict} lang={mockLang} />);
 
     await user.click(button);
 
@@ -126,7 +142,7 @@ describe("ViewToggle - Theme Toggle Integration", () => {
       currentTheme = newTheme as string;
     });
 
-    render(<ViewToggle />);
+    render(<ViewToggle dict={mockDict} lang={mockLang} />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
 
     // Click 10 times
@@ -146,7 +162,7 @@ describe("ViewToggle - Theme Toggle Integration", () => {
 
     render(
       <div onClick={handleParentClick}>
-        <ViewToggle />
+        <ViewToggle dict={mockDict} lang={mockLang} />
       </div>
     );
 
@@ -163,7 +179,7 @@ describe("ViewToggle - Theme Toggle Integration", () => {
     const user = userEvent.setup();
     mockTheme.mockReturnValue(undefined as unknown as string);
 
-    render(<ViewToggle />);
+    render(<ViewToggle dict={mockDict} lang={mockLang} />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
 
     await user.click(button);
@@ -174,14 +190,14 @@ describe("ViewToggle - Theme Toggle Integration", () => {
   });
 
   it("has correct button type attribute", () => {
-    render(<ViewToggle />);
+    render(<ViewToggle dict={mockDict} lang={mockLang} />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
     expect(button).toHaveAttribute("type", "button");
   });
 
   it("has correct aria-label for accessibility", () => {
     mockTheme.mockReturnValue("light");
-    render(<ViewToggle />);
+    render(<ViewToggle dict={mockDict} lang={mockLang} />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
     expect(button).toHaveAttribute(
       "aria-label",
@@ -189,17 +205,17 @@ describe("ViewToggle - Theme Toggle Integration", () => {
     );
     expect(button).toHaveAttribute(
       "aria-label",
-      expect.stringContaining("Current: Light")
+      expect.stringContaining("Current: LIGHT")
     );
     expect(button).toHaveAttribute(
       "aria-label",
-      expect.stringContaining("Next: Dark")
+      expect.stringContaining("Next: DARK")
     );
   });
 
   it("shows Monitor icon for system theme", () => {
     mockTheme.mockReturnValue("system");
-    render(<ViewToggle />);
+    render(<ViewToggle dict={mockDict} lang={mockLang} />);
 
     const button = screen.getByRole("button", { name: /toggle theme/i });
     // Check that Monitor icon is present (system theme)
@@ -209,7 +225,7 @@ describe("ViewToggle - Theme Toggle Integration", () => {
 
   it("shows Sun icon for light theme", () => {
     mockTheme.mockReturnValue("light");
-    render(<ViewToggle />);
+    render(<ViewToggle dict={mockDict} lang={mockLang} />);
 
     const button = screen.getByRole("button", { name: /toggle theme/i });
     const svg = button.querySelector("svg");
@@ -218,7 +234,7 @@ describe("ViewToggle - Theme Toggle Integration", () => {
 
   it("shows Moon icon for dark theme", () => {
     mockTheme.mockReturnValue("dark");
-    render(<ViewToggle />);
+    render(<ViewToggle dict={mockDict} lang={mockLang} />);
 
     const button = screen.getByRole("button", { name: /toggle theme/i });
     const svg = button.querySelector("svg");
@@ -226,16 +242,17 @@ describe("ViewToggle - Theme Toggle Integration", () => {
   });
 
   it("has touch-manipulation class for mobile support", () => {
-    render(<ViewToggle />);
+    render(<ViewToggle dict={mockDict} lang={mockLang} />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
     expect(button.className).toContain("touch-manipulation");
   });
 
   it("renders divider between view toggle and theme toggle", () => {
-    render(<ViewToggle />);
+    render(<ViewToggle dict={mockDict} lang={mockLang} />);
     
     // Check for divider element (vertical line)
-    const divider = document.querySelector(".bg-foreground\\/30");
-    expect(divider).toBeInTheDocument();
+    // There are multiple dividers now, so we just check if at least one exists
+    const dividers = document.querySelectorAll(".bg-foreground\\/30");
+    expect(dividers.length).toBeGreaterThan(0);
   });
 });

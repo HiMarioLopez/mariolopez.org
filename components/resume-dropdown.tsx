@@ -11,7 +11,15 @@ import {
 import { FileText, ChevronDown } from "lucide-react";
 import { LINKS } from "@/lib/constants";
 
-export function ResumeDropdown() {
+interface ResumeDropdownProps {
+  dict: {
+    label: string;
+    pdf: string;
+    docx: string;
+  };
+}
+
+export function ResumeDropdown({ dict }: ResumeDropdownProps) {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [buttonWidth, setButtonWidth] = useState<number | undefined>(undefined);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -72,7 +80,7 @@ export function ResumeDropdown() {
             onClick={handleClick}
           >
             <FileText className="w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0" />
-            Resume
+            {dict.label}
             <ChevronDown className="w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0" />
           </Button>
         </DropdownMenuTrigger>
@@ -91,7 +99,7 @@ export function ResumeDropdown() {
               className="flex items-center gap-2 cursor-pointer"
             >
               <FileText className="w-4 h-4" />
-              PDF
+              {dict.pdf}
             </a>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
@@ -100,7 +108,7 @@ export function ResumeDropdown() {
               className="flex items-center gap-2 cursor-pointer"
             >
               <FileText className="w-4 h-4" />
-              DOCX
+              {dict.docx}
             </a>
           </DropdownMenuItem>
         </DropdownMenuContent>

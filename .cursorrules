@@ -41,7 +41,10 @@ Personal website for Mario Lopez Martinez built with Next.js 16, emphasizing per
 
 ### File Structure
 
-- `app/`: Next.js App Router pages and API routes
+- `app/[lang]/`: Localized App Router pages
+  - `app/[lang]/human/`: Human-readable view
+  - `app/[lang]/machine/`: Machine-readable view
+  - `app/[lang]/dictionaries/`: Localization JSON files
 - `components/`: React components (use kebab-case for file names)
 - `lib/`: Utilities, hooks, and configuration
 - `public/`: Static assets
@@ -161,12 +164,24 @@ All application constants are in `lib/constants.ts`:
 - `/machine`: Machine-readable view
 - **CRITICAL**: When content is changed on the `/human` page, **ALWAYS** assess if it should also be updated on the `/machine` page. The dual-view architecture requires content synchronization - any informational changes must be evaluated for both views.
 
+### Internationalization (i18n)
+
+- **Supported Locales**: English (`en-US`) and Spanish (`es-MX`)
+- **Routing**: Uses path-based routing `/[lang]/...` with middleware detection
+- **Dictionaries**: JSON files in `app/[lang]/dictionaries/` contain all UI text
+- **CRITICAL**: When adding or modifying content:
+  1. Add the string to BOTH `en-US.json` and `es-MX.json`
+  2. Use `getDictionary` server-side to fetch strings
+  3. Pass localized strings to Client Components as props
+  4. Check that layouts and formatting work in both languages
+
 ### Recently Played Music
 
 - Integrates with external API (`music.mariolopez.org`)
 - Supports Spotify and Apple Music
 - Uses TanStack Query for client-side fetching
 - Displays with platform-specific styling
+- **Localization**: "Time ago" logic respects the current locale
 
 ### Performance Monitoring
 
@@ -189,17 +204,19 @@ All application constants are in `lib/constants.ts`:
 5. **Error Handling**: Implement graceful degradation and error boundaries
 6. **Type Safety**: Maintain strict TypeScript typing throughout
 7. **Dual View Synchronization**: **ALWAYS** assess if content changes on `/human` should also be updated on `/machine` - this is mandatory, not optional
-8. **Next.js Best Practices**: **NEVER** suppress hydration warnings (`suppressHydrationWarning`) or other Next.js warnings. Address the root cause instead of suppressing warnings. Prefer stable, well-supported patterns over workarounds that hide issues.
+8. **Bilingual Support**: **ALWAYS** ensure new features or text changes are applied to both English and Spanish dictionaries.
+9. **Next.js Best Practices**: **NEVER** suppress hydration warnings (`suppressHydrationWarning`) or other Next.js warnings. Address the root cause instead of suppressing warnings. Prefer stable, well-supported patterns over workarounds that hide issues.
    - **Exception**: `suppressHydrationWarning` on the `<html>` tag is required and recommended by `next-themes` for theme providers. This is a documented, intentional pattern to handle theme detection during hydration and is acceptable.
 
 ## When Adding New Features
 
 1. Check if configuration should go in `lib/config.ts`
 2. Check if constants should go in `lib/constants.ts` (avoid magic strings)
-3. Determine if Server Component is sufficient
-4. Use existing component patterns
-5. Maintain performance optimizations
-6. Add proper TypeScript types
-7. Consider accessibility implications
-8. Test theme switching compatibility
-9. **If modifying `/human` page content**: Assess and update `/machine` page accordingly - always check both views
+3. Add text strings to `app/[lang]/dictionaries/` (en-US and es-MX)
+4. Determine if Server Component is sufficient
+5. Use existing component patterns
+6. Maintain performance optimizations
+7. Add proper TypeScript types
+8. Consider accessibility implications
+9. Test theme switching compatibility
+10. **If modifying `/human` page content**: Assess and update `/machine` page accordingly - always check both views

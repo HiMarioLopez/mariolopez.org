@@ -4,6 +4,13 @@ import userEvent from "@testing-library/user-event";
 import { ResumeDropdown } from "@/components/resume-dropdown";
 import { LINKS } from "@/lib/constants";
 
+// Mock dictionary prop
+const mockDict = {
+  label: "Resume",
+  pdf: "PDF",
+  docx: "DOCX",
+};
+
 describe("ResumeDropdown", () => {
   beforeEach(() => {
     // Mock window.matchMedia for Radix UI components
@@ -27,19 +34,19 @@ describe("ResumeDropdown", () => {
   });
 
   it("renders the resume button", () => {
-    render(<ResumeDropdown />);
+    render(<ResumeDropdown dict={mockDict} />);
     expect(screen.getByRole("button", { name: /resume/i })).toBeInTheDocument();
   });
 
   it("has touch-manipulation class for mobile support", () => {
-    const { container } = render(<ResumeDropdown />);
+    const { container } = render(<ResumeDropdown dict={mockDict} />);
     const wrapper = container.querySelector(".touch-manipulation");
     expect(wrapper).toBeInTheDocument();
   });
 
   it("opens dropdown on click (touch/mobile interaction)", async () => {
     const user = userEvent.setup();
-    render(<ResumeDropdown />);
+    render(<ResumeDropdown dict={mockDict} />);
 
     const button = screen.getByRole("button", { name: /resume/i });
     expect(button).toBeInTheDocument();
@@ -60,7 +67,7 @@ describe("ResumeDropdown", () => {
 
   it("opens and closes dropdown on click", async () => {
     const user = userEvent.setup();
-    render(<ResumeDropdown />);
+    render(<ResumeDropdown dict={mockDict} />);
 
     const button = screen.getByRole("button", { name: /resume/i });
 
@@ -81,7 +88,7 @@ describe("ResumeDropdown", () => {
   });
 
   it("opens dropdown on mouse enter (desktop hover)", async () => {
-    render(<ResumeDropdown />);
+    render(<ResumeDropdown dict={mockDict} />);
 
     const button = screen.getByRole("button", { name: /resume/i });
     const wrapper = button.closest(".touch-manipulation");
@@ -99,7 +106,7 @@ describe("ResumeDropdown", () => {
 
   it("renders PDF and DOCX links with correct hrefs", async () => {
     const user = userEvent.setup();
-    render(<ResumeDropdown />);
+    render(<ResumeDropdown dict={mockDict} />);
 
     const button = screen.getByRole("button", { name: /resume/i });
     await user.click(button);
@@ -119,7 +126,7 @@ describe("ResumeDropdown", () => {
 
   it("renders FileText icons in menu items", async () => {
     const user = userEvent.setup();
-    render(<ResumeDropdown />);
+    render(<ResumeDropdown dict={mockDict} />);
 
     const button = screen.getByRole("button", { name: /resume/i });
     await user.click(button);
@@ -131,4 +138,3 @@ describe("ResumeDropdown", () => {
     });
   });
 });
-

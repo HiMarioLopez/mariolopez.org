@@ -6,6 +6,7 @@ import { VISITOR_COUNTER_CONFIG } from "@/lib/constants";
 
 interface VisitorCounterProps {
   className?: string;
+  label?: string;
 }
 
 /**
@@ -125,7 +126,10 @@ function DigitDisplay({
  * Visitor counter component with digital segment display
  * Similar to Josh W. Comeau's blog post counter
  */
-export function VisitorCounter({ className }: VisitorCounterProps) {
+export function VisitorCounter({
+  className,
+  label = VISITOR_COUNTER_CONFIG.LABEL,
+}: VisitorCounterProps) {
   const [count, setCount] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -188,7 +192,7 @@ export function VisitorCounter({ className }: VisitorCounterProps) {
     <div className={cn("flex flex-col gap-0.5", className)}>
       {/* Label */}
       <div className="text-[10px] text-gray-500 dark:text-gray-400 font-mono tracking-wide text-center leading-tight">
-        {VISITOR_COUNTER_CONFIG.LABEL}
+        {label}
       </div>
 
       {/* Counter box - retro pixel aesthetic */}

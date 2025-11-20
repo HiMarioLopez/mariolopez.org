@@ -3,20 +3,32 @@ import { Hero } from "@/components/hero";
 import { Introduction } from "@/components/introduction";
 import { SocialLinks } from "@/components/social-links";
 import { Footer } from "@/components/footer";
+import { getDictionary, Locale } from "../dictionaries";
 
-export default function HumanPage() {
+export default async function HumanPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang as Locale);
+
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center px-4 sm:px-6 md:px-8 relative grid-background">
-      <ViewToggle />
+      <ViewToggle dict={dict.view_toggle} lang={lang} />
       <div className="flex-1 flex flex-col w-full max-w-3xl min-h-0">
         <main className="relative z-10 isolate flex flex-col flex-1 justify-center pt-12 pb-12 md:pt-44 md:pb-24">
           <div className="flex flex-col items-center space-y-2">
-            <Hero />
-            <Introduction />
-            <SocialLinks />
+            <Hero dict={dict.hero} />
+            <Introduction dict={dict.introduction} />
+            <SocialLinks
+              dict={dict.socials}
+              recentlyPlayedDict={dict.recently_played_sentence}
+              contactDict={dict.contact}
+            />
           </div>
         </main>
-        <Footer />
+        <Footer dict={dict.footer} />
       </div>
     </div>
   );

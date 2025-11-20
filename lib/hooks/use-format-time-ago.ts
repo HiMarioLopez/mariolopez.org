@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { formatTimeAgo } from "@/lib/utils";
+import { useParams } from "next/navigation";
 
 /**
  * Hook that formats a timestamp as "time ago" string
@@ -9,8 +10,11 @@ import { formatTimeAgo } from "@/lib/utils";
  * @returns Formatted time ago string (e.g., "5 minutes ago", "2 hours ago")
  */
 export function useFormatTimeAgo(timestamp: string | undefined): string {
+  const params = useParams();
+  const lang = (params?.lang as string) || "en-US";
+
   // Use useMemo instead of useState + useEffect to avoid setState in effect warning
   return useMemo(() => {
-    return timestamp ? formatTimeAgo(timestamp) : "";
-  }, [timestamp]);
+    return timestamp ? formatTimeAgo(timestamp, lang) : "";
+  }, [timestamp, lang]);
 }
