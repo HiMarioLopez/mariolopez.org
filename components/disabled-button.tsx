@@ -50,7 +50,13 @@ export function DisabledButton({
     <TooltipProvider delayDuration={100}>
       <Tooltip open={open} onOpenChange={setOpen}>
         <TooltipTrigger asChild>
-          <div className="inline-block touch-manipulation group">
+          <div
+            className="inline-block touch-manipulation group"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen(!open);
+            }}
+          >
             <Button
               variant="outline"
               size="lg"
