@@ -62,17 +62,14 @@ export function formatTimeAgo(timestamp: string): string {
 }
 
 /**
- * Gets platform-specific color values for styling
+ * Gets platform-specific color for styling
  *
  * @param platform - Platform name (e.g., "Apple Music", "Spotify")
- * @returns Object with light and dark color values
+ * @returns Platform color string
  */
-export function getPlatformColor(platform: string): {
-  light: string;
-  dark: string;
-} {
+export function getPlatformColor(platform: string): string {
   const platformLower = platform.toLowerCase();
   return platformLower.includes(PLATFORMS.SPOTIFY.source)
-    ? PLATFORMS.SPOTIFY.colors
-    : PLATFORMS.APPLE_MUSIC.colors; // Default to Apple Music
+    ? PLATFORMS.SPOTIFY.color
+    : PLATFORMS.APPLE_MUSIC.color; // Default to Apple Music
 }

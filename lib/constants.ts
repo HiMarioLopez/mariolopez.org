@@ -10,28 +10,19 @@ export const PLATFORMS = {
   APPLE_MUSIC: {
     name: "Apple Music",
     source: "apple",
-    colors: {
-      light: "#FA243C",
-      dark: "#FF6B9D",
-    },
+    color: "#FA243C", // Single color that works in both themes
   },
   SPOTIFY: {
     name: "Spotify",
     source: "spotify",
-    colors: {
-      light: "#1DB954",
-      dark: "#1ED760",
-    },
+    color: "#1DB954", // Single color that works in both themes
   },
 } as const;
 
 /**
- * Song link colors (agnostic of platform)
+ * Song link color (agnostic of platform, works in both themes)
  */
-export const SONG_LINK_COLORS = {
-  light: "#3B82F6", // blue-500
-  dark: "#60A5FA", // blue-400
-} as const;
+export const SONG_LINK_COLOR = "#3B82F6"; // blue-500
 
 /**
  * Breakpoint values (matching Tailwind defaults)

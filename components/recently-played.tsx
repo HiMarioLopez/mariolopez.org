@@ -1,7 +1,6 @@
 "use client";
 
 import { memo, useState } from "react";
-import { useTheme } from "next-themes";
 import {
   Tooltip,
   TooltipContent,
@@ -11,25 +10,16 @@ import {
 import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
 import { useFormatTimeAgo } from "@/lib/hooks/use-format-time-ago";
 import { getPlatformColor } from "@/lib/utils";
-import { SONG_LINK_COLORS } from "@/lib/constants";
+import { SONG_LINK_COLOR } from "@/lib/constants";
 
 export const RecentlyPlayed = memo(function RecentlyPlayed() {
   const { data: recentlyPlayed, isPending } = useRecentlyPlayed();
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const { resolvedTheme } = useTheme();
   const timeAgo = useFormatTimeAgo(recentlyPlayed?.timestamp);
 
-  const platformColors = recentlyPlayed
+  const platformColor = recentlyPlayed
     ? getPlatformColor(recentlyPlayed.platform)
     : null;
-
-  const platformColor =
-    platformColors && resolvedTheme === "dark"
-      ? platformColors.dark
-      : platformColors?.light;
-
-  const songLinkColor =
-    resolvedTheme === "dark" ? SONG_LINK_COLORS.dark : SONG_LINK_COLORS.light;
 
   return (
     <TooltipProvider>
@@ -57,7 +47,7 @@ export const RecentlyPlayed = memo(function RecentlyPlayed() {
               <span
                 className="cursor-help touch-manipulation transition-colors"
                 style={{
-                  color: platformColor,
+                  color: platformColor ?? undefined,
                 }}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -79,9 +69,9 @@ export const RecentlyPlayed = memo(function RecentlyPlayed() {
             className="font-light underline decoration-wavy underline-offset-4 transition-colors song-link"
             style={
               {
-                color: songLinkColor,
-                textDecorationColor: songLinkColor,
-                "--song-link-color": songLinkColor,
+                color: SONG_LINK_COLOR,
+                textDecorationColor: SONG_LINK_COLOR,
+                "--song-link-color": SONG_LINK_COLOR,
               } as React.CSSProperties & { "--song-link-color": string }
             }
           >
