@@ -15,9 +15,11 @@ interface VisitorCounterProps {
 function DigitDisplay({
   digit,
   className,
+  disabled = false,
 }: {
   digit: string;
   className?: string;
+  disabled?: boolean;
 }) {
   // Segment patterns for digits 0-9
   const segments: Record<string, boolean[]> = {
@@ -42,63 +44,77 @@ function DigitDisplay({
       <div
         className={cn(
           "absolute top-0 left-0.5 right-0.5 h-px",
-          active[0]
-            ? "bg-gray-700 dark:bg-gray-300"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+          disabled
+            ? "bg-gray-300/20 dark:bg-gray-600/15"
+            : active[0]
+              ? "bg-gray-700 dark:bg-gray-300"
+              : "bg-gray-300/30 dark:bg-gray-600/20"
         )}
       />
       {/* Segment B (top right) */}
       <div
         className={cn(
           "absolute top-px right-0 bottom-[calc(50%-0.5px)] w-px",
-          active[1]
-            ? "bg-gray-700 dark:bg-gray-300"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+          disabled
+            ? "bg-gray-300/20 dark:bg-gray-600/15"
+            : active[1]
+              ? "bg-gray-700 dark:bg-gray-300"
+              : "bg-gray-300/30 dark:bg-gray-600/20"
         )}
       />
       {/* Segment C (bottom right) */}
       <div
         className={cn(
           "absolute top-[calc(50%+0.5px)] right-0 bottom-px w-px",
-          active[2]
-            ? "bg-gray-700 dark:bg-gray-300"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+          disabled
+            ? "bg-gray-300/20 dark:bg-gray-600/15"
+            : active[2]
+              ? "bg-gray-700 dark:bg-gray-300"
+              : "bg-gray-300/30 dark:bg-gray-600/20"
         )}
       />
       {/* Segment D (bottom) */}
       <div
         className={cn(
           "absolute bottom-0 left-0.5 right-0.5 h-px",
-          active[3]
-            ? "bg-gray-700 dark:bg-gray-300"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+          disabled
+            ? "bg-gray-300/20 dark:bg-gray-600/15"
+            : active[3]
+              ? "bg-gray-700 dark:bg-gray-300"
+              : "bg-gray-300/30 dark:bg-gray-600/20"
         )}
       />
       {/* Segment E (bottom left) */}
       <div
         className={cn(
           "absolute top-[calc(50%+0.5px)] left-0 bottom-px w-px",
-          active[4]
-            ? "bg-gray-700 dark:bg-gray-300"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+          disabled
+            ? "bg-gray-300/20 dark:bg-gray-600/15"
+            : active[4]
+              ? "bg-gray-700 dark:bg-gray-300"
+              : "bg-gray-300/30 dark:bg-gray-600/20"
         )}
       />
       {/* Segment F (top left) */}
       <div
         className={cn(
           "absolute top-px left-0 bottom-[calc(50%-0.5px)] w-px",
-          active[5]
-            ? "bg-gray-700 dark:bg-gray-300"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+          disabled
+            ? "bg-gray-300/20 dark:bg-gray-600/15"
+            : active[5]
+              ? "bg-gray-700 dark:bg-gray-300"
+              : "bg-gray-300/30 dark:bg-gray-600/20"
         )}
       />
       {/* Segment G (middle) */}
       <div
         className={cn(
           "absolute top-1/2 left-0.5 right-0.5 h-px -translate-y-1/2",
-          active[6]
-            ? "bg-gray-700 dark:bg-gray-300"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+          disabled
+            ? "bg-gray-300/20 dark:bg-gray-600/15"
+            : active[6]
+              ? "bg-gray-700 dark:bg-gray-300"
+              : "bg-gray-300/30 dark:bg-gray-600/20"
         )}
       />
     </div>
@@ -179,7 +195,11 @@ export function VisitorCounter({ className }: VisitorCounterProps) {
       <div className="bg-gray-100 dark:bg-gray-900/60 border border-gray-300/80 dark:border-gray-700/80 rounded-sm px-1.5 py-1 shadow-sm">
         <div className="flex gap-0.5 items-center justify-center">
           {digits.map((digit: string, index: number) => (
-            <DigitDisplay key={index} digit={digit} />
+            <DigitDisplay
+              key={index}
+              digit={digit}
+              disabled={isLoading}
+            />
           ))}
         </div>
       </div>
