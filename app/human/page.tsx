@@ -10,8 +10,8 @@ export default function HumanPage() {
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center px-4 sm:px-6 md:px-8 relative grid-background">
       <ThemeToggle />
       <ViewToggle />
-      <div className="flex-1 flex flex-col w-full max-w-3xl">
-        <main className="relative z-10 isolate flex flex-col py-8 pb-12 md:py-12 md:pb-24 md:flex-1 md:justify-center md:pb-32">
+      <div className="flex-1 flex flex-col w-full max-w-3xl min-h-0">
+        <main className="relative z-10 isolate flex flex-col flex-1 justify-center pt-36 pb-12 md:pt-44 md:pb-24">
           <div className="flex flex-col items-center space-y-2">
             <Hero />
             <Introduction />
