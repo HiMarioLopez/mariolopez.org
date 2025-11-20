@@ -18,7 +18,7 @@ export function ChaosRecipeLink() {
           alt="Chaos Recipe Enhancer logo"
           width={32}
           height={32}
-          className="h-5 w-auto rounded-sm grayscale transition-all duration-200 group-hover:grayscale-0"
+          className="h-5 w-auto rounded-sm icon-grayscale-hover"
           quality={90}
         />
         <span>Chaos Recipe Enhancer</span>
