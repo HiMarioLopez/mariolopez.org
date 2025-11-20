@@ -7,9 +7,9 @@ import { ViewToggle } from "@/components/view-toggle";
 const mockDict = {
   human: "HUMAN",
   machine: "MACHINE",
-  auto: "AUTO",
-  light: "LIGHT",
-  dark: "DARK",
+  auto: "Auto",
+  light: "Light",
+  dark: "Dark",
   aria_switch_human: "Switch to Human view",
   aria_switch_machine: "Switch to Machine view",
   aria_toggle_theme: "Toggle theme",
@@ -43,6 +43,32 @@ vi.mock("next/navigation", () => ({
   }),
 }));
 
+// Radix UI Dropdown Menu requires ResizeObserver which isn't in jsdom
+class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+global.ResizeObserver = ResizeObserver;
+
+// Mock PointerEvent for Radix UI
+class MockPointerEvent extends Event {
+  button: number;
+  ctrlKey: boolean;
+  pointerType: string;
+
+  constructor(type: string, props: PointerEventInit) {
+    super(type, props);
+    this.button = props.button || 0;
+    this.ctrlKey = props.ctrlKey || false;
+    this.pointerType = props.pointerType || 'mouse';
+  }
+}
+window.PointerEvent = MockPointerEvent as any;
+window.HTMLElement.prototype.scrollIntoView = vi.fn();
+window.HTMLElement.prototype.releasePointerCapture = vi.fn();
+window.HTMLElement.prototype.hasPointerCapture = vi.fn();
+
 describe("ViewToggle - Theme Toggle Integration", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -59,132 +85,52 @@ describe("ViewToggle - Theme Toggle Integration", () => {
     expect(button).toBeInTheDocument();
   });
 
-  it("cycles from system to light on first click", async () => {
+  it("opens menu and selects light theme", async () => {
     const user = userEvent.setup();
     mockTheme.mockReturnValue("system");
 
     render(<ViewToggle dict={mockDict} lang={mockLang} />);
-    const button = screen.getByRole("button", { name: /toggle theme/i });
+    
+    // 1. Click trigger to open menu
+    const trigger = screen.getByRole("button", { name: /toggle theme/i });
+    await user.click(trigger);
 
-    await user.click(button);
+    // 2. Click "Light" option
+    const lightOption = screen.getByRole("menuitem", { name: /light/i });
+    await user.click(lightOption);
 
     expect(mockSetTheme).toHaveBeenCalledTimes(1);
     expect(mockSetTheme).toHaveBeenCalledWith("light");
   });
 
-  it("cycles from light to dark on second click", async () => {
+  it("opens menu and selects dark theme", async () => {
     const user = userEvent.setup();
     mockTheme.mockReturnValue("light");
 
     render(<ViewToggle dict={mockDict} lang={mockLang} />);
-    const button = screen.getByRole("button", { name: /toggle theme/i });
+    
+    const trigger = screen.getByRole("button", { name: /toggle theme/i });
+    await user.click(trigger);
 
-    await user.click(button);
+    const darkOption = screen.getByRole("menuitem", { name: /dark/i });
+    await user.click(darkOption);
 
     expect(mockSetTheme).toHaveBeenCalledTimes(1);
     expect(mockSetTheme).toHaveBeenCalledWith("dark");
   });
 
-  it("cycles from dark to system on third click", async () => {
+  it("opens menu and selects system theme", async () => {
     const user = userEvent.setup();
     mockTheme.mockReturnValue("dark");
 
     render(<ViewToggle dict={mockDict} lang={mockLang} />);
-    const button = screen.getByRole("button", { name: /toggle theme/i });
+    
+    const trigger = screen.getByRole("button", { name: /toggle theme/i });
+    await user.click(trigger);
 
-    await user.click(button);
+    const systemOption = screen.getByRole("menuitem", { name: /auto/i });
+    await user.click(systemOption);
 
-    expect(mockSetTheme).toHaveBeenCalledTimes(1);
-    expect(mockSetTheme).toHaveBeenCalledWith("system");
-  });
-
-  it("handles multiple rapid clicks correctly", async () => {
-    const user = userEvent.setup();
-
-    // Simulate theme changes by updating mock return value
-    let currentTheme = "system";
-    mockTheme.mockImplementation(() => currentTheme);
-    mockSetTheme.mockImplementation((newTheme) => {
-      currentTheme = newTheme as string;
-    });
-
-    const { rerender } = render(<ViewToggle dict={mockDict} lang={mockLang} />);
-    const button = screen.getByRole("button", { name: /toggle theme/i });
-
-    // Click multiple times rapidly, rerendering after each to update theme state
-    await user.click(button);
-    rerender(<ViewToggle dict={mockDict} lang={mockLang} />);
-
-    await user.click(button);
-    rerender(<ViewToggle dict={mockDict} lang={mockLang} />);
-
-    await user.click(button);
-    rerender(<ViewToggle dict={mockDict} lang={mockLang} />);
-
-    await user.click(button);
-
-    // Should have been called 4 times
-    expect(mockSetTheme).toHaveBeenCalledTimes(4);
-
-    // Verify the sequence: system -> light -> dark -> system -> light
-    expect(mockSetTheme).toHaveBeenNthCalledWith(1, "light");
-    expect(mockSetTheme).toHaveBeenNthCalledWith(2, "dark");
-    expect(mockSetTheme).toHaveBeenNthCalledWith(3, "system");
-    expect(mockSetTheme).toHaveBeenNthCalledWith(4, "light");
-  });
-
-  it("handles 10 consecutive clicks without missing any", async () => {
-    const user = userEvent.setup();
-
-    let currentTheme = "system";
-    mockTheme.mockImplementation(() => currentTheme);
-    mockSetTheme.mockImplementation((newTheme) => {
-      currentTheme = newTheme as string;
-    });
-
-    render(<ViewToggle dict={mockDict} lang={mockLang} />);
-    const button = screen.getByRole("button", { name: /toggle theme/i });
-
-    // Click 10 times
-    for (let i = 0; i < 10; i++) {
-      await user.click(button);
-    }
-
-    // Every click should register
-    expect(mockSetTheme).toHaveBeenCalledTimes(10);
-  });
-
-  it("prevents event propagation on click", async () => {
-    const user = userEvent.setup();
-    mockTheme.mockReturnValue("system");
-
-    const handleParentClick = vi.fn();
-
-    render(
-      <div onClick={handleParentClick}>
-        <ViewToggle dict={mockDict} lang={mockLang} />
-      </div>
-    );
-
-    const button = screen.getByRole("button", { name: /toggle theme/i });
-    await user.click(button);
-
-    // Theme should change
-    expect(mockSetTheme).toHaveBeenCalledTimes(1);
-    // Parent click handler should not be called due to stopPropagation
-    expect(handleParentClick).not.toHaveBeenCalled();
-  });
-
-  it("works correctly when theme is undefined", async () => {
-    const user = userEvent.setup();
-    mockTheme.mockReturnValue(undefined as unknown as string);
-
-    render(<ViewToggle dict={mockDict} lang={mockLang} />);
-    const button = screen.getByRole("button", { name: /toggle theme/i });
-
-    await user.click(button);
-
-    // Should default to setting system theme
     expect(mockSetTheme).toHaveBeenCalledTimes(1);
     expect(mockSetTheme).toHaveBeenCalledWith("system");
   });
@@ -199,17 +145,19 @@ describe("ViewToggle - Theme Toggle Integration", () => {
     mockTheme.mockReturnValue("light");
     render(<ViewToggle dict={mockDict} lang={mockLang} />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
+    
     expect(button).toHaveAttribute(
       "aria-label",
       expect.stringContaining("Toggle theme")
     );
     expect(button).toHaveAttribute(
       "aria-label",
-      expect.stringContaining("Current: LIGHT")
+      expect.stringContaining("Current: Light")
     );
-    expect(button).toHaveAttribute(
+    // Should NOT contain "Next:" anymore
+    expect(button).not.toHaveAttribute(
       "aria-label",
-      expect.stringContaining("Next: DARK")
+      expect.stringContaining("Next:")
     );
   });
 
@@ -251,7 +199,6 @@ describe("ViewToggle - Theme Toggle Integration", () => {
     render(<ViewToggle dict={mockDict} lang={mockLang} />);
     
     // Check for divider element (vertical line)
-    // There are multiple dividers now, so we just check if at least one exists
     const dividers = document.querySelectorAll(".bg-foreground\\/30");
     expect(dividers.length).toBeGreaterThan(0);
   });

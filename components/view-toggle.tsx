@@ -26,34 +26,11 @@ interface ThemeToggleProps {
 function ThemeToggle({ dict }: ThemeToggleProps) {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Trigger animation
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 200);
-
-    if (theme === undefined) {
-      setTheme("system");
-      return;
-    }
-
-    const currentTheme = theme as ThemeState;
-    if (currentTheme === "system") {
-      setTheme("light");
-    } else if (currentTheme === "light") {
-      setTheme("dark");
-    } else {
-      setTheme("system");
-    }
-  };
 
   const themeInfo = useMemo(() => {
     if (!mounted) return null;
@@ -66,7 +43,7 @@ function ThemeToggle({ dict }: ThemeToggleProps) {
       return {
         icon: Monitor,
         label: dict.auto,
-        ariaLabel: `${dict.aria_toggle_theme} (Current: System (${actualThemeLabel}), Next: ${dict.light})`,
+        ariaLabel: `${dict.aria_toggle_theme} (Current: System (${actualThemeLabel}))`,
       };
     }
 
@@ -74,14 +51,14 @@ function ThemeToggle({ dict }: ThemeToggleProps) {
       return {
         icon: Sun,
         label: dict.light,
-        ariaLabel: `${dict.aria_toggle_theme} (Current: ${dict.light}, Next: ${dict.dark})`,
+        ariaLabel: `${dict.aria_toggle_theme} (Current: ${dict.light})`,
       };
     }
 
     return {
       icon: Moon,
       label: dict.dark,
-      ariaLabel: `${dict.aria_toggle_theme} (Current: ${dict.dark}, Next: System)`,
+      ariaLabel: `${dict.aria_toggle_theme} (Current: ${dict.dark})`,
     };
   }, [theme, resolvedTheme, mounted, dict]);
 
@@ -94,7 +71,7 @@ function ThemeToggle({ dict }: ThemeToggleProps) {
         disabled
       >
         <Monitor className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground shrink-0" />
-        <span className="text-xs font-medium font-mono text-muted-foreground">{dict.auto}</span>
+        <span className="text-xs font-medium font-mono text-muted-foreground uppercase">{dict.auto}</span>
       </button>
     );
   }
@@ -102,20 +79,32 @@ function ThemeToggle({ dict }: ThemeToggleProps) {
   const Icon = themeInfo.icon;
 
   return (
-    <button
-      onClick={toggleTheme}
-      className="flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-all duration-200 touch-manipulation"
-      aria-label={themeInfo.ariaLabel}
-      type="button"
-    >
-      <Icon
-        key={theme}
-        className={`w-4 h-4 sm:w-5 sm:h-5 text-foreground shrink-0 transition-transform duration-150 ease-out ${
-          isAnimating ? "scale-110" : "scale-100"
-        }`}
-      />
-      <span className="text-xs font-medium font-mono text-foreground/90">{themeInfo.label}</span>
-    </button>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenuTrigger asChild>
+        <button
+          className="flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-all duration-200 touch-manipulation"
+          aria-label={themeInfo.ariaLabel}
+          type="button"
+        >
+          <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-foreground shrink-0" />
+          <span className="text-xs font-medium font-mono text-foreground/90 uppercase">{themeInfo.label}</span>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="min-w-[100px]">
+        <DropdownMenuItem onClick={() => setTheme("light")} className="text-xs font-medium font-mono">
+          <Sun className="mr-2 h-4 w-4" />
+          {dict.light}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")} className="text-xs font-medium font-mono">
+          <Moon className="mr-2 h-4 w-4" />
+          {dict.dark}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("system")} className="text-xs font-medium font-mono">
+          <Monitor className="mr-2 h-4 w-4" />
+          {dict.auto}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
@@ -158,11 +147,11 @@ function LanguageToggle({ dict, lang }: LanguageToggleProps) {
           </span>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[150px]">
-        <DropdownMenuItem onClick={() => switchLanguage("en-US")}>
+      <DropdownMenuContent align="end" className="min-w-[120px]">
+        <DropdownMenuItem onClick={() => switchLanguage("en-US")} className="text-xs font-medium font-mono">
           English (en-US)
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => switchLanguage("es-MX")}>
+        <DropdownMenuItem onClick={() => switchLanguage("es-MX")} className="text-xs font-medium font-mono">
           Español (es-MX)
         </DropdownMenuItem>
       </DropdownMenuContent>

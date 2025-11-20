@@ -54,9 +54,9 @@
   "view_toggle": {
     "human": "HUMAN",
     "machine": "MACHINE",
-    "auto": "AUTO",
-    "light": "LIGHT",
-    "dark": "DARK",
+    "auto": "Auto",
+    "light": "Light",
+    "dark": "Dark",
     "aria_switch_human": "Switch to Human view",
     "aria_switch_machine": "Switch to Machine view",
     "aria_toggle_theme": "Toggle theme",
