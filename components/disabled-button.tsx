@@ -63,7 +63,7 @@ export function DisabledButton({
                     alt={logo.alt}
                     width={32}
                     height={32}
-                    className={cn("h-5 w-auto rounded-sm grayscale transition-all duration-200 group-hover:grayscale-0 group-active:grayscale-0", logoClassName)}
+                    className={cn("h-5 w-auto rounded-sm grayscale transition-all duration-200 group-hover:grayscale-0", open && "grayscale-0", logoClassName)}
                     quality={90}
                   />
                 ) : Icon ? (
