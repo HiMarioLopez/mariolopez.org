@@ -9,11 +9,11 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  // Optimize bundle size
   experimental: {
     optimizePackageImports: [
       "lucide-react",
       "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-slot",
       "@radix-ui/react-tooltip",
     ],
   },
