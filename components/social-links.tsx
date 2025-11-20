@@ -64,6 +64,18 @@ export const SocialLinks = memo(function SocialLinks() {
           >
             Cordstruck
           </DisabledButton>
+
+          <DisabledButton
+            logo={{
+              webp: "/images/GuesschellaLogo.webp",
+              png: "/images/GuesschellaLogo.png",
+              alt: "Guesschella logo",
+            }}
+            logoClassName="h-6"
+            tooltip="Building."
+          >
+            Guesschella
+          </DisabledButton>
         </div>
       </div>
 

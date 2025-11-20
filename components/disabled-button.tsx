@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/tooltip";
 import { LucideIcon } from "lucide-react";
 import { ReactNode, useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface DisabledButtonProps {
   icon?: LucideIcon;
@@ -18,6 +19,7 @@ interface DisabledButtonProps {
     png: string;
     alt: string;
   };
+  logoClassName?: string;
   children: ReactNode;
   tooltip: string;
 }
@@ -30,6 +32,7 @@ type DisabledButtonPropsType = DisabledButtonPropsWithIcon | DisabledButtonProps
 export function DisabledButton({
   icon: Icon,
   logo,
+  logoClassName,
   children,
   tooltip,
 }: DisabledButtonPropsType) {
@@ -40,7 +43,7 @@ export function DisabledButton({
       <Tooltip open={open} onOpenChange={setOpen}>
         <TooltipTrigger asChild>
           <div 
-            className="inline-block touch-manipulation"
+            className="inline-block touch-manipulation group"
             onClick={(e) => {
               e.stopPropagation();
               setOpen(!open);
@@ -60,7 +63,7 @@ export function DisabledButton({
                     alt={logo.alt}
                     width={32}
                     height={32}
-                    className="h-5 w-auto rounded-sm"
+                    className={cn("h-5 w-auto rounded-sm grayscale transition-all duration-200 group-hover:grayscale-0 group-active:grayscale-0", logoClassName)}
                     quality={90}
                   />
                 ) : Icon ? (

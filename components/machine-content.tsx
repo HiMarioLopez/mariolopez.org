@@ -96,6 +96,8 @@ Resume DOCX: ${LINKS.RESUME_DOCX}
 Chaos Recipe Enhancer: ${LINKS.CHAOS_RECIPE_ENHANCER}
 Now Playing: ${LINKS.MUSIC}
 Blog: ${LINKS.BLOG}
+Cordstruck: Building.
+Guesschella: Building.
 [/section]
 
 [footer]
