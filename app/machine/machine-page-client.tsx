@@ -33,7 +33,7 @@ export function MachinePageClient({
         <CopyButton content={fullContent} />
       </div>
       <div className="flex items-center justify-center min-h-screen p-8 pt-24">
-        <div className="max-w-3xl w-full animate-in fade-in slide-in-from-bottom-4 duration-20">
+        <div className="max-w-3xl w-full">
           <MachineContentDisplay
             contentBefore={contentBefore}
             contentAfter={contentAfter}
