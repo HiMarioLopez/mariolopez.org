@@ -16,14 +16,21 @@ const VISITOR_COUNT_KEY = VISITOR_COUNT_CONFIG.REDIS_KEY_PREFIX;
 // Initialize Upstash Redis client
 // Uses Redis.fromEnv() which automatically reads from environment variables
 // set by Vercel Marketplace integration (KV_REST_API_URL, KV_REST_API_TOKEN, etc.)
-// Will throw if env vars are missing, but we catch errors in handlers
+// Check for env vars before initializing to avoid warnings during build
 let redis: ReturnType<typeof Redis.fromEnv> | null = null;
 
-try {
-  redis = Redis.fromEnv();
-} catch {
-  // Redis not configured - will be handled gracefully in route handlers
-  redis = null;
+// Check for required environment variables before initializing Redis
+// This prevents warnings during build time when env vars aren't available
+const hasRedisEnv =
+  process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN;
+
+if (hasRedisEnv) {
+  try {
+    redis = Redis.fromEnv();
+  } catch {
+    // Redis initialization failed - will be handled gracefully in route handlers
+    redis = null;
+  }
 }
 
 /**
