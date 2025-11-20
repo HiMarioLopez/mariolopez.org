@@ -244,8 +244,6 @@ describe("ThemeToggle", () => {
 
     // Current theme should be visible
     expect(screen.getByText("Light")).toBeInTheDocument();
-    // Next theme indicator should be visible
-    expect(screen.getByText(/→ Dark/i)).toBeInTheDocument();
   });
 
   it("shows system theme label when system is selected", () => {
@@ -256,8 +254,6 @@ describe("ThemeToggle", () => {
 
     // Should show "System" when system theme is selected
     expect(screen.getByText("System")).toBeInTheDocument();
-    // Next theme indicator should show Light
-    expect(screen.getByText(/→ Light/i)).toBeInTheDocument();
   });
 
   it("shows correct labels for all theme states", () => {
@@ -265,39 +261,27 @@ describe("ThemeToggle", () => {
     mockTheme.mockReturnValue("light");
     const { rerender } = render(<ThemeToggle />);
     expect(screen.getByText("Light")).toBeInTheDocument();
-    expect(screen.getByText(/→ Dark/i)).toBeInTheDocument();
 
     // Test Dark theme
     mockTheme.mockReturnValue("dark");
     rerender(<ThemeToggle />);
     expect(screen.getByText("Dark")).toBeInTheDocument();
-    expect(screen.getByText(/→ System/i)).toBeInTheDocument();
 
     // Test System theme
     mockTheme.mockReturnValue("system");
     mockResolvedTheme.mockReturnValue("light");
     rerender(<ThemeToggle />);
     expect(screen.getByText("System")).toBeInTheDocument();
-    expect(screen.getByText(/→ Light/i)).toBeInTheDocument();
   });
 
-  it("applies correct opacity based on theme", () => {
+  it("renders button with correct styling", () => {
     mockTheme.mockReturnValue("light");
-    const { rerender } = render(<ThemeToggle />);
+    render(<ThemeToggle />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
 
-    // Light theme should have opacity-100
-    expect(button.className).toContain("opacity-100");
-
-    // Dark theme should have opacity-70
-    mockTheme.mockReturnValue("dark");
-    rerender(<ThemeToggle />);
-    expect(button.className).toContain("opacity-70");
-
-    // System theme should have opacity-85
-    mockTheme.mockReturnValue("system");
-    rerender(<ThemeToggle />);
-    expect(button.className).toContain("opacity-85");
+    // Button should have flex-col layout for vertical stacking
+    expect(button.className).toContain("flex-col");
+    expect(button.className).toContain("items-center");
   });
 
   it("updates labels when theme changes", () => {
@@ -306,7 +290,6 @@ describe("ThemeToggle", () => {
 
     // Initial state: Light
     expect(screen.getByText("Light")).toBeInTheDocument();
-    expect(screen.getByText(/→ Dark/i)).toBeInTheDocument();
 
     // Change theme to dark
     mockTheme.mockReturnValue("dark");
@@ -314,7 +297,6 @@ describe("ThemeToggle", () => {
 
     // Should update to Dark
     expect(screen.getByText("Dark")).toBeInTheDocument();
-    expect(screen.getByText(/→ System/i)).toBeInTheDocument();
   });
 
   it("has touch-manipulation class for mobile support", () => {

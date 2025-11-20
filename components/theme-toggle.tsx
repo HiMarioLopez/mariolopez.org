@@ -105,42 +105,36 @@ export function ThemeToggle() {
   }, [theme, resolvedTheme, mounted]);
 
   // Use static defaults for button attributes until mounted to prevent hydration issues
-  const buttonClassName = `group flex flex-col items-center gap-1 cursor-pointer hover:opacity-80 transition-all duration-200 ${themeInfo?.opacity ?? "opacity-85"} touch-manipulation`;
   const buttonAriaLabel = themeInfo?.ariaLabel ?? "Toggle theme";
 
   return (
-    <div className="fixed bottom-3 right-3 z-50">
+    <div className="fixed top-4 right-4 sm:top-6 sm:right-6 z-50 animate-in fade-in duration-300">
       <button
         onClick={toggleTheme}
-        className={buttonClassName}
+        className="group flex flex-col items-center gap-1 bg-background/95 dark:bg-background/95 backdrop-blur-md border border-border/50 rounded-lg p-0 shadow-lg hover:opacity-80 transition-all duration-200 touch-manipulation"
         aria-label={buttonAriaLabel}
         type="button"
       >
         <div
           ref={containerRef}
-          className="relative w-16 h-16 flex items-center justify-center"
-          style={{ maxWidth: "64px", maxHeight: "64px", pointerEvents: "none" }}
+          className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shrink-0"
+          style={{ pointerEvents: "none" }}
         >
           {shouldLoad && (
             <ASCIIText
               text="💡"
               enableWaves={false}
               asciiFontSize={2}
-              textFontSize={80}
-              planeBaseHeight={25}
-              enableMouseInteraction={true}
+              textFontSize={72}
+              planeBaseHeight={22}
+              enableMouseInteraction={false}
             />
           )}
         </div>
         {mounted && themeInfo && (
-          <div className="flex flex-col items-center gap-0.5 min-w-[60px]">
-            <span className="text-xs font-medium text-foreground/80 leading-none">
-              {themeInfo.shortLabel}
-            </span>
-            <span className="text-[10px] text-muted-foreground leading-none">
-              → {themeInfo.nextShort}
-            </span>
-          </div>
+          <span className="text-xs font-medium text-foreground/90 leading-none pb-2">
+            {themeInfo.shortLabel}
+          </span>
         )}
       </button>
     </div>

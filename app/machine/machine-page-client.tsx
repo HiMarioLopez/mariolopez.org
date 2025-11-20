@@ -1,5 +1,6 @@
 "use client";
 
+import { ThemeToggle } from "@/components/theme-toggle";
 import { ViewToggle } from "@/components/view-toggle";
 import { CopyButton } from "@/components/copy-button";
 import { MachineContentDisplay } from "@/components/machine-content-display";
@@ -28,6 +29,7 @@ export function MachinePageClient({
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <ThemeToggle />
       <ViewToggle />
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
         <CopyButton content={fullContent} />
