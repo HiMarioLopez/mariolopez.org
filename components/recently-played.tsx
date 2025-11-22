@@ -21,7 +21,9 @@ interface RecentlyPlayedProps {
   };
 }
 
-export const RecentlyPlayed = memo(function RecentlyPlayed({ dict }: RecentlyPlayedProps) {
+export const RecentlyPlayed = memo(function RecentlyPlayed({
+  dict,
+}: RecentlyPlayedProps) {
   const { data: recentlyPlayed, isPending } = useRecentlyPlayed();
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const timeAgo = useFormatTimeAgo(recentlyPlayed?.timestamp);
@@ -72,7 +74,11 @@ export const RecentlyPlayed = memo(function RecentlyPlayed({ dict }: RecentlyPla
               </span>
             </TooltipTrigger>
             <TooltipContent>
-              {timeAgo ? <p>{playedLabel} {timeAgo}</p> : null}
+              {timeAgo ? (
+                <p>
+                  {playedLabel} {timeAgo}
+                </p>
+              ) : null}
             </TooltipContent>
           </Tooltip>{" "}
           {part2}{" "}
@@ -89,7 +95,7 @@ export const RecentlyPlayed = memo(function RecentlyPlayed({ dict }: RecentlyPla
               } as React.CSSProperties & { "--song-link-color": string }
             }
           >
-            {recentlyPlayed.song} {part3} {recentlyPlayed.artist}
+            {`${recentlyPlayed.song} ${part3} ${recentlyPlayed.artist}`}
           </a>
           .
         </p>
