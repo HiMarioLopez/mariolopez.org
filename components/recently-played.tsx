@@ -13,7 +13,7 @@ import { getPlatformColor } from "@/lib/utils";
 import { SONG_LINK_COLOR } from "@/lib/constants";
 
 interface RecentlyPlayedProps {
-  dict?: {
+  dict: {
     part1: string;
     part2: string;
     part3: string;
@@ -32,10 +32,7 @@ export const RecentlyPlayed = memo(function RecentlyPlayed({
     ? getPlatformColor(recentlyPlayed.platform)
     : null;
 
-  const part1 = dict?.part1 ?? "My most recently played song on";
-  const part2 = dict?.part2 ?? "is";
-  const part3 = dict?.part3 ?? "by";
-  const playedLabel = dict?.played ?? "Played";
+  const { part1, part2, part3, played: playedLabel } = dict;
 
   return (
     <TooltipProvider>

@@ -1,7 +1,4 @@
-"use client";
-
-import { memo } from "react";
-import { Github, Linkedin, Twitter, Music, Bookmark } from "lucide-react";
+import { Github, Linkedin, Twitter, Bookmark } from "lucide-react";
 import { SocialLink } from "./social-link";
 import { ResumeDropdown } from "./resume-dropdown";
 import { DisabledButton } from "./disabled-button";
@@ -9,9 +6,8 @@ import { BlogLink } from "./blog-link";
 import { ChaosRecipeLink } from "./chaos-recipe-link";
 import { CallToAction } from "./call-to-action";
 import { RecentlyPlayed } from "./recently-played";
-import { LINKS, PLATFORMS } from "@/lib/constants";
-import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
-import { getPlatformColor } from "@/lib/utils";
+import { LINKS } from "@/lib/constants";
+import { MusicSocialLink } from "./music-social-link";
 
 interface SocialLinksProps {
   dict: {
@@ -45,14 +41,11 @@ interface SocialLinksProps {
   };
 }
 
-export const SocialLinks = memo(function SocialLinks({ dict, recentlyPlayedDict, contactDict }: SocialLinksProps) {
-  const { data: recentlyPlayed } = useRecentlyPlayed();
-  
-  // Get the platform color dynamically, fallback to Spotify green
-  const musicIconColor = recentlyPlayed?.platform
-    ? getPlatformColor(recentlyPlayed.platform) ?? PLATFORMS.SPOTIFY.color
-    : PLATFORMS.SPOTIFY.color;
-
+export function SocialLinks({
+  dict,
+  recentlyPlayedDict,
+  contactDict,
+}: SocialLinksProps) {
   return (
     <div className="flex flex-col gap-6 pt-6 px-6 sm:px-0 w-full">
       {/* Socials Section */}
@@ -85,13 +78,11 @@ export const SocialLinks = memo(function SocialLinks({ dict, recentlyPlayedDict,
         <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center gap-3">
           <ChaosRecipeLink />
 
-          <SocialLink href={LINKS.MUSIC} icon={Music} iconColor={musicIconColor}>
-            {dict.now_playing}
-          </SocialLink>
+          <MusicSocialLink>{dict.now_playing}</MusicSocialLink>
 
           <BlogLink />
 
-          <DisabledButton icon={Bookmark} tooltip={dict.building}>
+          <DisabledButton icon={<Bookmark />} tooltip={dict.building}>
             {dict.backpocket}
           </DisabledButton>
 
@@ -126,4 +117,4 @@ export const SocialLinks = memo(function SocialLinks({ dict, recentlyPlayedDict,
       </div>
     </div>
   );
-});
+}

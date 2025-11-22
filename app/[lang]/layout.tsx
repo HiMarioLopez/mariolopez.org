@@ -10,7 +10,7 @@ import { ResourceHints } from "@/components/resource-hints";
 import { ErrorHandler } from "@/components/error-handler";
 import { ErrorBoundary } from "@/components/error-boundary";
 import "../globals.css";
-import { Locale } from "./dictionaries";
+import { getDictionary, Locale } from "./dictionaries";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -28,34 +28,42 @@ const geistMono = Geist_Mono({
   adjustFontFallback: true,
 });
 
-export const metadata: Metadata = {
-  title: "Mario Lopez Martinez",
-  description:
-    "I'm a Platform Architect, working with some brilliant folks at Vercel, solving the most challenging problems in the industry for our wonderful customers. This is my personal website.",
-  generator: "v0.app",
-  icons: {
-    icon: [
-      {
-        url: "/favicon-16x16.png",
-        sizes: "16x16",
-        type: "image/png",
-      },
-      {
-        url: "/favicon-32x32.png",
-        sizes: "32x32",
-        type: "image/png",
-      },
-      {
-        url: "/favicon.ico",
-        sizes: "any",
-      },
-    ],
-    apple: "/apple-touch-icon.png",
-  },
-  other: {
-    "format-detection": "telephone=no",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const dict = await getDictionary(lang as Locale);
+
+  return {
+    title: dict.metadata.title,
+    description: dict.metadata.description,
+    generator: "v0.app",
+    icons: {
+      icon: [
+        {
+          url: "/favicon-16x16.png",
+          sizes: "16x16",
+          type: "image/png",
+        },
+        {
+          url: "/favicon-32x32.png",
+          sizes: "32x32",
+          type: "image/png",
+        },
+        {
+          url: "/favicon.ico",
+          sizes: "any",
+        },
+      ],
+      apple: "/apple-touch-icon.png",
+    },
+    other: {
+      "format-detection": "telephone=no",
+    },
+  };
+}
 
 export async function generateStaticParams() {
   return [{ lang: "en-US" }, { lang: "es-MX" }];

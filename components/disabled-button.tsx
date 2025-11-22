@@ -13,7 +13,23 @@ import { ReactNode, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface DisabledButtonProps {
-  icon?: LucideIcon;
+  // CHANGE: Accept the component itself or the name, but LucideIcon is the component function
+  // When passing from Server Component, we can't pass the function directly if it's not serializable
+  // But Lucide icons are functions. We need to be careful.
+  // However, the error message says "Only plain objects can be passed to Client Components".
+  // Passing a component function (like `Bookmark`) IS passing a function.
+  // SOLUTION: Pass the icon as a child or use a specific string key if possible, OR
+  // wrap the usage so the Server Component doesn't pass the function directly.
+  // ACTUALLY: Lucide icons ARE functional components.
+  // We will change this to accept an element or strict props that are serializable.
+  // But `Bookmark` is an import.
+  // The issue is passing `icon={Bookmark}` from a Server Component (SocialLinks) to a Client Component (DisabledButton).
+  // Functions cannot be passed.
+  // We should pass `children` with the icon already rendered, OR render the icon inside the Client Component if we pass a string key.
+  // For now, let's use `children` for the icon as well or just pass the rendered element.
+  
+  // Let's try passing the icon as a React Element (ReactNode) instead of the component function.
+  icon?: ReactNode; 
   logo?: {
     webp: string;
     png: string;
@@ -27,7 +43,7 @@ interface DisabledButtonProps {
 
 // Ensure at least one of icon or logo is provided
 type DisabledButtonPropsWithIcon = DisabledButtonProps & {
-  icon: LucideIcon;
+  icon: ReactNode;
   logo?: never;
 };
 type DisabledButtonPropsWithLogo = DisabledButtonProps & {
@@ -39,7 +55,7 @@ type DisabledButtonPropsType =
   | DisabledButtonPropsWithLogo;
 
 export function DisabledButton({
-  icon: Icon,
+  icon,
   logo,
   logoClassName,
   children,
@@ -80,13 +96,14 @@ export function DisabledButton({
                     )}
                     quality={90}
                   />
-                ) : Icon ? (
-                  <Icon
-                    className={cn(
-                      "w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0 shrink-0",
-                      open && "grayscale-0"
-                    )}
-                  />
+                ) : icon ? (
+                   // Render the passed icon element directly
+                   <span className={cn(
+                      "flex items-center justify-center transition-all duration-200 grayscale group-hover:grayscale-0 [&>svg]:w-4 [&>svg]:h-4",
+                       open && "grayscale-0"
+                    )}>
+                      {icon}
+                   </span>
                 ) : null}
                 <span
                   className={cn(

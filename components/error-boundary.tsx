@@ -1,10 +1,5 @@
 "use client";
 
-/**
- * React Error Boundary component
- * Catches React component errors and reports them
- */
-
 import { Component, type ReactNode } from "react";
 import { track } from "@vercel/analytics";
 
