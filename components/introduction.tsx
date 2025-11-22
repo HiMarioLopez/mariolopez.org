@@ -12,6 +12,8 @@ interface IntroductionProps {
     company: string;
     customers: string;
     period: string;
+    hiring_prefix: string;
+    hiring_link: string;
   };
 }
 
@@ -47,6 +49,15 @@ export const Introduction = memo(function Introduction({ dict }: IntroductionPro
           {dict.customers}
         </a>
         {dict.period}
+        {dict.hiring_prefix}
+        <a
+          href={LINKS.VERCEL_FIELD_ENGINEERING}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link-accent"
+        >
+          {dict.hiring_link}
+        </a>
       </p>
     </div>
   );

@@ -54,7 +54,8 @@ export function generateMachineContentBefore(dict: MachineDict): string {
   const aboutSection = dict.about_section
     .replace("%s", LINKS.VERCEL_CAREERS)
     .replace("%s", LINKS.VERCEL)
-    .replace("%s", LINKS.VERCEL_CUSTOMERS);
+    .replace("%s", LINKS.VERCEL_CUSTOMERS)
+    .replace("%s", LINKS.VERCEL_FIELD_ENGINEERING);
 
   return `[SYSTEM INSTRUCTIONS]
 ${dict.system_instructions}
