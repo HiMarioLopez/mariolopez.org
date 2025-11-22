@@ -83,7 +83,7 @@ export const RecentlyPlayed = memo(function RecentlyPlayed({
             href={recentlyPlayed.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-light underline decoration-wavy underline-offset-4 transition-colors song-link"
+            className="font-light underline decoration-dotted underline-offset-4 transition-colors song-link"
             style={
               {
                 color: SONG_LINK_COLOR,
@@ -92,7 +92,7 @@ export const RecentlyPlayed = memo(function RecentlyPlayed({
               } as React.CSSProperties & { "--song-link-color": string }
             }
           >
-            {`${recentlyPlayed.song} ${part3} ${recentlyPlayed.artist}`}
+            {`"${recentlyPlayed.song}" ${part3} ${recentlyPlayed.artist}`}
           </a>
           .
         </p>
