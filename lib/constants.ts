@@ -130,8 +130,10 @@ export const LINKS = {
   LINKEDIN: "https://www.linkedin.com/in/HiMarioLopez/",
   TWITTER: "https://twitter.com/HiMarioLopez",
   VERCEL: "https://vercel.com",
-  VERCEL_CAREERS: "https://vercel.com/careers/platform-architect-5176710004",
-  VERCEL_FIELD_ENGINEERING: "https://vercel.com/careers?function=Field+Engineering",
+  VERCEL_CAREERS:
+    "https://www.perplexity.ai/search/what-is-a-platform-architect-Mf8B8rGgTZKkmxPXzqxZ1Q#0",
+  VERCEL_FIELD_ENGINEERING:
+    "https://vercel.com/careers?function=Field+Engineering",
   VERCEL_CUSTOMERS: "https://vercel.com/customers",
   MUSIC: "https://music.mariolopez.org",
   BLOG: "https://bolognese.mariolopez.org",
