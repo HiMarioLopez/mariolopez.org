@@ -119,8 +119,7 @@ export const LOCALE_CONFIG = {
  * Uses environment variable if available, otherwise falls back to default
  */
 export const BASE_URL =
-  (typeof process !== "undefined" && process.env.NEXT_PUBLIC_SITE_URL) ||
-  "https://mariolopez.org";
+  (typeof process !== "undefined" && process.env.NEXT_PUBLIC_SITE_URL) || "https://mariolopez.org";
 
 /**
  * External links
@@ -132,13 +131,11 @@ export const LINKS = {
   VERCEL: "https://vercel.com",
   VERCEL_CAREERS:
     "https://www.perplexity.ai/search/what-is-a-platform-architect-Mf8B8rGgTZKkmxPXzqxZ1Q#0",
-  VERCEL_FIELD_ENGINEERING:
-    "https://vercel.com/careers?function=Field+Engineering",
+  VERCEL_FIELD_ENGINEERING: "https://vercel.com/careers?function=Field+Engineering",
   VERCEL_CUSTOMERS: "https://vercel.com/customers",
   MUSIC: "https://music.mariolopez.org",
   BLOG: "https://bolognese.mariolopez.org",
-  CHAOS_RECIPE_ENHANCER:
-    "https://github.com/ChaosRecipeEnhancer/ChaosRecipeEnhancer",
+  CHAOS_RECIPE_ENHANCER: "https://github.com/ChaosRecipeEnhancer/ChaosRecipeEnhancer",
   EMAIL: "mailto:contact@mariolopez.org",
   EMAIL_HUMAN:
     "mailto:i-am-a-human@mariolopez.org?subject=Hi%20Mario%20-%20I%20ran%20across%20your%20site%20and%20wanted%20to%20ask%20about...",
@@ -174,4 +171,6 @@ export const VISITOR_COUNTER_CONFIG = {
   DEFAULT_DISPLAY: "000000",
   LABEL: "# of hits",
   IP_DEDUPLICATION_TTL_SECONDS: 30,
+  /** Stable position keys for digit displays (avoids array index as React key) */
+  DIGIT_POSITIONS: ["pos-0", "pos-1", "pos-2", "pos-3", "pos-4", "pos-5"] as const,
 } as const;

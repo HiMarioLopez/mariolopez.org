@@ -1,7 +1,7 @@
 "use client";
 
-import { Component, type ReactNode } from "react";
 import { track } from "@vercel/analytics";
+import { Component, type ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -60,8 +60,7 @@ export class ErrorBoundary extends Component<Props, State> {
       message: error.message,
       stack: error.stack,
       componentStack: errorInfo.componentStack,
-      userAgent:
-        typeof navigator !== "undefined" ? navigator.userAgent : undefined,
+      userAgent: typeof navigator !== "undefined" ? navigator.userAgent : undefined,
       url: typeof window !== "undefined" ? window.location.href : undefined,
       timestamp: new Date().toISOString(),
     };

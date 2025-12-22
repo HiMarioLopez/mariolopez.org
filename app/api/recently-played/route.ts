@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { getRecentlyPlayed } from "@/lib/recently-played";
 import { CACHE_HEADERS } from "@/lib/config";
 import { createErrorResponse, logError } from "@/lib/errors";
+import { getRecentlyPlayed } from "@/lib/recently-played";
 
 // Note: Must be a literal number for Next.js segment config (see CACHE_CONFIG.REVALIDATE_SECONDS)
 export const revalidate = 60;
@@ -18,7 +18,7 @@ export async function GET() {
       return createErrorResponse(
         new Error("No track data found from either source"),
         404,
-        "NO_TRACK_DATA"
+        "NO_TRACK_DATA",
       );
     }
 
@@ -32,10 +32,6 @@ export async function GET() {
     return response;
   } catch (error) {
     logError(error, "Error fetching recently played song");
-    return createErrorResponse(
-      error,
-      500,
-      "FETCH_ERROR"
-    );
+    return createErrorResponse(error, 500, "FETCH_ERROR");
   }
 }

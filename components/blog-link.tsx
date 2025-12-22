@@ -6,7 +6,12 @@ import { cn } from "@/lib/utils";
 
 export function BlogLink({ className }: { className?: string }) {
   return (
-    <Button variant="social" size="lg" className={cn("w-full sm:w-auto px-3 sm:px-6", className)} asChild>
+    <Button
+      variant="social"
+      size="lg"
+      className={cn("w-full sm:w-auto px-3 sm:px-6", className)}
+      asChild
+    >
       <a
         href={LINKS.BLOG}
         target="_blank"

@@ -3,13 +3,8 @@
  * Shared logic for parsing track information from various API formats
  */
 
-import type {
-  TrackData,
-  ExtractedTrackInfo,
-  Artist,
-  ArtistObject,
-} from "./types";
 import { PLATFORMS } from "./constants";
+import type { Artist, ArtistObject, ExtractedTrackInfo, TrackData } from "./types";
 
 /**
  * Extracts track information from various API response formats
@@ -35,10 +30,7 @@ export function extractTrackInfo(trackData: TrackData): ExtractedTrackInfo {
   // Format: nested track object
   else if (trackData.track) {
     songName = trackData.track.name;
-    artistName =
-      trackData.track.artists
-        ?.map((a: Artist) => extractArtistName(a))
-        .join(", ") || "";
+    artistName = trackData.track.artists?.map((a: Artist) => extractArtistName(a)).join(", ") || "";
   }
   // Format: name and artist
   else if (trackData.name && trackData.artist) {
@@ -97,9 +89,7 @@ function extractArtistName(artist: Artist): string {
  * @param artists - Artists data (string, array, or single object)
  * @returns Comma-separated artist names
  */
-function extractArtistsName(
-  artists: string | Artist[] | ArtistObject[]
-): string {
+function extractArtistsName(artists: string | Artist[] | ArtistObject[]): string {
   if (typeof artists === "string") {
     return artists;
   }
@@ -147,11 +137,7 @@ export function normalizeTrackData(data: unknown): TrackData | null {
   const dataObj = data as Record<string, unknown>;
 
   // Format: { items: [...] }
-  if (
-    dataObj.items &&
-    Array.isArray(dataObj.items) &&
-    dataObj.items.length > 0
-  ) {
+  if (dataObj.items && Array.isArray(dataObj.items) && dataObj.items.length > 0) {
     return dataObj.items[0] as TrackData;
   }
   // Format: { data: [...] }

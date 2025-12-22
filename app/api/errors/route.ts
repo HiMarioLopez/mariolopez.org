@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { logError } from "@/lib/errors";
 
 /**
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     if (!isValidErrorPayload(body)) {
       return NextResponse.json(
         { success: false, message: "Invalid error payload" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     // Log error with context
     logError(
       new Error(`[Client Error] ${errorData.errorType}: ${errorData.message}`),
-      "client-error-api"
+      "client-error-api",
     );
 
     // Log structured error data to console (appears in Vercel dashboard)
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
         url: errorData.url,
         userAgent: errorData.userAgent,
         timestamp: errorData.timestamp,
-      })
+      }),
     );
 
     return NextResponse.json({ success: true }, { status: 200 });

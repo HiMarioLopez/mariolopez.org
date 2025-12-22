@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { ErrorBoundary } from "@/components/error-boundary";
+import { ErrorHandler } from "@/components/error-handler";
 import { PerformanceMonitor } from "@/components/performance-monitor";
-import { RoutePrefetcher } from "@/components/route-prefetcher";
 import { QueryProvider } from "@/components/query-provider";
 import { ResourceHints } from "@/components/resource-hints";
-import { ErrorHandler } from "@/components/error-handler";
-import { ErrorBoundary } from "@/components/error-boundary";
+import { RoutePrefetcher } from "@/components/route-prefetcher";
 import "../globals.css";
-import { getDictionary, Locale } from "./dictionaries";
+import { getDictionary, type Locale } from "./dictionaries";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -79,9 +79,7 @@ export default async function RootLayout({
   const { lang } = await params;
   return (
     <html lang={lang} suppressHydrationWarning>
-      <body
-        className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}
-      >
+      <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}>
         <ResourceHints />
         <RoutePrefetcher />
         <ErrorBoundary>

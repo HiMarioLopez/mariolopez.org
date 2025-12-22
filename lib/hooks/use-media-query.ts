@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef, startTransition } from "react";
+import { startTransition, useEffect, useMemo, useRef, useState } from "react";
 import { BREAKPOINTS } from "@/lib/constants";
 
 /**
@@ -16,7 +16,7 @@ export function useMediaQuery(query: string | keyof typeof BREAKPOINTS): boolean
       query in BREAKPOINTS
         ? `(max-width: ${BREAKPOINTS[query as keyof typeof BREAKPOINTS] - 1}px)`
         : query,
-    [query]
+    [query],
   );
 
   const [matches, setMatches] = useState(() => {
@@ -36,7 +36,7 @@ export function useMediaQuery(query: string | keyof typeof BREAKPOINTS): boolean
     }
 
     const mediaQueryList = window.matchMedia(mediaQuery);
-    
+
     // Only update state if mediaQuery actually changed (not on initial mount)
     if (prevMediaQueryRef.current !== mediaQuery) {
       prevMediaQueryRef.current = mediaQuery;
@@ -64,4 +64,3 @@ export function useMediaQuery(query: string | keyof typeof BREAKPOINTS): boolean
 
   return matches;
 }
-

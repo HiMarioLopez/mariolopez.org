@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
 import { VISITOR_COUNTER_CONFIG } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 
 interface VisitorCounterProps {
   className?: string;
@@ -48,8 +48,8 @@ function DigitDisplay({
           disabled
             ? "bg-gray-300/20 dark:bg-gray-600/15"
             : active[0]
-            ? "bg-gray-700 dark:bg-white/70"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+              ? "bg-gray-700 dark:bg-white/70"
+              : "bg-gray-300/30 dark:bg-gray-600/20",
         )}
       />
       {/* Segment B (top right) */}
@@ -59,8 +59,8 @@ function DigitDisplay({
           disabled
             ? "bg-gray-300/20 dark:bg-gray-600/15"
             : active[1]
-            ? "bg-gray-700 dark:bg-white/70"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+              ? "bg-gray-700 dark:bg-white/70"
+              : "bg-gray-300/30 dark:bg-gray-600/20",
         )}
       />
       {/* Segment C (bottom right) */}
@@ -70,8 +70,8 @@ function DigitDisplay({
           disabled
             ? "bg-gray-300/20 dark:bg-gray-600/15"
             : active[2]
-            ? "bg-gray-700 dark:bg-white/70"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+              ? "bg-gray-700 dark:bg-white/70"
+              : "bg-gray-300/30 dark:bg-gray-600/20",
         )}
       />
       {/* Segment D (bottom) */}
@@ -81,8 +81,8 @@ function DigitDisplay({
           disabled
             ? "bg-gray-300/20 dark:bg-gray-600/15"
             : active[3]
-            ? "bg-gray-700 dark:bg-white/70"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+              ? "bg-gray-700 dark:bg-white/70"
+              : "bg-gray-300/30 dark:bg-gray-600/20",
         )}
       />
       {/* Segment E (bottom left) */}
@@ -92,8 +92,8 @@ function DigitDisplay({
           disabled
             ? "bg-gray-300/20 dark:bg-gray-600/15"
             : active[4]
-            ? "bg-gray-700 dark:bg-white/70"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+              ? "bg-gray-700 dark:bg-white/70"
+              : "bg-gray-300/30 dark:bg-gray-600/20",
         )}
       />
       {/* Segment F (top left) */}
@@ -103,8 +103,8 @@ function DigitDisplay({
           disabled
             ? "bg-gray-300/20 dark:bg-gray-600/15"
             : active[5]
-            ? "bg-gray-700 dark:bg-white/70"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+              ? "bg-gray-700 dark:bg-white/70"
+              : "bg-gray-300/30 dark:bg-gray-600/20",
         )}
       />
       {/* Segment G (middle) */}
@@ -114,8 +114,8 @@ function DigitDisplay({
           disabled
             ? "bg-gray-300/20 dark:bg-gray-600/15"
             : active[6]
-            ? "bg-gray-700 dark:bg-white/70"
-            : "bg-gray-300/30 dark:bg-gray-600/20"
+              ? "bg-gray-700 dark:bg-white/70"
+              : "bg-gray-300/30 dark:bg-gray-600/20",
         )}
       />
     </div>
@@ -181,10 +181,7 @@ export function VisitorCounter({
     count !== null
       ? count
           .toString()
-          .padStart(
-            VISITOR_COUNTER_CONFIG.DIGIT_COUNT,
-            VISITOR_COUNTER_CONFIG.PADDING_CHAR
-          )
+          .padStart(VISITOR_COUNTER_CONFIG.DIGIT_COUNT, VISITOR_COUNTER_CONFIG.PADDING_CHAR)
       : VISITOR_COUNTER_CONFIG.DEFAULT_DISPLAY;
   const digits = countString.split("");
 
@@ -198,8 +195,8 @@ export function VisitorCounter({
       {/* Counter box - retro pixel aesthetic */}
       <div className="bg-gray-100 dark:bg-gray-900/60 border border-gray-300/80 dark:border-gray-700/80 rounded-sm px-2.5 py-2 shadow-sm">
         <div className="flex gap-1 items-center justify-center">
-          {digits.map((digit: string, index: number) => (
-            <DigitDisplay key={index} digit={digit} disabled={isLoading} />
+          {VISITOR_COUNTER_CONFIG.DIGIT_POSITIONS.map((positionKey, i) => (
+            <DigitDisplay key={positionKey} digit={digits[i]} disabled={isLoading} />
           ))}
         </div>
       </div>

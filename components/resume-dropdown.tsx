@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { ChevronDown, FileText } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,7 +9,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FileText, ChevronDown } from "lucide-react";
 import { LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -98,19 +98,13 @@ export function ResumeDropdown({ dict, className }: ResumeDropdownProps) {
           onMouseLeave={handleMouseLeave}
         >
           <DropdownMenuItem asChild>
-            <a
-              href={LINKS.RESUME_PDF}
-              className="flex items-center gap-2 cursor-pointer"
-            >
+            <a href={LINKS.RESUME_PDF} className="flex items-center gap-2 cursor-pointer">
               <FileText className="w-4 h-4" />
               {dict.pdf}
             </a>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <a
-              href={LINKS.RESUME_DOCX}
-              className="flex items-center gap-2 cursor-pointer"
-            >
+            <a href={LINKS.RESUME_DOCX} className="flex items-center gap-2 cursor-pointer">
               <FileText className="w-4 h-4" />
               {dict.docx}
             </a>

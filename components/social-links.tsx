@@ -1,13 +1,13 @@
-import { Github, Linkedin, Twitter, Bookmark } from "lucide-react";
-import { SocialLink } from "./social-link";
-import { ResumeDropdown } from "./resume-dropdown";
-import { DisabledButton } from "./disabled-button";
-import { BlogLink } from "./blog-link";
-import { ChaosRecipeLink } from "./chaos-recipe-link";
-import { CallToAction } from "./call-to-action";
-import { RecentlyPlayed } from "./recently-played";
+import { Bookmark, Github, Linkedin, Twitter } from "lucide-react";
 import { LINKS } from "@/lib/constants";
+import { BlogLink } from "./blog-link";
+import { CallToAction } from "./call-to-action";
+import { ChaosRecipeLink } from "./chaos-recipe-link";
+import { DisabledButton } from "./disabled-button";
 import { MusicSocialLink } from "./music-social-link";
+import { RecentlyPlayed } from "./recently-played";
+import { ResumeDropdown } from "./resume-dropdown";
+import { SocialLink } from "./social-link";
 
 interface SocialLinksProps {
   dict: {
@@ -41,11 +41,7 @@ interface SocialLinksProps {
   };
 }
 
-export function SocialLinks({
-  dict,
-  recentlyPlayedDict,
-  contactDict,
-}: SocialLinksProps) {
+export function SocialLinks({ dict, recentlyPlayedDict, contactDict }: SocialLinksProps) {
   return (
     <div className="flex flex-col gap-6 pt-6 px-6 sm:px-0 w-full">
       {/* Socials Section */}

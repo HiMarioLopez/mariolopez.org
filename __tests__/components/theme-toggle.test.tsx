@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ViewToggle } from "@/components/view-toggle";
 
 // Mock dictionary prop
@@ -61,7 +61,7 @@ class MockPointerEvent extends Event {
     super(type, props);
     this.button = props.button || 0;
     this.ctrlKey = props.ctrlKey || false;
-    this.pointerType = props.pointerType || 'mouse';
+    this.pointerType = props.pointerType || "mouse";
   }
 }
 window.PointerEvent = MockPointerEvent as any;
@@ -90,7 +90,7 @@ describe("ViewToggle - Theme Toggle Integration", () => {
     mockTheme.mockReturnValue("system");
 
     render(<ViewToggle dict={mockDict} lang={mockLang} />);
-    
+
     // 1. Click trigger to open menu
     const trigger = screen.getByRole("button", { name: /toggle theme/i });
     await user.click(trigger);
@@ -108,7 +108,7 @@ describe("ViewToggle - Theme Toggle Integration", () => {
     mockTheme.mockReturnValue("light");
 
     render(<ViewToggle dict={mockDict} lang={mockLang} />);
-    
+
     const trigger = screen.getByRole("button", { name: /toggle theme/i });
     await user.click(trigger);
 
@@ -124,7 +124,7 @@ describe("ViewToggle - Theme Toggle Integration", () => {
     mockTheme.mockReturnValue("dark");
 
     render(<ViewToggle dict={mockDict} lang={mockLang} />);
-    
+
     const trigger = screen.getByRole("button", { name: /toggle theme/i });
     await user.click(trigger);
 
@@ -145,20 +145,11 @@ describe("ViewToggle - Theme Toggle Integration", () => {
     mockTheme.mockReturnValue("light");
     render(<ViewToggle dict={mockDict} lang={mockLang} />);
     const button = screen.getByRole("button", { name: /toggle theme/i });
-    
-    expect(button).toHaveAttribute(
-      "aria-label",
-      expect.stringContaining("Toggle theme")
-    );
-    expect(button).toHaveAttribute(
-      "aria-label",
-      expect.stringContaining("Current: Light")
-    );
+
+    expect(button).toHaveAttribute("aria-label", expect.stringContaining("Toggle theme"));
+    expect(button).toHaveAttribute("aria-label", expect.stringContaining("Current: Light"));
     // Should NOT contain "Next:" anymore
-    expect(button).not.toHaveAttribute(
-      "aria-label",
-      expect.stringContaining("Next:")
-    );
+    expect(button).not.toHaveAttribute("aria-label", expect.stringContaining("Next:"));
   });
 
   it("shows Monitor icon for system theme", () => {
@@ -197,7 +188,7 @@ describe("ViewToggle - Theme Toggle Integration", () => {
 
   it("renders divider between view toggle and theme toggle", () => {
     render(<ViewToggle dict={mockDict} lang={mockLang} />);
-    
+
     // Check for divider element (vertical line)
     const dividers = document.querySelectorAll(".bg-foreground\\/30");
     expect(dividers.length).toBeGreaterThan(0);

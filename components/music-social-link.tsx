@@ -1,23 +1,21 @@
 "use client";
 
-import { memo } from "react";
 import { Music } from "lucide-react";
-import { SocialLink } from "./social-link";
+import { memo } from "react";
 import { LINKS, PLATFORMS } from "@/lib/constants";
 import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
 import { getPlatformColor } from "@/lib/utils";
+import { SocialLink } from "./social-link";
 
 interface MusicSocialLinkProps {
   children: React.ReactNode;
 }
 
-export const MusicSocialLink = memo(function MusicSocialLink({
-  children,
-}: MusicSocialLinkProps) {
+export const MusicSocialLink = memo(function MusicSocialLink({ children }: MusicSocialLinkProps) {
   const { data: recentlyPlayed } = useRecentlyPlayed();
 
   const musicIconColor = recentlyPlayed?.platform
-    ? getPlatformColor(recentlyPlayed.platform) ?? PLATFORMS.SPOTIFY.color
+    ? (getPlatformColor(recentlyPlayed.platform) ?? PLATFORMS.SPOTIFY.color)
     : PLATFORMS.SPOTIFY.color;
 
   return (
@@ -26,4 +24,3 @@ export const MusicSocialLink = memo(function MusicSocialLink({
     </SocialLink>
   );
 });
-

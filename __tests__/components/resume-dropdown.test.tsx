@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ResumeDropdown } from "@/components/resume-dropdown";
 import { LINKS } from "@/lib/constants";
 
@@ -83,7 +83,7 @@ describe("ResumeDropdown", () => {
       () => {
         expect(screen.queryByText("PDF")).not.toBeInTheDocument();
       },
-      { timeout: 200 }
+      { timeout: 200 },
     );
   });
 

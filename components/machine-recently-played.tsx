@@ -1,8 +1,8 @@
 "use client";
 
-import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
-import { useFormatTimeAgo } from "@/lib/hooks/use-format-time-ago";
 import { useMemo } from "react";
+import { useFormatTimeAgo } from "@/lib/hooks/use-format-time-ago";
+import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
 
 /**
  * Client Component that generates the dynamic recently-played section string

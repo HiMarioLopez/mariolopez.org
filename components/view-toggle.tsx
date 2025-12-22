@@ -1,10 +1,10 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect, useMemo } from "react";
+import { Globe, Monitor, Moon, Sun } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { Sun, Moon, Monitor, Globe } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -71,7 +71,9 @@ function ThemeToggle({ dict }: ThemeToggleProps) {
         disabled
       >
         <Monitor className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground shrink-0" />
-        <span className="text-xs font-medium font-mono text-muted-foreground uppercase">{dict.auto}</span>
+        <span className="text-xs font-medium font-mono text-muted-foreground uppercase">
+          {dict.auto}
+        </span>
       </button>
     );
   }
@@ -87,19 +89,30 @@ function ThemeToggle({ dict }: ThemeToggleProps) {
           type="button"
         >
           <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-foreground shrink-0" />
-          <span className="text-xs font-medium font-mono text-foreground/90 uppercase">{themeInfo.label}</span>
+          <span className="text-xs font-medium font-mono text-foreground/90 uppercase">
+            {themeInfo.label}
+          </span>
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-[100px]">
-        <DropdownMenuItem onClick={() => setTheme("light")} className="text-xs font-medium font-mono">
+        <DropdownMenuItem
+          onClick={() => setTheme("light")}
+          className="text-xs font-medium font-mono"
+        >
           <Sun className="mr-2 h-4 w-4" />
           {dict.light}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")} className="text-xs font-medium font-mono">
+        <DropdownMenuItem
+          onClick={() => setTheme("dark")}
+          className="text-xs font-medium font-mono"
+        >
           <Moon className="mr-2 h-4 w-4" />
           {dict.dark}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")} className="text-xs font-medium font-mono">
+        <DropdownMenuItem
+          onClick={() => setTheme("system")}
+          className="text-xs font-medium font-mono"
+        >
           <Monitor className="mr-2 h-4 w-4" />
           {dict.auto}
         </DropdownMenuItem>
@@ -123,7 +136,7 @@ function LanguageToggle({ dict, lang }: LanguageToggleProps) {
 
   const switchLanguage = (newLang: string) => {
     if (newLang === lang) return;
-    
+
     // Replace the language segment in the path
     const segments = pathname.split("/");
     if (segments.length > 1) {
@@ -148,10 +161,16 @@ function LanguageToggle({ dict, lang }: LanguageToggleProps) {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-[120px]">
-        <DropdownMenuItem onClick={() => switchLanguage("en-US")} className="text-xs font-medium font-mono">
+        <DropdownMenuItem
+          onClick={() => switchLanguage("en-US")}
+          className="text-xs font-medium font-mono"
+        >
           English (en-US)
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => switchLanguage("es-MX")} className="text-xs font-medium font-mono">
+        <DropdownMenuItem
+          onClick={() => switchLanguage("es-MX")}
+          className="text-xs font-medium font-mono"
+        >
           Español (es-MX)
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -199,9 +218,7 @@ export function ViewToggle({ dict, lang }: ViewToggleProps) {
   };
 
   return (
-    <div 
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-in fade-in duration-300 sm:top-6"
-    >
+    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-in fade-in duration-300 sm:top-6">
       <div className="flex items-center gap-2 sm:gap-3 bg-background/95 dark:bg-background/95 backdrop-blur-md border border-border/50 rounded-lg px-3 py-2 sm:px-4 sm:py-2.5 shadow-lg">
         <Link
           href={`/${lang}/human`}
@@ -209,11 +226,7 @@ export function ViewToggle({ dict, lang }: ViewToggleProps) {
           prefetch={true}
           className={`
             flex items-center gap-1.5 sm:gap-2 text-xs font-medium font-mono transition-all duration-10 ease-out
-            ${
-              isHuman
-                ? "text-foreground"
-                : "text-muted-foreground hover:text-foreground"
-            }
+            ${isHuman ? "text-foreground" : "text-muted-foreground hover:text-foreground"}
             ${isTransitioning ? "opacity-60" : "cursor-pointer"}
           `}
           aria-label={dict.aria_switch_human}
@@ -237,11 +250,7 @@ export function ViewToggle({ dict, lang }: ViewToggleProps) {
           prefetch={true}
           className={`
             flex items-center gap-1.5 sm:gap-2 text-xs font-medium font-mono transition-all duration-10 ease-out
-            ${
-              !isHuman
-                ? "text-foreground"
-                : "text-muted-foreground hover:text-foreground"
-            }
+            ${!isHuman ? "text-foreground" : "text-muted-foreground hover:text-foreground"}
             ${isTransitioning ? "opacity-60" : "cursor-pointer"}
           `}
           aria-label={dict.aria_switch_machine}
@@ -262,7 +271,7 @@ export function ViewToggle({ dict, lang }: ViewToggleProps) {
         <div className="h-4 sm:h-5 w-[1.5px] bg-foreground/30 mx-0.5 sm:mx-1" />
 
         <ThemeToggle dict={dict} />
-        
+
         <div className="h-4 sm:h-5 w-[1.5px] bg-foreground/30 mx-0.5 sm:mx-1" />
 
         <LanguageToggle dict={dict} lang={lang} />

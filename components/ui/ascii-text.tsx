@@ -45,17 +45,17 @@
 
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
-  WebGLRenderer,
-  PerspectiveCamera,
-  Scene,
-  Camera,
+  type Camera,
   CanvasTexture,
-  NearestFilter,
-  PlaneGeometry,
-  ShaderMaterial,
   Mesh,
+  NearestFilter,
+  PerspectiveCamera,
+  PlaneGeometry,
+  Scene,
+  ShaderMaterial,
+  WebGLRenderer,
 } from "three";
 import { ANIMATION_CONFIG } from "@/lib/constants";
 
@@ -100,13 +100,7 @@ void main() {
 }
 `;
 
-function map(
-  n: number,
-  start: number,
-  stop: number,
-  start2: number,
-  stop2: number
-) {
+function map(n: number, start: number, stop: number, start2: number, stop2: number) {
   return ((n - start) / (stop - start)) * (stop2 - start2) + start2;
 }
 
@@ -160,7 +154,7 @@ class AsciiFilter {
       invert,
       enableMouseInteraction = false,
       skipAsciiText = false,
-    }: AsciiFilterOptions = {}
+    }: AsciiFilterOptions = {},
   ) {
     this.renderer = renderer;
     this.domElement = document.createElement("div");
@@ -189,8 +183,7 @@ class AsciiFilter {
     this.fontSize = fontSize ?? 12;
     this.fontFamily = fontFamily ?? "'Courier New', monospace";
     this.charset =
-      charset ??
-      " .'`^\",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+      charset ?? " .'`^\",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
     this.enableMouseInteraction = enableMouseInteraction ?? false;
     this.skipAsciiText = skipAsciiText ?? false;
 
@@ -225,9 +218,7 @@ class AsciiFilter {
       this.context.font = `${this.fontSize}px ${this.fontFamily}`;
       const charWidth = this.context.measureText("A").width;
 
-      this.cols = Math.floor(
-        this.width / (this.fontSize * (charWidth / this.fontSize))
-      );
+      this.cols = Math.floor(this.width / (this.fontSize * (charWidth / this.fontSize)));
       this.rows = Math.floor(this.height / this.fontSize);
 
       this.canvas.width = this.cols;
@@ -421,11 +412,7 @@ class CanvasTxt {
 
   constructor(
     txt: string,
-    {
-      fontSize = 200,
-      fontFamily = "Arial",
-      color = "#fdf9f3",
-    }: CanvasTxtOptions = {}
+    { fontSize = 200, fontFamily = "Arial", color = "#fdf9f3" }: CanvasTxtOptions = {},
   ) {
     this.canvas = document.createElement("canvas");
     this.context = this.canvas.getContext("2d");
@@ -444,9 +431,7 @@ class CanvasTxt {
 
       const textWidth = Math.ceil(metrics.width) + 10;
       const textHeight =
-        Math.ceil(
-          metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
-        ) + 10;
+        Math.ceil(metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent) + 10;
 
       this.canvas.width = textWidth;
       this.canvas.height = textHeight;
@@ -555,7 +540,7 @@ class CanvAscii {
     }: CanvAsciiOptions,
     containerElem: HTMLElement,
     width: number,
-    height: number
+    height: number,
   ) {
     this.textString = text;
     this.asciiFontSize = asciiFontSize;
@@ -570,8 +555,7 @@ class CanvAscii {
 
     // Detect Firefox to skip ASCII text overlay (Firefox has rendering issues)
     this.isFirefox =
-      typeof navigator !== "undefined" &&
-      navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
+      typeof navigator !== "undefined" && navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 
     this.camera = new PerspectiveCamera(45, this.width / this.height, 1, 1000);
     this.camera.position.z = 40;
@@ -667,16 +651,14 @@ class CanvAscii {
 
         // Adjust frame rate: 60fps when visible and interacting, 30fps when visible but not interacting
         if (isVisible) {
-          const timeSinceInteraction =
-            performance.now() - this.lastMouseInteraction;
-          const isInteracting =
-            timeSinceInteraction < ANIMATION_CONFIG.INTERACTION_TIMEOUT_MS;
+          const timeSinceInteraction = performance.now() - this.lastMouseInteraction;
+          const isInteracting = timeSinceInteraction < ANIMATION_CONFIG.INTERACTION_TIMEOUT_MS;
           this.filter.setUpdateThrottle(
-            isInteracting ? ANIMATION_CONFIG.FPS_60 : ANIMATION_CONFIG.FPS_30
+            isInteracting ? ANIMATION_CONFIG.FPS_60 : ANIMATION_CONFIG.FPS_30,
           );
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     this.intersectionObserver.observe(this.container);
@@ -718,9 +700,7 @@ class CanvAscii {
   }
 
   onMouseMove(evt: MouseEvent | TouchEvent) {
-    const e = (evt as TouchEvent).touches
-      ? (evt as TouchEvent).touches[0]
-      : (evt as MouseEvent);
+    const e = (evt as TouchEvent).touches ? (evt as TouchEvent).touches[0] : (evt as MouseEvent);
     const bounds = this.container.getBoundingClientRect();
     const x = e.clientX - bounds.left;
     const y = e.clientY - bounds.top;
@@ -742,7 +722,7 @@ class CanvAscii {
   render() {
     if (!this.isVisible) return;
 
-    const time = new Date().getTime() * 0.001;
+    const time = Date.now() * 0.001;
     const sinTime = Math.sin(time);
 
     // Only update texture if text canvas was actually re-rendered
@@ -801,14 +781,8 @@ class CanvAscii {
     this.filter.dispose();
     this.container.removeChild(this.filter.domElement);
     if (this.enableMouseInteraction) {
-      this.container.removeEventListener(
-        "mousemove",
-        this.onMouseMoveThrottled
-      );
-      this.container.removeEventListener(
-        "touchmove",
-        this.onMouseMoveThrottled
-      );
+      this.container.removeEventListener("mousemove", this.onMouseMoveThrottled);
+      this.container.removeEventListener("touchmove", this.onMouseMoveThrottled);
     }
     this.clear();
     this.renderer.dispose();
@@ -899,14 +873,14 @@ export default function ASCIIText({
               },
               containerRef.current!,
               w,
-              h
+              h,
             );
             asciiRef.current.load();
 
             observer.disconnect();
           }
         },
-        { threshold: 0.1 }
+        { threshold: 0.1 },
       );
 
       observer.observe(containerRef.current);
@@ -931,7 +905,7 @@ export default function ASCIIText({
       },
       containerRef.current,
       width,
-      height
+      height,
     );
     asciiRef.current.load();
 

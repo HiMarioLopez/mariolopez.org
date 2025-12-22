@@ -8,8 +8,7 @@ import { check } from "linkinator";
 
 const args = process.argv.slice(2);
 const checkProduction = args.includes("--production");
-const checkLocal =
-  args.includes("--local") || (!checkProduction && !args.includes("--url"));
+const checkLocal = args.includes("--local") || (!checkProduction && !args.includes("--url"));
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mariolopez.org";
 const LOCAL_URL = "http://localhost:3000";
@@ -63,7 +62,7 @@ async function checkLinks(url: string) {
   });
 
   const brokenLinks = results.links.filter(
-    (link) => link.state === "BROKEN" || (link.status && link.status >= 400)
+    (link) => link.state === "BROKEN" || (link.status && link.status >= 400),
   );
 
   if (brokenLinks.length > 0) {
@@ -98,7 +97,7 @@ async function main() {
         console.error(
           `\n❌ Local server not running at ${LOCAL_URL}\n` +
             `   Please start the dev server with: pnpm dev\n` +
-            `   Or build and start with: pnpm build && pnpm start\n`
+            `   Or build and start with: pnpm build && pnpm start\n`,
         );
         process.exit(1);
       }
@@ -118,7 +117,7 @@ async function main() {
           "\nUsage:\n" +
           "   pnpm check-links:local  (checks http://localhost:3000)\n" +
           "   pnpm check-links:prod   (checks production site)\n" +
-          "   pnpm check-links --url <url>  (checks custom URL)\n"
+          "   pnpm check-links --url <url>  (checks custom URL)\n",
       );
       process.exit(0);
     }

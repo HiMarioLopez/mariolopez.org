@@ -1,6 +1,6 @@
+import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import { formatTimeAgo } from "@/lib/utils";
-import { useParams } from "next/navigation";
 
 /**
  * Hook that formats a timestamp as "time ago" string

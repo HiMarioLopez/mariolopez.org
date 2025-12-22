@@ -1,8 +1,4 @@
-import {
-  TIME_CONSTANTS,
-  TIME_FORMAT_LABELS,
-  TIME_THRESHOLDS,
-} from "./constants";
+import { TIME_CONSTANTS, TIME_FORMAT_LABELS, TIME_THRESHOLDS } from "./constants";
 
 // Define a type that matches the structure of TIME_FORMAT_LABELS
 // but ensures all properties are strings, which they are in the const
@@ -79,16 +75,14 @@ export function formatTimeAgo(timestamp: string, locale: string = "en-US"): stri
 
   // Future dates or very recent
   if (seconds < 0) return TIME_FORMAT_LABELS.JUST_NOW;
-  if (seconds < TIME_CONSTANTS.SECONDS_PER_MINUTE)
-    return TIME_FORMAT_LABELS.JUST_NOW;
+  if (seconds < TIME_CONSTANTS.SECONDS_PER_MINUTE) return TIME_FORMAT_LABELS.JUST_NOW;
 
   const labels: TimeFormatLabels = locale === "es-MX" ? TIME_FORMAT_LABELS_ES : TIME_FORMAT_LABELS;
   const minutes = Math.floor(seconds / TIME_CONSTANTS.SECONDS_PER_MINUTE);
-  
+
   if (minutes < TIME_CONSTANTS.MINUTES_PER_HOUR) {
-    const unit =
-      minutes === 1 ? labels.MINUTE : labels.MINUTES;
-    return locale === "es-MX" 
+    const unit = minutes === 1 ? labels.MINUTE : labels.MINUTES;
+    return locale === "es-MX"
       ? `${labels.AGO} ${minutes} ${unit}`
       : `${minutes} ${unit} ${labels.AGO}`;
   }
@@ -96,39 +90,30 @@ export function formatTimeAgo(timestamp: string, locale: string = "en-US"): stri
   const hours = Math.floor(minutes / TIME_CONSTANTS.MINUTES_PER_HOUR);
   if (hours < TIME_CONSTANTS.HOURS_PER_DAY) {
     const unit = hours === 1 ? labels.HOUR : labels.HOURS;
-    return locale === "es-MX" 
-      ? `${labels.AGO} ${hours} ${unit}`
-      : `${hours} ${unit} ${labels.AGO}`;
+    return locale === "es-MX" ? `${labels.AGO} ${hours} ${unit}` : `${hours} ${unit} ${labels.AGO}`;
   }
 
   const days = Math.floor(hours / TIME_CONSTANTS.HOURS_PER_DAY);
   if (days < TIME_CONSTANTS.DAYS_PER_WEEK) {
     const unit = days === 1 ? labels.DAY : labels.DAYS;
-    return locale === "es-MX" 
-      ? `${labels.AGO} ${days} ${unit}`
-      : `${days} ${unit} ${labels.AGO}`;
+    return locale === "es-MX" ? `${labels.AGO} ${days} ${unit}` : `${days} ${unit} ${labels.AGO}`;
   }
 
   const weeks = Math.floor(days / TIME_CONSTANTS.DAYS_PER_WEEK);
   if (weeks < TIME_THRESHOLDS.WEEKS_TO_MONTHS) {
     const unit = weeks === 1 ? labels.WEEK : labels.WEEKS;
-    return locale === "es-MX" 
-      ? `${labels.AGO} ${weeks} ${unit}`
-      : `${weeks} ${unit} ${labels.AGO}`;
+    return locale === "es-MX" ? `${labels.AGO} ${weeks} ${unit}` : `${weeks} ${unit} ${labels.AGO}`;
   }
 
   const months = Math.floor(days / TIME_CONSTANTS.DAYS_PER_MONTH);
   if (months < TIME_THRESHOLDS.MONTHS_TO_YEARS) {
-    const unit =
-      months === 1 ? labels.MONTH : labels.MONTHS;
-    return locale === "es-MX" 
+    const unit = months === 1 ? labels.MONTH : labels.MONTHS;
+    return locale === "es-MX"
       ? `${labels.AGO} ${months} ${unit}`
       : `${months} ${unit} ${labels.AGO}`;
   }
 
   const years = Math.floor(days / TIME_CONSTANTS.DAYS_PER_YEAR);
   const unit = years === 1 ? labels.YEAR : labels.YEARS;
-  return locale === "es-MX" 
-    ? `${labels.AGO} ${years} ${unit}`
-    : `${years} ${unit} ${labels.AGO}`;
+  return locale === "es-MX" ? `${labels.AGO} ${years} ${unit}` : `${years} ${unit} ${labels.AGO}`;
 }

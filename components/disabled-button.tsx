@@ -1,15 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { type ReactNode, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { LucideIcon } from "lucide-react";
-import { ReactNode, useState } from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 interface DisabledButtonProps {
@@ -27,9 +21,9 @@ interface DisabledButtonProps {
   // Functions cannot be passed.
   // We should pass `children` with the icon already rendered, OR render the icon inside the Client Component if we pass a string key.
   // For now, let's use `children` for the icon as well or just pass the rendered element.
-  
+
   // Let's try passing the icon as a React Element (ReactNode) instead of the component function.
-  icon?: ReactNode; 
+  icon?: ReactNode;
   logo?: {
     webp: string;
     png: string;
@@ -50,9 +44,7 @@ type DisabledButtonPropsWithLogo = DisabledButtonProps & {
   logo: { webp: string; png: string; alt: string };
   icon?: never;
 };
-type DisabledButtonPropsType =
-  | DisabledButtonPropsWithIcon
-  | DisabledButtonPropsWithLogo;
+type DisabledButtonPropsType = DisabledButtonPropsWithIcon | DisabledButtonPropsWithLogo;
 
 export function DisabledButton({
   icon,
@@ -92,23 +84,25 @@ export function DisabledButton({
                     className={cn(
                       "h-5 w-auto rounded-sm grayscale transition-all duration-200 group-hover:grayscale-0 shrink-0",
                       open && "grayscale-0",
-                      logoClassName
+                      logoClassName,
                     )}
                     quality={90}
                   />
                 ) : icon ? (
-                   // Render the passed icon element directly
-                   <span className={cn(
+                  // Render the passed icon element directly
+                  <span
+                    className={cn(
                       "flex items-center justify-center transition-all duration-200 grayscale group-hover:grayscale-0 [&>svg]:w-4 [&>svg]:h-4",
-                       open && "grayscale-0"
-                    )}>
-                      {icon}
-                   </span>
+                      open && "grayscale-0",
+                    )}
+                  >
+                    {icon}
+                  </span>
                 ) : null}
                 <span
                   className={cn(
                     "grayscale transition-all duration-200 group-hover:grayscale-0 truncate",
-                    open && "grayscale-0"
+                    open && "grayscale-0",
                   )}
                 >
                   {children}

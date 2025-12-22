@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { invalidateFontCache } from "@/components/ui/ascii-text";
 
 const ASCIIText = dynamic(() => import("@/components/ui/ascii-text"), {
@@ -39,7 +39,7 @@ export function ThemeToggle() {
           observer.disconnect();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     observer.observe(containerRef.current);
@@ -48,7 +48,7 @@ export function ThemeToggle() {
 
   useEffect(() => {
     invalidateFontCache();
-  }, [theme]);
+  }, []);
 
   const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

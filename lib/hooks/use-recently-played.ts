@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import type { RecentlyPlayed } from "@/lib/types";
 import { CACHE_CONFIG } from "@/lib/config";
+import type { RecentlyPlayed } from "@/lib/types";
 
 async function fetchRecentlyPlayed({
   signal,
@@ -10,14 +10,14 @@ async function fetchRecentlyPlayed({
   const response = await fetch("/api/recently-played", {
     signal,
   });
-  
+
   if (!response.ok) {
     if (response.status === 404) {
       return null;
     }
     throw new Error("Failed to fetch recently played");
   }
-  
+
   return response.json();
 }
 
@@ -30,4 +30,3 @@ export function useRecentlyPlayed() {
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff, max 30s
   });
 }
-

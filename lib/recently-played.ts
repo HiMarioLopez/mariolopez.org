@@ -1,7 +1,7 @@
-import type { RecentlyPlayed } from "./types";
-import { extractTrackInfo, normalizeTrackData } from "./track-data";
 import { API_CONFIG, CACHE_CONFIG } from "./config";
 import { logError } from "./errors";
+import { extractTrackInfo, normalizeTrackData } from "./track-data";
+import type { RecentlyPlayed } from "./types";
 
 /**
  * Fetches the most recently played track from Spotify and Apple Music
@@ -55,10 +55,7 @@ export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
     }
 
     // Process Apple Music response
-    if (
-      appleMusicResponse.status === "fulfilled" &&
-      appleMusicResponse.value.ok
-    ) {
+    if (appleMusicResponse.status === "fulfilled" && appleMusicResponse.value.ok) {
       try {
         const appleMusicData = await appleMusicResponse.value.json();
         const trackData = normalizeTrackData(appleMusicData);

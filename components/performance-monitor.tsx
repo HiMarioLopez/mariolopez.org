@@ -15,7 +15,7 @@ function deferInitialization(callback: () => void): (() => void) | undefined {
   if ("requestIdleCallback" in window) {
     const idleCallbackId = window.requestIdleCallback(
       callback,
-      { timeout: 2000 } // Fallback timeout: execute after 2s even if browser never becomes idle
+      { timeout: 2000 }, // Fallback timeout: execute after 2s even if browser never becomes idle
     );
 
     // Cleanup function to cancel if component unmounts

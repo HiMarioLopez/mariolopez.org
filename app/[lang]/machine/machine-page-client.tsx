@@ -1,10 +1,10 @@
 "use client";
 
-import { ViewToggle } from "@/components/view-toggle";
+import { useMemo } from "react";
 import { CopyButton } from "@/components/copy-button";
 import { MachineContentDisplay } from "@/components/machine-content-display";
 import { useRecentlyPlayedSection } from "@/components/machine-recently-played";
-import { useMemo } from "react";
+import { ViewToggle } from "@/components/view-toggle";
 
 interface MachinePageClientProps {
   contentBefore: string;
@@ -43,9 +43,7 @@ export function MachinePageClient({
   recentlyPlayedTemplate,
   dict,
 }: MachinePageClientProps) {
-  const { content: recentlyPlayedSection } = useRecentlyPlayedSection(
-    recentlyPlayedTemplate
-  );
+  const { content: recentlyPlayedSection } = useRecentlyPlayedSection(recentlyPlayedTemplate);
 
   // Compute full content for the copy button
   const fullContent = useMemo(() => {

@@ -1,9 +1,9 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { memo } from "react";
 import { HERO_CONFIG } from "@/lib/constants";
 import { useMediaQuery } from "@/lib/hooks/use-media-query";
-import { memo } from "react";
 
 const ASCIIText = dynamic(() => import("@/components/ui/ascii-text"), {
   ssr: false,
@@ -20,27 +20,18 @@ export const HeroVisuals = memo(function HeroVisuals() {
       data-mobile-height={HERO_CONFIG.MOBILE_HEIGHT}
       data-desktop-height={HERO_CONFIG.DESKTOP_HEIGHT}
     >
-      <div
-        className="relative mx-auto w-full h-full"
-        style={{ maxWidth: "100%" }}
-      >
+      <div className="relative mx-auto w-full h-full" style={{ maxWidth: "100%" }}>
         <ASCIIText
           text="👋🤠"
           enableWaves={false}
           asciiFontSize={
-            isMobile
-              ? HERO_CONFIG.MOBILE_ASCII_FONT_SIZE
-              : HERO_CONFIG.DESKTOP_ASCII_FONT_SIZE
+            isMobile ? HERO_CONFIG.MOBILE_ASCII_FONT_SIZE : HERO_CONFIG.DESKTOP_ASCII_FONT_SIZE
           }
           textFontSize={
-            isMobile
-              ? HERO_CONFIG.MOBILE_TEXT_FONT_SIZE
-              : HERO_CONFIG.DESKTOP_TEXT_FONT_SIZE
+            isMobile ? HERO_CONFIG.MOBILE_TEXT_FONT_SIZE : HERO_CONFIG.DESKTOP_TEXT_FONT_SIZE
           }
           planeBaseHeight={
-            isMobile
-              ? HERO_CONFIG.MOBILE_PLANE_BASE_HEIGHT
-              : HERO_CONFIG.DESKTOP_PLANE_BASE_HEIGHT
+            isMobile ? HERO_CONFIG.MOBILE_PLANE_BASE_HEIGHT : HERO_CONFIG.DESKTOP_PLANE_BASE_HEIGHT
           }
           enableMouseInteraction={false}
         />
@@ -48,4 +39,3 @@ export const HeroVisuals = memo(function HeroVisuals() {
     </div>
   );
 });
-

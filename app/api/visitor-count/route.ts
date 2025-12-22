@@ -1,11 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
 import { Redis } from "@upstash/redis";
-import { logError } from "@/lib/errors";
-import {
-  VISITOR_COUNT_CONFIG,
-  VISITOR_COUNT_CACHE_HEADERS,
-} from "@/lib/config";
+import { type NextRequest, NextResponse } from "next/server";
+import { VISITOR_COUNT_CACHE_HEADERS, VISITOR_COUNT_CONFIG } from "@/lib/config";
 import { VISITOR_COUNTER_CONFIG } from "@/lib/constants";
+import { logError } from "@/lib/errors";
 
 /**
  * Visitor Count API Route
@@ -21,8 +18,7 @@ let redis: ReturnType<typeof Redis.fromEnv> | null = null;
 
 // Check for required environment variables before initializing Redis
 // This prevents warnings during build time when env vars aren't available
-const hasRedisEnv =
-  process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN;
+const hasRedisEnv = process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN;
 
 if (hasRedisEnv) {
   try {
@@ -95,11 +91,7 @@ export async function POST(request: NextRequest) {
     const newCount = await redis.incr(VISITOR_COUNT_KEY);
 
     // Mark this IP as counted for the configured TTL
-    await redis.setex(
-      recentKey,
-      VISITOR_COUNTER_CONFIG.IP_DEDUPLICATION_TTL_SECONDS,
-      true
-    );
+    await redis.setex(recentKey, VISITOR_COUNTER_CONFIG.IP_DEDUPLICATION_TTL_SECONDS, true);
 
     const response = NextResponse.json({ count: newCount });
 
@@ -116,7 +108,7 @@ export async function POST(request: NextRequest) {
         {
           count: typeof count === "number" ? count : 0,
         },
-        { status: 200 }
+        { status: 200 },
       );
     } catch {
       return NextResponse.json({ count: 0 }, { status: 200 });

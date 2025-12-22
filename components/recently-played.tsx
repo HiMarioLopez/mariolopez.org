@@ -1,16 +1,11 @@
 "use client";
 
 import { memo, useState } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
-import { useFormatTimeAgo } from "@/lib/hooks/use-format-time-ago";
-import { getPlatformColor } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { SONG_LINK_COLOR } from "@/lib/constants";
+import { useFormatTimeAgo } from "@/lib/hooks/use-format-time-ago";
+import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
+import { getPlatformColor } from "@/lib/utils";
 
 interface RecentlyPlayedProps {
   dict: {
@@ -21,16 +16,12 @@ interface RecentlyPlayedProps {
   };
 }
 
-export const RecentlyPlayed = memo(function RecentlyPlayed({
-  dict,
-}: RecentlyPlayedProps) {
+export const RecentlyPlayed = memo(function RecentlyPlayed({ dict }: RecentlyPlayedProps) {
   const { data: recentlyPlayed, isPending } = useRecentlyPlayed();
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const timeAgo = useFormatTimeAgo(recentlyPlayed?.timestamp);
 
-  const platformColor = recentlyPlayed
-    ? getPlatformColor(recentlyPlayed.platform)
-    : null;
+  const platformColor = recentlyPlayed ? getPlatformColor(recentlyPlayed.platform) : null;
 
   const { part1, part2, part3, played: playedLabel } = dict;
 

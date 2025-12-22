@@ -7,10 +7,10 @@ import { cn } from "@/lib/utils";
 
 export function ChaosRecipeLink({ className }: { className?: string }) {
   return (
-    <Button 
-      variant="social" 
-      size="lg" 
-      className={cn("w-full sm:w-auto px-3 sm:px-6", className)} 
+    <Button
+      variant="social"
+      size="lg"
+      className={cn("w-full sm:w-auto px-3 sm:px-6", className)}
       asChild
     >
       <a

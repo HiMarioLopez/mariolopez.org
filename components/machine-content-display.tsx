@@ -1,7 +1,7 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import { useRecentlyPlayedSection } from "./machine-recently-played";
-import { useState, useMemo } from "react";
 
 interface MachineContentDisplayProps {
   contentBefore: string;
@@ -17,27 +17,17 @@ function RecentlyPlayedSkeleton() {
   return (
     <>
       My most recently played song on{" "}
-      <span className="skeleton inline-block h-[1em] w-[8ch] align-middle">
-        {" ".repeat(8)}
-      </span>{" "}
-      is &quot;
-      <span className="skeleton inline-block h-[1em] w-[10ch] align-middle">
-        {" ".repeat(10)}
-      </span>
+      <span className="skeleton inline-block h-[1em] w-[8ch] align-middle">{" ".repeat(8)}</span> is
+      &quot;
+      <span className="skeleton inline-block h-[1em] w-[10ch] align-middle">{" ".repeat(10)}</span>
       &quot; by{" "}
-      <span className="skeleton inline-block h-[1em] w-[14ch] align-middle">
-        {" ".repeat(14)}
-      </span>{" "}
+      <span className="skeleton inline-block h-[1em] w-[14ch] align-middle">{" ".repeat(14)}</span>{" "}
       (played{" "}
-      <span className="skeleton inline-block h-[1em] w-[6ch] align-middle">
-        {" ".repeat(6)}
-      </span>
+      <span className="skeleton inline-block h-[1em] w-[6ch] align-middle">{" ".repeat(6)}</span>
       ).
       {"\n\n"}
       Listen:{" "}
-      <span className="skeleton inline-block h-[1em] w-[45ch] align-middle">
-        {" ".repeat(45)}
-      </span>
+      <span className="skeleton inline-block h-[1em] w-[45ch] align-middle">{" ".repeat(45)}</span>
       {"\n"}
     </>
   );

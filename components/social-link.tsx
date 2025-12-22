@@ -1,12 +1,7 @@
+import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { LucideIcon } from "lucide-react";
-import { ReactNode } from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 interface SocialLinkProps {
@@ -27,10 +22,10 @@ export function SocialLink({
   className,
 }: SocialLinkProps) {
   const buttonContent = (
-    <Button 
-      variant="social" 
-      size="lg" 
-      className={cn("w-full sm:w-auto px-3 sm:px-6", className)} 
+    <Button
+      variant="social"
+      size="lg"
+      className={cn("w-full sm:w-auto px-3 sm:px-6", className)}
       asChild
     >
       <a

@@ -1,21 +1,13 @@
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
-import { ViewToggle } from "@/components/view-toggle";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { Footer } from "@/components/footer";
 import { Hero } from "@/components/hero";
 import { Introduction } from "@/components/introduction";
 import { SocialLinks } from "@/components/social-links";
-import { Footer } from "@/components/footer";
-import { getDictionary, Locale } from "../dictionaries";
+import { ViewToggle } from "@/components/view-toggle";
 import { getRecentlyPlayed } from "@/lib/recently-played";
+import { getDictionary, type Locale } from "../dictionaries";
 
-export default async function HumanPage({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}) {
+export default async function HumanPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   const dict = await getDictionary(lang as Locale);
 

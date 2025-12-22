@@ -13,7 +13,7 @@ export class AppError extends Error {
   constructor(
     message: string,
     public readonly statusCode: number = 500,
-    public readonly code?: string
+    public readonly code?: string,
   ) {
     super(message);
     this.name = "AppError";
@@ -39,17 +39,16 @@ export interface ApiErrorResponse {
 export function createErrorResponse(
   error: unknown,
   statusCode: number = 500,
-  code?: string
+  code?: string,
 ): NextResponse<ApiErrorResponse> {
-  const message =
-    error instanceof Error ? error.message : "An unexpected error occurred";
+  const message = error instanceof Error ? error.message : "An unexpected error occurred";
 
   const response = NextResponse.json(
     {
       error: message,
       ...(code && { code }),
     },
-    { status: statusCode }
+    { status: statusCode },
   );
 
   // Set error cache headers

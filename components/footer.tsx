@@ -1,6 +1,6 @@
+import { VisitorCounter } from "@/components/visitor-counter";
 import { BUILD_CONFIG } from "@/lib/config";
 import { LINKS } from "@/lib/constants";
-import { VisitorCounter } from "@/components/visitor-counter";
 
 interface FooterProps {
   dict: {

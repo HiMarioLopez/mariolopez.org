@@ -5,8 +5,8 @@
  * Captures and reports client-side errors to Vercel Analytics and API endpoint
  */
 
-import { useEffect } from "react";
 import { track } from "@vercel/analytics";
+import { useEffect } from "react";
 
 interface ErrorInfo {
   message: string;
@@ -54,7 +54,7 @@ function captureError(
     lineno?: number;
     colno?: number;
     reason?: unknown;
-  }
+  },
 ): void {
   const errorInfo: ErrorInfo = {
     message: typeof error === "string" ? error : error.message,
@@ -62,8 +62,7 @@ function captureError(
     lineno: additionalInfo?.lineno,
     colno: additionalInfo?.colno,
     stack: error instanceof Error ? error.stack : undefined,
-    userAgent:
-      typeof navigator !== "undefined" ? navigator.userAgent : undefined,
+    userAgent: typeof navigator !== "undefined" ? navigator.userAgent : undefined,
     url: typeof window !== "undefined" ? window.location.href : undefined,
     timestamp: new Date().toISOString(),
     errorType,
@@ -105,11 +104,7 @@ export function ErrorHandler() {
       const error =
         reason instanceof Error
           ? reason
-          : new Error(
-              typeof reason === "string"
-                ? reason
-                : "Unhandled promise rejection"
-            );
+          : new Error(typeof reason === "string" ? reason : "Unhandled promise rejection");
 
       captureError(error, "unhandledrejection", {
         reason: reason instanceof Error ? reason.message : String(reason),
@@ -152,10 +147,7 @@ export function ErrorHandler() {
     // Cleanup
     return () => {
       window.removeEventListener("error", handleError);
-      window.removeEventListener(
-        "unhandledrejection",
-        handleUnhandledRejection
-      );
+      window.removeEventListener("unhandledrejection", handleUnhandledRejection);
       console.error = originalConsoleError;
     };
   }, []);

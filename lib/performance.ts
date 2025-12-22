@@ -1,12 +1,7 @@
 // Performance monitoring utilities
 
-import type {
-  WebVitalsMetric,
-  LayoutShiftEntry,
-  LCPEntry,
-  FirstInputEntry,
-} from "./types";
 import { PERFORMANCE_THRESHOLDS } from "./constants";
+import type { FirstInputEntry, LayoutShiftEntry, LCPEntry, WebVitalsMetric } from "./types";
 
 /**
  * Reports Web Vitals metrics
@@ -41,8 +36,7 @@ export function measurePerformance(): void {
         const lastEntry = entries[entries.length - 1] as unknown as LCPEntry;
         reportWebVitals({
           name: "LCP",
-          value:
-            lastEntry.renderTime || lastEntry.loadTime || lastEntry.startTime,
+          value: lastEntry.renderTime || lastEntry.loadTime || lastEntry.startTime,
           id: lastEntry.id || "lcp",
         });
       });
@@ -127,9 +121,7 @@ export function measurePerformance(): void {
 export function measureResourceTiming(): void {
   if (typeof window === "undefined" || !("performance" in window)) return;
 
-  const resources = performance.getEntriesByType(
-    "resource"
-  ) as PerformanceResourceTiming[];
+  const resources = performance.getEntriesByType("resource") as PerformanceResourceTiming[];
 
   resources.forEach((resource) => {
     const duration = resource.responseEnd - resource.startTime;
@@ -139,9 +131,7 @@ export function measureResourceTiming(): void {
       process.env.NODE_ENV === "development" &&
       duration > PERFORMANCE_THRESHOLDS.SLOW_RESOURCE_MS
     ) {
-      console.warn(
-        `Slow resource: ${resource.name} took ${duration.toFixed(2)}ms`
-      );
+      console.warn(`Slow resource: ${resource.name} took ${duration.toFixed(2)}ms`);
     }
   });
 }
