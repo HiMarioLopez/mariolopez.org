@@ -4,4 +4,3 @@ export const config: VercelConfig = {
   framework: "nextjs",
   bunVersion: "1.x",
 };
-
