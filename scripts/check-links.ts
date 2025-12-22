@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 /**
  * Link checker script
  * Checks for broken links in the built Next.js site
@@ -96,8 +96,8 @@ async function main() {
       if (!isRunning) {
         console.error(
           `\n❌ Local server not running at ${LOCAL_URL}\n` +
-            `   Please start the dev server with: pnpm dev\n` +
-            `   Or build and start with: pnpm build && pnpm start\n`,
+            `   Please start the dev server with: bun run dev\n` +
+            `   Or build and start with: bun run build && bun run start\n`,
         );
         process.exit(1);
       }
@@ -115,9 +115,9 @@ async function main() {
       console.log(
         "\n💡 Link Checker\n" +
           "\nUsage:\n" +
-          "   pnpm check-links:local  (checks http://localhost:3000)\n" +
-          "   pnpm check-links:prod   (checks production site)\n" +
-          "   pnpm check-links --url <url>  (checks custom URL)\n",
+          "   bun run check-links:local  (checks http://localhost:3000)\n" +
+          "   bun run check-links:prod   (checks production site)\n" +
+          "   bun run check-links --url <url>  (checks custom URL)\n",
       );
       process.exit(0);
     }

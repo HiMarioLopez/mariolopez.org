@@ -26,19 +26,19 @@
   "version": "1.0.0",
   "private": false,
   "scripts": {
-    "build": "next build",
-    "dev": "next dev",
+    "build": "bun --bun next build",
+    "dev": "bun --bun next dev",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
-    "start": "next start",
+    "start": "bun --bun next start",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
-    "check-links": "tsx scripts/check-links.ts",
-    "check-links:local": "tsx scripts/check-links.ts --local",
-    "check-links:prod": "tsx scripts/check-links.ts --production",
-    "prepare": "husky"
+    "check-links": "bun scripts/check-links.ts",
+    "check-links:local": "bun scripts/check-links.ts --local",
+    "check-links:prod": "bun scripts/check-links.ts --production",
+    "prepare": "bun x husky"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.7.2",
@@ -64,6 +64,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.10",
+    "@vercel/config": "^0.0.24",
     "@commitlint/cli": "^20.2.0",
     "@commitlint/config-conventional": "^20.2.0",
     "@commitlint/types": "^20.2.0",
