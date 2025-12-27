@@ -4,7 +4,7 @@ import { createErrorResponse, logError } from "@/lib/errors";
 import { getRecentlyPlayed } from "@/lib/recently-played";
 
 // Note: Must be a literal number for Next.js segment config (see CACHE_CONFIG.REVALIDATE_SECONDS)
-export const revalidate = 60;
+export const revalidate = 300;
 
 /**
  * GET /api/recently-played
