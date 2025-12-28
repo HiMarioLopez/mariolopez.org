@@ -78,7 +78,7 @@
     "@vitest/ui": "^4.0.16",
     "husky": "^9.1.7",
     "jsdom": "^27.4.0",
-    "linkinator": "^7.5.2",
+    "linkinator": "^7.5.3",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",
