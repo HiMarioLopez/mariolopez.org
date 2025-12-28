@@ -18,19 +18,13 @@ jobs:
       with:
         fetch-depth: 1
 
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v4
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
       with:
-        version: 9
-
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'pnpm'
+        bun-version: latest
 
     - name: Install deps
-      run: pnpm install --frozen-lockfile
+      run: bun install --frozen-lockfile
 
     - name: Capture metadata
       id: meta
@@ -44,22 +38,66 @@ jobs:
         cat .github/audit_prompt.md >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
 
+    - name: Collect codebase context
+      id: context
+      run: |
+        echo "files<<EOF" >> $GITHUB_OUTPUT
+        
+        echo "=== package.json ===" >> $GITHUB_OUTPUT
+        cat package.json >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        
+        echo "=== lib/config.ts ===" >> $GITHUB_OUTPUT
+        cat lib/config.ts >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        
+        echo "=== lib/constants.ts ===" >> $GITHUB_OUTPUT
+        cat lib/constants.ts >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        
+        echo "=== File tree ===" >> $GITHUB_OUTPUT
+        find app components lib -type f -name "*.ts" -o -name "*.tsx" | head -100 >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        
+        echo "=== Key components (first 50 lines each) ===" >> $GITHUB_OUTPUT
+        for file in app/[lang]/layout.tsx app/[lang]/human/page.tsx app/[lang]/machine/page.tsx components/hero.tsx components/recently-played.tsx; do
+          if [ -f "$file" ]; then
+            echo "--- $file ---" >> $GITHUB_OUTPUT
+            head -50 "$file" >> $GITHUB_OUTPUT
+            echo "" >> $GITHUB_OUTPUT
+          fi
+        done
+        
+        echo "=== API Routes ===" >> $GITHUB_OUTPUT
+        for file in app/api/*/route.ts; do
+          if [ -f "$file" ]; then
+            echo "--- $file ---" >> $GITHUB_OUTPUT
+            head -40 "$file" >> $GITHUB_OUTPUT
+            echo "" >> $GITHUB_OUTPUT
+          fi
+        done
+        
+        echo "EOF" >> $GITHUB_OUTPUT
+
     - name: Run AI Audit
       id: audit
       uses: actions/ai-inference@v1
       with:
-        model: 'mistral-ai/ministral-3b'  # Fast/accurate (or 'xai/grok-3-mini')
-        max-tokens: 1024
+        model: 'openai/gpt-4o-mini'  # Free, fast, and excellent for code analysis
+        max-tokens: 2048
         system-prompt: |
           # Code Quality & Engineering Excellence Assessment
           ${{ steps.read-prompt.outputs.prompt }}
         prompt: |
-          Analyze this ENTIRE Next.js 16 + React 19 codebase: ${{ github.workspace }}
+          Analyze this Next.js 16 + React 19 codebase.
           
           📅 Date: ${{ steps.meta.outputs.run_date }}
-          📦 Check package.json for exact versions
-          🎯 CRITICAL: Verify vs latest docs (nextjs.org/docs/app, react.dev)
-          🔍 Scan EVERY file for your 8 assessment categories
+          
+          ## Codebase Files:
+          ${{ steps.context.outputs.files }}
+          
+          🎯 Based on the files above, assess code quality per the system prompt.
+          🔍 Focus on: constants usage, Server Components, performance, architecture.
           
           Output **ONLY** valid JSON (no markdown):
           {
@@ -110,8 +148,11 @@ jobs:
           try {
             const rawResponse = process.env.AUDIT_JSON ?? '';
             const audit = JSON.parse(stripCodeFence(rawResponse));
+            
             if (!audit.issues?.length) {
-              core.summary.addHeading('✅ No issues found!');
+              core.summary.addHeading('✅ Code Audit Passed!', 2);
+              core.summary.addRaw(`**Score:** ${audit.overall_score || 'A'}\n\n${audit.summary || 'No issues found.'}`);
+              await core.summary.write();
               return;
             }
             
@@ -152,6 +193,11 @@ jobs:
               `*Powered by GitHub Models • [View run](${{ github.server_url }}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})*`,
             ].join('\n');
             
+            // Also write to job summary
+            core.summary.addHeading(`🤖 Code Audit [${audit.overall_score}]`, 2);
+            core.summary.addRaw(`**Issues:** ${audit.issues.length}\n\n${audit.summary}`);
+            await core.summary.write();
+            
             // Create or update existing audit issue
             const { data: issues } = await github.rest.issues.listForRepo({
               owner: context.repo.owner, repo: context.repo.repo,
@@ -159,18 +205,22 @@ jobs:
             });
             const auditIssue = issues.find(i => i.title.includes('Code Audit'));
             
+            const title = `🤖 Code Quality Audit [${audit.overall_score}]`;
+            
             if (auditIssue) {
               await github.rest.issues.update({
                 owner: context.repo.owner, repo: context.repo.repo,
-                issue_number: auditIssue.number, body
+                issue_number: auditIssue.number, title, body
               });
             } else {
               await github.rest.issues.create({
                 owner: context.repo.owner, repo: context.repo.repo,
-                title: `🤖 Code Quality Audit [${audit.overall_score}]`,
-                body, labels: ['automated', 'code-quality']
+                title, body, labels: ['automated', 'code-quality']
               });
             }
           } catch (e) {
             core.error(`Audit failed: ${e}`);
+            core.summary.addHeading('❌ Audit Failed', 2);
+            core.summary.addRaw(`Error: ${e.message || e}`);
+            await core.summary.write();
           }

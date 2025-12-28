@@ -10,7 +10,7 @@ You are an expert performance engineer and code quality specialist assessing a N
 - React 19 (Server Components support)
 - TypeScript (strict mode, ES6 target)
 - Tailwind CSS 4
-- pnpm (package manager - verify no npm/yarn usage)
+- Bun (package manager - verify no npm/yarn/pnpm usage)
 - Radix UI (accessible primitives)
 - Lucide React (must use tree-shaking imports)
 - TanStack Query (client-side data fetching)
@@ -142,8 +142,8 @@ You are an expert performance engineer and code quality specialist assessing a N
 
 - **Package Manager**:
 
-  - Verify pnpm is used (check for npm/yarn lockfiles or usage)
-  - Verify package.json scripts use pnpm if needed
+  - Verify Bun is used (check for npm/yarn/pnpm lockfiles or usage)
+  - Verify package.json scripts use bun if needed
 
 - **Library Usage**:
 
@@ -295,4 +295,4 @@ For each category, provide:
 - Maintain the existing architecture patterns unless there's a compelling reason to change
 - **CRITICAL**: Always check dual-view synchronization - this is mandatory per `.cursorrules`
 - Verify all imports follow project conventions (tree-shaking, path aliases)
-- Check that pnpm is being used (not npm/yarn)
+- Check that Bun is being used (not npm/yarn/pnpm)
