@@ -82,7 +82,7 @@ export function DisabledButton({
                     width={32}
                     height={32}
                     className={cn(
-                      "h-5 w-auto rounded-sm grayscale transition-all duration-200 group-hover:grayscale-0 shrink-0",
+                      "h-6 w-auto rounded-sm grayscale transition-all duration-200 group-hover:grayscale-0 shrink-0",
                       open && "grayscale-0",
                       logoClassName,
                     )}
@@ -92,7 +92,7 @@ export function DisabledButton({
                   // Render the passed icon element directly
                   <span
                     className={cn(
-                      "flex items-center justify-center transition-all duration-200 grayscale group-hover:grayscale-0 [&>svg]:w-4 [&>svg]:h-4",
+                      "flex items-center justify-center transition-all duration-200 grayscale group-hover:grayscale-0 [&>svg]:w-5 [&>svg]:h-5",
                       open && "grayscale-0",
                     )}
                   >

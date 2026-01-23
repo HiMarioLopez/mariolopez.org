@@ -18,7 +18,7 @@ export function BlogLink({ className }: { className?: string }) {
         rel="noopener noreferrer"
         className="flex items-center justify-center gap-2 group"
       >
-        <span className="text-base inline-flex items-center leading-none icon-grayscale-hover shrink-0">
+        <span className="text-lg inline-flex items-center leading-none icon-grayscale-hover shrink-0">
           🍝
         </span>
         <span className="truncate">

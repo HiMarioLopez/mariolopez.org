@@ -82,10 +82,10 @@ export function ResumeDropdown({ dict, className }: ResumeDropdownProps) {
             onClick={handleClick}
           >
             <div className="flex items-center gap-2 min-w-0">
-              <FileText className="w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0 shrink-0" />
+              <FileText className="w-5 h-5 grayscale transition-all duration-200 group-hover:grayscale-0 shrink-0" />
               <span className="truncate">{dict.label}</span>
             </div>
-            <ChevronDown className="w-4 h-4 grayscale transition-all duration-200 group-hover:grayscale-0 shrink-0 ml-2" />
+            <ChevronDown className="w-5 h-5 grayscale transition-all duration-200 group-hover:grayscale-0 shrink-0 ml-2" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent

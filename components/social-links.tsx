@@ -1,5 +1,6 @@
-import { Bookmark, Github, Linkedin, Twitter } from "lucide-react";
+import { Github, Linkedin, Twitter } from "lucide-react";
 import { LINKS } from "@/lib/constants";
+import { BackpocketLink } from "./backpocket-link";
 import { BlogLink } from "./blog-link";
 import { CallToAction } from "./call-to-action";
 import { ChaosRecipeLink } from "./chaos-recipe-link";
@@ -78,9 +79,7 @@ export function SocialLinks({ dict, recentlyPlayedDict, contactDict }: SocialLin
 
           <BlogLink />
 
-          <DisabledButton icon={<Bookmark />} tooltip={dict.building}>
-            {dict.backpocket}
-          </DisabledButton>
+          <BackpocketLink>{dict.backpocket}</BackpocketLink>
 
           <DisabledButton
             logo={{

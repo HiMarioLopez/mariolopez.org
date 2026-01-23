@@ -36,7 +36,7 @@ export function SocialLink({
       >
         {Icon && (
           <Icon
-            className={cn("w-4 h-4 icon-grayscale-hover shrink-0")}
+            className={cn("w-5 h-5 icon-grayscale-hover shrink-0")}
             style={iconColor ? { color: iconColor } : undefined}
           />
         )}
