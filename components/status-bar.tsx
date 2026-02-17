@@ -12,7 +12,8 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LINKS, VISITOR_COUNTER_CONFIG } from "@/lib/constants";
+import { AVAILABILITY_DISPLAY, LINKS, VISITOR_COUNTER_CONFIG } from "@/lib/constants";
+import { useAvailabilityStatus } from "@/lib/hooks/use-availability-status";
 
 interface StatusBarProps {
   lang: string;
@@ -25,6 +26,9 @@ export function StatusBar({ lang, mode }: StatusBarProps) {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [visitorCount, setVisitorCount] = useState<number | null>(null);
+  const availabilityStatus = useAvailabilityStatus();
+  const display = AVAILABILITY_DISPLAY[availabilityStatus];
+  const locale = lang === "es-MX" ? "es-MX" : "en-US";
 
   useEffect(() => setMounted(true), []);
 
@@ -55,9 +59,11 @@ export function StatusBar({ lang, mode }: StatusBarProps) {
         <div className="bg-card border border-border rounded-lg px-3 sm:px-4 py-2 flex items-center justify-between text-[10px] font-mono text-muted-foreground/60 pointer-events-auto">
           {/* Left side */}
           <div className="flex items-center gap-2.5 sm:gap-3">
-            <span className="text-emerald-500 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="hidden sm:inline">online</span>
+            <span className={`${display.textClass} flex items-center gap-1.5`}>
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${display.dotClass}${display.pulse ? " animate-pulse" : ""}`}
+              />
+              <span className="hidden sm:inline">{display.label[locale]}</span>
             </span>
 
             <span className="hidden sm:inline text-muted-foreground/40">Houston, TX</span>
@@ -108,18 +114,43 @@ export function StatusBar({ lang, mode }: StatusBarProps) {
 
           {/* Right side */}
           <div className="flex items-center gap-2.5 sm:gap-3">
-            <span className="hidden sm:inline">&copy; 2026</span>
-            <a
-              href={LINKS.SITE_SOURCE}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors"
-            >
-              src
-            </a>
+            {/* Theme select */}
+            {mounted && (
+              <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      type="button"
+                      className="h-6 w-6 inline-flex items-center justify-center rounded hover:bg-accent hover:text-foreground transition-colors"
+                      aria-label="Select theme"
+                    >
+                      {theme === "light" ? (
+                        <Sun size={12} />
+                      ) : theme === "dark" ? (
+                        <Moon size={12} />
+                      ) : (
+                        <Monitor size={12} />
+                      )}
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    side="top"
+                    align="end"
+                    className="min-w-[120px] font-mono text-xs"
+                  >
+                    <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
+                      <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            )}
+
+            <span className="w-px h-3 bg-border" />
 
             {/* Language select */}
-            <span className="w-px h-3 bg-border" />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
@@ -151,40 +182,16 @@ export function StatusBar({ lang, mode }: StatusBarProps) {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Theme select */}
-            {mounted && (
-              <>
-                <span className="w-px h-3 bg-border" />
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button
-                      type="button"
-                      className="h-6 w-6 inline-flex items-center justify-center rounded hover:bg-accent hover:text-foreground transition-colors"
-                      aria-label="Select theme"
-                    >
-                      {theme === "light" ? (
-                        <Sun size={12} />
-                      ) : theme === "dark" ? (
-                        <Moon size={12} />
-                      ) : (
-                        <Monitor size={12} />
-                      )}
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    side="top"
-                    align="end"
-                    className="min-w-[120px] font-mono text-xs"
-                  >
-                    <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
-                      <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
-            )}
+            <span className="w-px h-3 bg-border" />
+            <span className="hidden sm:inline">&copy; 2026</span>
+            <a
+              href={LINKS.SITE_SOURCE}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
+            >
+              src
+            </a>
           </div>
         </div>
       </div>
