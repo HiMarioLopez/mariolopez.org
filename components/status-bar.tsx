@@ -1,10 +1,18 @@
 "use client";
 
+import { Globe, Monitor, Moon, Sun } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { LINKS } from "@/lib/constants";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { LINKS, VISITOR_COUNTER_CONFIG } from "@/lib/constants";
 
 interface StatusBarProps {
   lang: string;
@@ -16,13 +24,30 @@ export function StatusBar({ lang, mode }: StatusBarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
+  const [visitorCount, setVisitorCount] = useState<number | null>(null);
+
   useEffect(() => setMounted(true), []);
 
-  const themeOptions = [
-    { value: "system", label: "sys" },
-    { value: "light", label: "lgt" },
-    { value: "dark", label: "drk" },
-  ] as const;
+  useEffect(() => {
+    let cancelled = false;
+
+    async function fetchCount() {
+      try {
+        const res = await fetch("/api/visitor-count");
+        if (!cancelled && res.ok) {
+          const data = await res.json();
+          setVisitorCount(data.count);
+        }
+      } catch {
+        // Silently fail - visitor count is non-critical
+      }
+    }
+
+    fetchCount();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 px-5 sm:px-6 pb-3 pt-6 pointer-events-none bg-gradient-to-t from-background via-background/80 to-transparent">
@@ -36,6 +61,20 @@ export function StatusBar({ lang, mode }: StatusBarProps) {
             </span>
 
             <span className="hidden sm:inline text-muted-foreground/40">Houston, TX</span>
+
+            {/* Visitor count */}
+            <span className="w-px h-3 bg-border" />
+            <span className="tabular-nums tracking-tight">
+              {visitorCount !== null
+                ? visitorCount
+                    .toString()
+                    .padStart(
+                      VISITOR_COUNTER_CONFIG.DIGIT_COUNT,
+                      VISITOR_COUNTER_CONFIG.PADDING_CHAR,
+                    )
+                : VISITOR_COUNTER_CONFIG.DEFAULT_DISPLAY}
+              <span className="hidden sm:inline"> hits</span>
+            </span>
 
             {/* View toggle */}
             <span className="w-px h-3 bg-border" />
@@ -79,66 +118,71 @@ export function StatusBar({ lang, mode }: StatusBarProps) {
               src
             </a>
 
-            {/* Language toggle */}
+            {/* Language select */}
             <span className="w-px h-3 bg-border" />
-            <div className="flex items-center gap-0 rounded border border-border overflow-hidden">
-              {(
-                [
-                  { value: "en-US", label: "en" },
-                  { value: "es-MX", label: "es" },
-                ] as const
-              ).map((opt) => {
-                const isActive = lang === opt.value;
-                return isActive ? (
-                  <span
-                    key={opt.value}
-                    className="px-1.5 py-0.5 bg-foreground text-background text-[10px]"
-                  >
-                    {opt.label}
-                  </span>
-                ) : (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => {
-                      const segments = pathname.split("/");
-                      if (segments.length > 1) {
-                        segments[1] = opt.value;
-                        router.push(segments.join("/"));
-                      }
-                    }}
-                    className="px-1.5 py-0.5 text-[10px] text-muted-foreground/60 hover:text-foreground hover:bg-accent transition-colors"
-                  >
-                    {opt.label}
-                  </button>
-                );
-              })}
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  className="h-6 w-6 inline-flex items-center justify-center rounded hover:bg-accent hover:text-foreground transition-colors"
+                  aria-label="Select language"
+                >
+                  <Globe size={12} />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side="top"
+                align="end"
+                className="min-w-[120px] font-mono text-xs"
+              >
+                <DropdownMenuRadioGroup
+                  value={lang}
+                  onValueChange={(value) => {
+                    const segments = pathname.split("/");
+                    if (segments.length > 1) {
+                      segments[1] = value;
+                      router.push(segments.join("/"));
+                    }
+                  }}
+                >
+                  <DropdownMenuRadioItem value="en-US">English</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="es-MX">Español</DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-            {/* Theme toggle */}
+            {/* Theme select */}
             {mounted && (
               <>
                 <span className="w-px h-3 bg-border" />
-                <div className="flex items-center gap-0 rounded border border-border overflow-hidden">
-                  {themeOptions.map((opt) => {
-                    const isActive = theme === opt.value;
-                    return (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        onClick={() => setTheme(opt.value)}
-                        className={`px-1.5 py-0.5 transition-colors text-[10px] ${
-                          isActive
-                            ? "bg-foreground text-background"
-                            : "text-muted-foreground/60 hover:text-foreground hover:bg-accent"
-                        }`}
-                        aria-label={`Switch to ${opt.value} theme`}
-                      >
-                        {opt.label}
-                      </button>
-                    );
-                  })}
-                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      type="button"
+                      className="h-6 w-6 inline-flex items-center justify-center rounded hover:bg-accent hover:text-foreground transition-colors"
+                      aria-label="Select theme"
+                    >
+                      {theme === "light" ? (
+                        <Sun size={12} />
+                      ) : theme === "dark" ? (
+                        <Moon size={12} />
+                      ) : (
+                        <Monitor size={12} />
+                      )}
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    side="top"
+                    align="end"
+                    className="min-w-[120px] font-mono text-xs"
+                  >
+                    <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
+                      <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </>
             )}
           </div>
