@@ -1,6 +1,6 @@
-import { redirect } from "next/navigation";
+import { EditorialPage } from "./editorial-page";
 
 export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  redirect(`/${lang}/human`);
+  return <EditorialPage lang={lang} />;
 }
