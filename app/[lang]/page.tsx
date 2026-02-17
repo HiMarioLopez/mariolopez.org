@@ -1,6 +1,6 @@
-import { EditorialPage } from "./editorial-page";
+import { LandingPage } from "./landing-page";
 
 export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  return <EditorialPage lang={lang} />;
+  return <LandingPage lang={lang} />;
 }

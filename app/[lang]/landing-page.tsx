@@ -63,7 +63,7 @@ const PROJECT_ITEMS = [
   { name: "guesschella", desc: "In development", href: "#", status: "building" as const },
 ] as const;
 
-export function EditorialPage({ lang }: { lang: string }) {
+export function LandingPage({ lang }: { lang: string }) {
   return (
     <div className="min-h-screen bg-background text-foreground font-mono antialiased selection:bg-foreground/15 selection:text-foreground">
       <div className="max-w-[680px] mx-auto px-5 sm:px-6 py-8 sm:py-10 md:py-16">
@@ -81,7 +81,7 @@ export function EditorialPage({ lang }: { lang: string }) {
           </div>
 
           {/* JSDoc block */}
-          <pre className="text-muted-foreground/60 text-[11px] sm:text-xs leading-relaxed mb-6 select-none">{`/**
+          <pre className="text-muted-foreground/60 text-[11px] sm:text-xs leading-relaxed mb-6">{`/**
  * @name    Mario Lopez Martinez
  * @role    Platform Architect
  * @company Vercel
