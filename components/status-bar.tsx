@@ -24,18 +24,6 @@ export function StatusBar({ lang, mode }: StatusBarProps) {
     { value: "dark", label: "drk" },
   ] as const;
 
-  const otherLang = lang === "en-US" ? "es-MX" : "en-US";
-  const langLabel = lang === "en-US" ? "en" : "es";
-  const otherLangLabel = lang === "en-US" ? "es" : "en";
-
-  const switchLanguage = () => {
-    const segments = pathname.split("/");
-    if (segments.length > 1) {
-      segments[1] = otherLang;
-      router.push(segments.join("/"));
-    }
-  };
-
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 px-5 sm:px-6 pb-3 pt-6 pointer-events-none bg-gradient-to-t from-background via-background/80 to-transparent">
       <div className="max-w-[680px] mx-auto">
@@ -94,16 +82,37 @@ export function StatusBar({ lang, mode }: StatusBarProps) {
             {/* Language toggle */}
             <span className="w-px h-3 bg-border" />
             <div className="flex items-center gap-0 rounded border border-border overflow-hidden">
-              <span className="px-1.5 py-0.5 bg-foreground text-background text-[10px]">
-                {langLabel}
-              </span>
-              <button
-                type="button"
-                onClick={switchLanguage}
-                className="px-1.5 py-0.5 text-[10px] text-muted-foreground/60 hover:text-foreground hover:bg-accent transition-colors"
-              >
-                {otherLangLabel}
-              </button>
+              {(
+                [
+                  { value: "en-US", label: "en" },
+                  { value: "es-MX", label: "es" },
+                ] as const
+              ).map((opt) => {
+                const isActive = lang === opt.value;
+                return isActive ? (
+                  <span
+                    key={opt.value}
+                    className="px-1.5 py-0.5 bg-foreground text-background text-[10px]"
+                  >
+                    {opt.label}
+                  </span>
+                ) : (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => {
+                      const segments = pathname.split("/");
+                      if (segments.length > 1) {
+                        segments[1] = opt.value;
+                        router.push(segments.join("/"));
+                      }
+                    }}
+                    className="px-1.5 py-0.5 text-[10px] text-muted-foreground/60 hover:text-foreground hover:bg-accent transition-colors"
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
             </div>
 
             {/* Theme toggle */}
