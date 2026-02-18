@@ -48,34 +48,38 @@ export function StatusBarRightControls({
 
   return (
     <div className="flex items-center gap-2.5 sm:gap-3">
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          id={themeTriggerId}
-          type="button"
-          className="h-6 w-6 inline-flex items-center justify-center rounded hover:bg-accent hover:text-foreground transition-colors"
-          aria-label={ariaToggleTheme}
-        >
-          {resolvedTheme === "light" ? (
-            <Sun size={12} />
-          ) : resolvedTheme === "dark" ? (
-            <Moon size={12} />
-          ) : (
-            <Monitor size={12} />
-          )}
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          id={themeMenuId}
-          side="top"
-          align="end"
-          className="min-w-[100px] font-mono text-[11px] text-muted-foreground"
-        >
-          <DropdownMenuRadioGroup value={resolvedTheme} onValueChange={setTheme}>
-            <DropdownMenuRadioItem value="system">{autoLabel}</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="light">{lightLabel}</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="dark">{darkLabel}</DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      {isMounted ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            id={themeTriggerId}
+            type="button"
+            className="h-6 w-6 inline-flex items-center justify-center rounded hover:bg-accent hover:text-foreground transition-colors"
+            aria-label={ariaToggleTheme}
+          >
+            {resolvedTheme === "light" ? (
+              <Sun size={12} />
+            ) : resolvedTheme === "dark" ? (
+              <Moon size={12} />
+            ) : (
+              <Monitor size={12} />
+            )}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            id={themeMenuId}
+            side="top"
+            align="end"
+            className="min-w-[100px] font-mono text-[11px] text-muted-foreground"
+          >
+            <DropdownMenuRadioGroup value={resolvedTheme} onValueChange={setTheme}>
+              <DropdownMenuRadioItem value="system">{autoLabel}</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="light">{lightLabel}</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="dark">{darkLabel}</DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : (
+        <span aria-hidden="true" className="h-6 w-6 inline-block" />
+      )}
 
       <span className="w-px h-3 bg-border" />
 

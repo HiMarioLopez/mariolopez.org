@@ -47,7 +47,7 @@ const LLM_PROVIDER_ITEMS = [
     name: "ChatGPT",
     href: LINKS.CHATGPT,
     logoSrc: LLM_PROVIDER_LOGOS.CHATGPT,
-    logoClassName: "h-3.5 w-3.5",
+    logoClassName: "h-3.5 w-3.5 dark:invert",
   },
   {
     id: "gemini",
