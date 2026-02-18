@@ -9,6 +9,7 @@ import { PerformanceMonitor } from "@/components/performance-monitor";
 import { QueryProvider } from "@/components/query-provider";
 import { ResourceHints } from "@/components/resource-hints";
 import { RoutePrefetcher } from "@/components/route-prefetcher";
+import { BASE_URL } from "@/lib/constants";
 import "../globals.css";
 import { getDictionary, type Locale } from "./dictionaries";
 
@@ -35,10 +36,36 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params;
   const dict = await getDictionary(lang as Locale);
+  const metadataLocale = lang === "es-MX" ? "es_MX" : "en_US";
+  const ogImageUrl = `/${lang}/opengraph-image`;
+  const pageUrl = `/${lang}`;
 
   return {
+    metadataBase: new URL(BASE_URL),
     title: dict.metadata.title,
     description: dict.metadata.description,
+    openGraph: {
+      type: "website",
+      siteName: "mariolopez.org",
+      title: dict.metadata.title,
+      description: dict.metadata.description,
+      locale: metadataLocale,
+      url: pageUrl,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: "Howdy Hey 🤠 — Mario Lopez Martinez",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: dict.metadata.title,
+      description: dict.metadata.description,
+      images: [ogImageUrl],
+    },
     generator: "v0.app",
     icons: {
       icon: [
