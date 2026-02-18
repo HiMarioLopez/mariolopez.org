@@ -63,7 +63,7 @@ export function StatusBar({ lang, mode, dict }: StatusBarProps) {
     dict.music?.unknown_duration ?? (locale === "es-MX" ? "ventana estimada" : "estimated window");
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 px-5 sm:px-6 pb-3 pt-6 pointer-events-none bg-gradient-to-t from-background via-background/80 to-transparent">
+    <div className="fixed bottom-0 left-0 right-0 z-40 px-5 sm:px-6 pb-5 sm:pb-3 pt-6 pointer-events-none bg-gradient-to-t from-background via-background/80 to-transparent">
       <div className="max-w-[680px] mx-auto">
         <div className="bg-card border border-border rounded-lg pointer-events-auto overflow-hidden">
           <StatusBarMusicStrip

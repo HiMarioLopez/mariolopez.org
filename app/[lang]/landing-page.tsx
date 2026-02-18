@@ -560,7 +560,7 @@ export function LandingPage({
           </a>
         </Section>
 
-        <div className="h-16" />
+        <div className="h-36 sm:h-16" />
       </div>
 
       <StatusBar lang={lang} mode="human" dict={statusBarDict} />
