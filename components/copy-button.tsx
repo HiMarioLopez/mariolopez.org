@@ -2,9 +2,11 @@
 
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface CopyButtonProps {
   content: string;
+  className?: string;
   dict?: {
     label: string;
     copied: string;
@@ -12,7 +14,7 @@ interface CopyButtonProps {
   };
 }
 
-export function CopyButton({ content, dict }: CopyButtonProps) {
+export function CopyButton({ content, className, dict }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -36,7 +38,10 @@ export function CopyButton({ content, dict }: CopyButtonProps) {
     <button
       onClick={handleCopy}
       type="button"
-      className="flex items-center gap-1.5 bg-card border border-border rounded-lg px-3 py-2 text-[10px] font-mono text-muted-foreground/60 hover:text-foreground transition-colors"
+      className={cn(
+        "flex items-center gap-1.5 bg-card border border-border rounded-lg px-3 py-2 text-[10px] font-mono text-muted-foreground/60 hover:text-foreground transition-colors",
+        className,
+      )}
       aria-label={ariaLabel}
     >
       {copied ? (

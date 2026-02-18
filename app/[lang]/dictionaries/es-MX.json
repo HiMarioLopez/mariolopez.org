@@ -21,7 +21,8 @@
   "copy_button": {
     "label": "Copiar",
     "copied": "¡Copiado!",
-    "aria_label": "Copiar al portapapeles"
+    "aria_label": "Copiar al portapapeles",
+    "open_in_aria_template": "Abrir en %provider%"
   },
   "metadata": {
     "title": "Mario Lopez Martinez",

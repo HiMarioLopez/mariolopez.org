@@ -21,7 +21,8 @@
   "copy_button": {
     "label": "Copy",
     "copied": "Copied!",
-    "aria_label": "Copy to clipboard"
+    "aria_label": "Copy to clipboard",
+    "open_in_aria_template": "Open in %provider%"
   },
   "metadata": {
     "title": "Mario Lopez Martinez",
