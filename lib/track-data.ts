@@ -4,7 +4,9 @@
  */
 
 import { PLATFORMS } from "./constants";
-import type { Artist, ArtistObject, ExtractedTrackInfo, TrackData } from "./types";
+import type { Artist, ArtistObject, ArtworkColors, ExtractedTrackInfo, TrackData } from "./types";
+
+const HEX_COLOR_PATTERN = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
 
 /**
  * Extracts track information from various API response formats
@@ -61,6 +63,8 @@ export function extractTrackInfo(trackData: TrackData): ExtractedTrackInfo {
   const songUrl = trackData.url || "";
   const timestamp = trackData.processedTimestamp || "";
   const durationMs = extractDurationMs(trackData);
+  const artworkUrl = extractArtworkUrl(trackData);
+  const artworkColors = extractArtworkColors(trackData);
 
   return {
     songName,
@@ -69,6 +73,8 @@ export function extractTrackInfo(trackData: TrackData): ExtractedTrackInfo {
     url: songUrl,
     timestamp,
     durationMs,
+    artworkUrl,
+    artworkColors,
   };
 }
 
@@ -94,6 +100,114 @@ function extractDurationMs(trackData: TrackData): number | undefined {
   }
 
   return undefined;
+}
+
+/**
+ * Extracts artwork URL from known response formats.
+ */
+function extractArtworkUrl(trackData: TrackData): string | undefined {
+  const candidates = [trackData.artworkUrl, trackData.artwork?.url];
+
+  for (const candidate of candidates) {
+    if (typeof candidate === "string") {
+      const normalized = candidate.trim();
+      if (normalized.length > 0) {
+        return normalized;
+      }
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Extracts and normalizes artwork color palettes from known response formats.
+ */
+function extractArtworkColors(trackData: TrackData): ArtworkColors | undefined {
+  const fromArtworkColors = toArtworkColors(trackData.artworkColors);
+  const fromColors = toArtworkColors(trackData.colors);
+  const fromArtworkObject = toArtworkColors(trackData.artwork);
+  const fromSingleFields: ArtworkColors = {
+    backgroundColor: normalizeHexColor(trackData.backgroundColor),
+    textColor1: normalizeHexColor(
+      trackData.primaryColor ?? trackData.color ?? trackData.dominantColor,
+    ),
+    textColor2: normalizeHexColor(trackData.secondaryColor),
+  };
+
+  const merged: ArtworkColors = {
+    backgroundColor:
+      fromArtworkColors?.backgroundColor ??
+      fromColors?.backgroundColor ??
+      fromArtworkObject?.backgroundColor ??
+      fromSingleFields.backgroundColor,
+    textColor1:
+      fromArtworkColors?.textColor1 ??
+      fromColors?.textColor1 ??
+      fromArtworkObject?.textColor1 ??
+      fromSingleFields.textColor1,
+    textColor2:
+      fromArtworkColors?.textColor2 ??
+      fromColors?.textColor2 ??
+      fromArtworkObject?.textColor2 ??
+      fromSingleFields.textColor2,
+    textColor3:
+      fromArtworkColors?.textColor3 ?? fromColors?.textColor3 ?? fromArtworkObject?.textColor3,
+    textColor4:
+      fromArtworkColors?.textColor4 ?? fromColors?.textColor4 ?? fromArtworkObject?.textColor4,
+  };
+
+  return hasAnyArtworkColor(merged) ? merged : undefined;
+}
+
+/**
+ * Coerces arbitrary color maps into the normalized artwork color shape.
+ */
+function toArtworkColors(value: unknown): ArtworkColors | undefined {
+  if (!value || typeof value !== "object") {
+    return undefined;
+  }
+
+  const source = value as Record<string, unknown>;
+  const artworkColors: ArtworkColors = {
+    backgroundColor: normalizeHexColor(source.backgroundColor ?? source.bgColor),
+    textColor1: normalizeHexColor(source.textColor1 ?? source.primaryColor ?? source.primary),
+    textColor2: normalizeHexColor(source.textColor2 ?? source.secondaryColor ?? source.secondary),
+    textColor3: normalizeHexColor(source.textColor3 ?? source.tertiaryColor ?? source.tertiary),
+    textColor4: normalizeHexColor(
+      source.textColor4 ?? source.detailColor ?? source.quaternaryColor,
+    ),
+  };
+
+  return hasAnyArtworkColor(artworkColors) ? artworkColors : undefined;
+}
+
+function hasAnyArtworkColor(artworkColors: ArtworkColors): boolean {
+  return Boolean(
+    artworkColors.backgroundColor ||
+      artworkColors.textColor1 ||
+      artworkColors.textColor2 ||
+      artworkColors.textColor3 ||
+      artworkColors.textColor4,
+  );
+}
+
+function normalizeHexColor(value: unknown): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  const trimmed = value.trim();
+  if (trimmed.length === 0) {
+    return undefined;
+  }
+
+  const candidate = trimmed.startsWith("#") ? trimmed : `#${trimmed}`;
+  if (!HEX_COLOR_PATTERN.test(candidate)) {
+    return undefined;
+  }
+
+  return candidate.toLowerCase();
 }
 
 /**

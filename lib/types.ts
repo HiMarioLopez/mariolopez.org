@@ -3,6 +3,17 @@
  */
 
 /**
+ * Artwork color metadata returned by music providers
+ */
+export interface ArtworkColors {
+  backgroundColor?: string;
+  textColor1?: string;
+  textColor2?: string;
+  textColor3?: string;
+  textColor4?: string;
+}
+
+/**
  * Recently played track information
  */
 export interface RecentlyPlayed {
@@ -12,6 +23,8 @@ export interface RecentlyPlayed {
   url: string;
   timestamp: string;
   durationMs?: number;
+  artworkUrl?: string;
+  artworkColors?: ArtworkColors;
 }
 
 /**
@@ -31,6 +44,18 @@ export interface TrackData {
   source?: string;
   url?: string;
   processedTimestamp?: string;
+  artworkUrl?: string;
+  artwork?: {
+    url?: string;
+    [key: string]: unknown;
+  };
+  artworkColors?: ArtworkColors | Record<string, unknown>;
+  colors?: Record<string, unknown>;
+  color?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
+  backgroundColor?: string;
+  dominantColor?: string;
 }
 
 /**
@@ -68,6 +93,8 @@ export interface ExtractedTrackInfo {
   url: string;
   timestamp: string;
   durationMs?: number;
+  artworkUrl?: string;
+  artworkColors?: ArtworkColors;
 }
 
 /**

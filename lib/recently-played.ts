@@ -1,7 +1,7 @@
 import { API_CONFIG, CACHE_CONFIG } from "./config";
 import { logError } from "./errors";
 import { extractTrackInfo, normalizeTrackData } from "./track-data";
-import type { RecentlyPlayed } from "./types";
+import type { ArtworkColors, RecentlyPlayed } from "./types";
 
 /**
  * Fetches the most recently played track from Spotify and Apple Music
@@ -36,6 +36,8 @@ export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
       url: string;
       timestamp: string;
       durationMs?: number;
+      artworkUrl?: string;
+      artworkColors?: ArtworkColors;
     }> = [];
 
     // Process Spotify response
@@ -94,6 +96,8 @@ export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
       url: mostRecentTrack.url,
       timestamp: mostRecentTrack.timestamp,
       durationMs: mostRecentTrack.durationMs,
+      artworkUrl: mostRecentTrack.artworkUrl,
+      artworkColors: mostRecentTrack.artworkColors,
     };
   } catch (error) {
     logError(error, "Error fetching recently played song");
