@@ -201,8 +201,8 @@ export const AVAILABILITY_STATUSES = ["cranking", "away", "offline"] as const;
 
 export const AVAILABILITY_DISPLAY = {
   cranking: {
-    label: { "en-US": "Cranking", "es-MX": "A tope" },
-    jsdoc: { "en-US": "Cranking", "es-MX": "A tope" },
+    label: { "en-US": "Cranking", "es-MX": "En chinga" },
+    jsdoc: { "en-US": "Cranking", "es-MX": "En chinga" },
     desc: { "en-US": "Mon–Fri · 8 am – 5 pm CT", "es-MX": "Lun–Vie · 8 am – 5 pm CT" },
     dotClass: "bg-emerald-500",
     textClass: "text-emerald-700 dark:text-emerald-400",
