@@ -30,6 +30,7 @@ interface LandingDict {
   intro_company: string;
   intro_solving: string;
   intro_customers: string;
+  intro_scope: string;
   intro_team: string;
   intro_hiring: string;
   section_links: string;
@@ -528,7 +529,8 @@ export function LandingPage({
                 className="text-foreground border-b border-border hover:border-foreground transition-colors pb-px"
               >
                 {dict.intro_customers}
-              </a>
+              </a>{" "}
+              {dict.intro_scope}
               . {dict.intro_team}{" "}
               <a
                 href={LINKS.VERCEL_FIELD_ENGINEERING}
