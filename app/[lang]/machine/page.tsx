@@ -19,7 +19,7 @@ export default async function MachinePage({ params }: { params: Promise<{ lang: 
       contentAfter={contentAfter}
       lang={lang as Locale}
       recentlyPlayedTemplate={recentlyPlayedTemplate}
-      dict={{ copy_button: dict.copy_button }}
+      dict={{ copy_button: dict.copy_button, view_toggle: dict.view_toggle }}
     />
   );
 }

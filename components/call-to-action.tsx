@@ -14,12 +14,11 @@ export function CallToAction({ dict }: CallToActionProps) {
   if (!dict) {
     return (
       <p className="text-xl md:text-lg text-muted-foreground leading-relaxed font-light">
-        I mentor students and early-career professionals and speak at events. In Houston? Let's grab
-        a coffee. Elsewhere? Conversation can flow through the wire.{" "}
+        Want to chat or work together?{" "}
         <a href={LINKS.EMAIL_HUMAN} className="link-accent">
-          Hit me up
+          Reach out
         </a>{" "}
-        - I don't bite!
+        — I'd love to hear from you.
       </p>
     );
   }

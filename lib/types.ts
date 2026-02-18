@@ -11,6 +11,7 @@ export interface RecentlyPlayed {
   platform: string;
   url: string;
   timestamp: string;
+  durationMs?: number;
 }
 
 /**
@@ -23,6 +24,9 @@ export interface TrackData {
   artist?: string;
   title?: string;
   artists?: string | Artist[] | ArtistObject[];
+  durationMs?: number | string;
+  durationInMillis?: number | string;
+  duration?: number | string;
   track?: TrackObject;
   source?: string;
   url?: string;
@@ -48,6 +52,9 @@ export type Artist = string | ArtistObject;
 export interface TrackObject {
   name: string;
   artists?: Artist[];
+  duration_ms?: number;
+  durationMs?: number;
+  durationInMillis?: number;
   [key: string]: unknown;
 }
 
@@ -60,6 +67,7 @@ export interface ExtractedTrackInfo {
   platform: string;
   url: string;
   timestamp: string;
+  durationMs?: number;
 }
 
 /**

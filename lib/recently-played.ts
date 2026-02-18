@@ -35,6 +35,7 @@ export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
       platform: string;
       url: string;
       timestamp: string;
+      durationMs?: number;
     }> = [];
 
     // Process Spotify response
@@ -92,6 +93,7 @@ export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
       platform: mostRecentTrack.platform,
       url: mostRecentTrack.url,
       timestamp: mostRecentTrack.timestamp,
+      durationMs: mostRecentTrack.durationMs,
     };
   } catch (error) {
     logError(error, "Error fetching recently played song");

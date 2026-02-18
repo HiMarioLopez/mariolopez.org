@@ -17,6 +17,25 @@ interface MachinePageClientProps {
       copied: string;
       aria_label: string;
     };
+    view_toggle: {
+      human: string;
+      machine: string;
+      auto: string;
+      light: string;
+      dark: string;
+      aria_switch_human: string;
+      aria_switch_machine: string;
+      aria_toggle_theme: string;
+      language: string;
+      aria_toggle_language: string;
+      music: {
+        now_playing: string;
+        recently_played: string;
+        played: string;
+        open_track: string;
+        unknown_duration: string;
+      };
+    };
   };
 }
 
@@ -36,7 +55,7 @@ export function MachinePageClient({
   return (
     <div className="min-h-screen bg-background text-foreground font-mono antialiased">
       <div className="flex items-center justify-center min-h-screen p-6 sm:p-8">
-        <div className="max-w-3xl w-full">
+        <div className="max-w-[680px] w-full">
           <MachineContentDisplay
             contentBefore={contentBefore}
             contentAfter={contentAfter}
@@ -51,7 +70,7 @@ export function MachinePageClient({
         <CopyButton content={fullContent} dict={dict.copy_button} />
       </div>
 
-      <StatusBar lang={lang} mode="machine" />
+      <StatusBar lang={lang} mode="machine" dict={dict.view_toggle} />
     </div>
   );
 }
