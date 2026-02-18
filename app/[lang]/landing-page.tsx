@@ -274,10 +274,7 @@ function ResumeLinkDrawer({ label }: { label: string }) {
         >
           pdf · docx
         </span>
-        <span
-          aria-hidden="true"
-          className="pointer-events-none ml-auto h-3.5 w-3.5 shrink-0"
-        />
+        <span aria-hidden="true" className="pointer-events-none ml-auto h-3.5 w-3.5 shrink-0" />
       </button>
       <div
         id="resume-format-drawer"
