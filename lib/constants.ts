@@ -104,7 +104,7 @@ export const LINKS = {
   GITHUB: "https://github.com/HiMarioLopez",
   LINKEDIN: "https://www.linkedin.com/in/HiMarioLopez/",
   TWITTER: "https://twitter.com/HiMarioLopez",
-  VERCEL: "https://vercel.com",
+  VERCEL: "https://vercel.com/home",
   VERCEL_CAREERS:
     "https://www.perplexity.ai/search/what-is-a-platform-architect-Mf8B8rGgTZKkmxPXzqxZ1Q#0",
   VERCEL_FIELD_ENGINEERING: "https://vercel.com/careers?function=Field+Engineering",
@@ -205,7 +205,7 @@ export const AVAILABILITY_DISPLAY = {
     jsdoc: { "en-US": "Cranking", "es-MX": "A tope" },
     desc: { "en-US": "Mon–Fri · 8 am – 5 pm CT", "es-MX": "Lun–Vie · 8 am – 5 pm CT" },
     dotClass: "bg-emerald-500",
-    textClass: "text-emerald-500",
+    textClass: "text-emerald-700 dark:text-emerald-400",
     pulse: true,
   },
   away: {
@@ -213,15 +213,15 @@ export const AVAILABILITY_DISPLAY = {
     jsdoc: { "en-US": "Away", "es-MX": "Ausente" },
     desc: { "en-US": "After 5 pm & weekends", "es-MX": "Despues de 5 pm y fines de semana" },
     dotClass: "bg-amber-400",
-    textClass: "text-amber-400",
+    textClass: "text-amber-700 dark:text-amber-400",
     pulse: false,
   },
   offline: {
     label: { "en-US": "Offline", "es-MX": "Desconectado" },
     jsdoc: { "en-US": "Offline", "es-MX": "Desconectado" },
     desc: { "en-US": "Late night · 11 pm – 8 am CT", "es-MX": "Noche · 11 pm – 8 am CT" },
-    dotClass: "bg-muted-foreground/40",
-    textClass: "text-muted-foreground/40",
+    dotClass: "bg-text-decorative",
+    textClass: "text-text-tertiary",
     pulse: false,
   },
 } as const;
