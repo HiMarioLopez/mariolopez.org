@@ -530,8 +530,7 @@ export function LandingPage({
               >
                 {dict.intro_customers}
               </a>{" "}
-              {dict.intro_scope}
-              . {dict.intro_team}{" "}
+              {dict.intro_scope}. {dict.intro_team}{" "}
               <a
                 href={LINKS.VERCEL_FIELD_ENGINEERING}
                 target="_blank"
