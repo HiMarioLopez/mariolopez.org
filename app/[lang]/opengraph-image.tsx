@@ -9,6 +9,34 @@ export const size = {
 };
 export const contentType = "image/png";
 
+async function loadFontData(relativePath: string): Promise<ArrayBuffer | null> {
+  try {
+    const response = await fetch(new URL(relativePath, import.meta.url), { cache: "force-cache" });
+    if (!response.ok) {
+      return null;
+    }
+    return await response.arrayBuffer();
+  } catch (_error) {
+    return null;
+  }
+}
+
+const ogFontDataPromise = Promise.all([
+  loadFontData("./fonts/Geist-Regular.ttf"),
+  loadFontData("./fonts/GeistMono-Regular.ttf"),
+]);
+
+const OG_DARK = {
+  canvas: "#000000",
+  card: "#09090b",
+  border: "#27272a",
+  text: "#e4e4e7",
+  muted: "#a1a1aa",
+  subtle: "#71717a",
+  accent: "#d4d4d8",
+  shadow: "0 16px 40px rgba(0, 0, 0, 0.45)",
+} as const;
+
 function getLocale(lang: string): Locale {
   return lang === "es-MX" ? "es-MX" : "en-US";
 }
@@ -26,14 +54,34 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
   const { lang } = await params;
   const locale = getLocale(lang);
   const dict = await getDictionary(locale);
+  const [geistFontData, geistMonoFontData] = await ogFontDataPromise;
   const statusLabel = AVAILABILITY_DISPLAY.cranking.jsdoc[locale];
   const introLine = `${dict.landing.intro_solving} ${dict.landing.intro_customers} ${dict.landing.intro_scope}.`;
   const siteLabel = locale === "es-MX" ? "Sitio" : "Site";
+  const monoFallbackFontFamily =
+    'ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
+  const rootFontFamily = geistMonoFontData ? "Geist Mono" : monoFallbackFontFamily;
+  const sansFontFamily = geistFontData ? "Geist" : rootFontFamily;
   const identityBlock = buildIdentityBlock(
     dict.landing.jsdoc_role,
     dict.landing.jsdoc_company,
     statusLabel,
   );
+  const fonts = [
+    ...(geistFontData
+      ? [{ name: "Geist", data: geistFontData, style: "normal" as const, weight: 400 as const }]
+      : []),
+    ...(geistMonoFontData
+      ? [
+          {
+            name: "Geist Mono",
+            data: geistMonoFontData,
+            style: "normal" as const,
+            weight: 400 as const,
+          },
+        ]
+      : []),
+  ];
 
   return new ImageResponse(
     <div
@@ -41,10 +89,9 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
         width: "100%",
         height: "100%",
         display: "flex",
-        backgroundColor: "#e7e5e4",
-        color: "#292524",
-        fontFamily:
-          'ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+        backgroundColor: OG_DARK.canvas,
+        color: OG_DARK.text,
+        fontFamily: rootFontFamily,
         padding: "42px",
       }}
     >
@@ -55,10 +102,9 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
           display: "flex",
           flexDirection: "column",
           borderRadius: "20px",
-          border: "1px solid #d6d3d1",
-          background:
-            "radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 52%), #f5f5f4",
-          boxShadow: "0 16px 40px rgba(28, 25, 23, 0.08)",
+          border: `1px solid ${OG_DARK.border}`,
+          backgroundColor: OG_DARK.card,
+          boxShadow: OG_DARK.shadow,
           padding: "44px",
           justifyContent: "space-between",
         }}
@@ -70,17 +116,19 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
             alignItems: "center",
             justifyContent: "space-between",
             fontSize: 30,
-            color: "#57534e",
+            color: OG_DARK.muted,
             letterSpacing: "-0.01em",
           }}
         >
           <div style={{ display: "flex", alignItems: "center" }}>
             <span>mariolopez.org</span>
-            <span style={{ marginLeft: "14px", marginRight: "14px", color: "#a8a29e" }}>/</span>
-            <span style={{ color: "#78716c" }}>~</span>
+            <span style={{ marginLeft: "14px", marginRight: "14px", color: OG_DARK.subtle }}>
+              /
+            </span>
+            <span style={{ color: OG_DARK.subtle }}>~</span>
           </div>
-          <div style={{ display: "flex", alignItems: "center", color: "#292524" }}>
-            <span style={{ fontSize: 36 }}>Howdy Hey</span>
+          <div style={{ display: "flex", alignItems: "center", color: OG_DARK.text }}>
+            <span style={{ fontSize: 36, fontFamily: sansFontFamily }}>Howdy Hey</span>
             <span style={{ marginLeft: "12px", fontSize: 42, lineHeight: 1 }}>🤠</span>
           </div>
         </div>
@@ -88,7 +136,7 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
         <div
           style={{
             width: "100%",
-            borderTop: "1px solid #d6d3d1",
+            borderTop: `1px solid ${OG_DARK.border}`,
             marginTop: "22px",
             marginBottom: "22px",
           }}
@@ -99,7 +147,7 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
             whiteSpace: "pre",
             fontSize: 36,
             lineHeight: 1.5,
-            color: "#44403c",
+            color: OG_DARK.accent,
           }}
         >
           {identityBlock}
@@ -113,11 +161,11 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
             justifyContent: "space-between",
             marginTop: "24px",
             fontSize: 24,
-            color: "#78716c",
+            color: OG_DARK.muted,
           }}
         >
           <span>{introLine}</span>
-          <span style={{ marginLeft: "18px", color: "#57534e", fontSize: 20 }}>
+          <span style={{ marginLeft: "18px", color: OG_DARK.accent, fontSize: 20 }}>
             {siteLabel}: mariolopez.org
           </span>
         </div>
@@ -125,6 +173,7 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
     </div>,
     {
       ...size,
+      fonts,
     },
   );
 }
