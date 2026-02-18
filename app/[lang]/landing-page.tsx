@@ -14,6 +14,7 @@ import {
   Zap,
 } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { StatusBar } from "@/components/status-bar";
 import { AVAILABILITY_DISPLAY, LINKS, PROJECT_LOGOS } from "@/lib/constants";
 import { useAvailabilityStatus } from "@/lib/hooks/use-availability-status";
@@ -179,9 +180,137 @@ const LINK_ITEMS = [
 ] as const;
 
 const RESUME_LINK_ITEMS = [
-  { icon: FileText, value: "pdf", href: LINKS.RESUME_PDF },
-  { icon: File, value: "docx", href: LINKS.RESUME_DOCX },
+  { icon: FileText, value: "PDF", href: LINKS.RESUME_PDF },
+  { icon: File, value: "DOCX", href: LINKS.RESUME_DOCX },
 ] as const;
+
+function ResumeLinkDrawer({ label }: { label: string }) {
+  const [isDrawerPinnedOpen, setIsDrawerPinnedOpen] = useState(false);
+  const [isDrawerHovered, setIsDrawerHovered] = useState(false);
+  const [canHover, setCanHover] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isDrawerVisible = isDrawerPinnedOpen || (canHover && isDrawerHovered);
+
+  useEffect(() => {
+    const hoverQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+    const syncHoverCapability = () => {
+      const supportsHover = hoverQuery.matches;
+      setCanHover(supportsHover);
+
+      if (!supportsHover) {
+        setIsDrawerHovered(false);
+      }
+    };
+
+    syncHoverCapability();
+
+    hoverQuery.addEventListener("change", syncHoverCapability);
+    return () => hoverQuery.removeEventListener("change", syncHoverCapability);
+  }, []);
+
+  useEffect(() => {
+    if (!isDrawerPinnedOpen) {
+      return;
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!containerRef.current || !(event.target instanceof Node)) {
+        return;
+      }
+
+      if (!containerRef.current.contains(event.target)) {
+        setIsDrawerPinnedOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsDrawerPinnedOpen(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isDrawerPinnedOpen]);
+
+  return (
+    <div
+      ref={containerRef}
+      className={`group group/resume relative -mx-3 flex items-center gap-3 rounded-md px-3 py-3 transition-colors sm:py-2.5 ${
+        isDrawerVisible ? "bg-accent" : "hover:bg-accent"
+      }`}
+      onPointerEnter={() => {
+        if (canHover) {
+          setIsDrawerHovered(true);
+        }
+      }}
+      onPointerLeave={() => {
+        if (canHover) {
+          setIsDrawerHovered(false);
+        }
+      }}
+    >
+      <button
+        type="button"
+        className="flex min-w-0 flex-1 items-center gap-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70"
+        aria-expanded={isDrawerVisible}
+        aria-controls="resume-format-drawer"
+        onClick={() => setIsDrawerPinnedOpen((prev) => !prev)}
+      >
+        <LinkIcon icon={FileText} />
+        <span className="text-sm text-muted-foreground w-20 shrink-0 mr-1 group-hover:text-foreground transition-colors">
+          {label}
+        </span>
+        <span
+          className={`hidden text-xs text-muted-foreground/50 transition-opacity sm:block ${
+            isDrawerVisible ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          pdf · docx
+        </span>
+        <span
+          aria-hidden="true"
+          className="pointer-events-none ml-auto h-3.5 w-3.5 shrink-0"
+        />
+      </button>
+      <div
+        id="resume-format-drawer"
+        className={`ml-auto flex items-center overflow-hidden whitespace-nowrap transition-all duration-200 ${
+          isDrawerVisible
+            ? "pointer-events-auto max-w-40 pl-2 opacity-100 sm:max-w-44 sm:pl-3"
+            : "pointer-events-none max-w-0 pl-0 opacity-0"
+        }`}
+      >
+        {RESUME_LINK_ITEMS.map((item, index) => (
+          <a
+            key={item.href}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${label} ${item.value}`}
+            className={`group/item inline-flex items-center gap-1 rounded-sm px-1.5 py-1 text-[11px] text-muted-foreground/75 transition-colors hover:bg-accent/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70 ${
+              index > 0 ? "ml-1 border-l border-border/60 pl-2" : ""
+            }`}
+            onClick={() => setIsDrawerPinnedOpen(false)}
+          >
+            <item.icon
+              size={11}
+              strokeWidth={1.7}
+              className="text-muted-foreground/70 group-hover/item:text-foreground transition-colors"
+            />
+            <span className="font-medium tracking-[0.08em]">{item.value}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 interface DescLink {
   match: RegExp;
@@ -422,7 +551,7 @@ export function LandingPage({
                 className="group flex items-center gap-3 py-3 sm:py-2.5 hover:bg-accent -mx-3 px-3 rounded-md transition-colors"
               >
                 <LinkIcon icon={link.icon} />
-                <span className="text-sm text-muted-foreground w-20 shrink-0 group-hover:text-foreground transition-colors">
+                <span className="text-sm text-muted-foreground w-20 shrink-0 mr-1 group-hover:text-foreground transition-colors">
                   {link.label}
                 </span>
                 <span className="text-xs text-muted-foreground/50 group-hover:text-muted-foreground transition-colors truncate hidden sm:block">
@@ -444,37 +573,7 @@ export function LandingPage({
                 </svg>
               </a>
             ))}
-            {RESUME_LINK_ITEMS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center gap-3 py-3 sm:py-2.5 hover:bg-accent -mx-3 px-3 rounded-md transition-colors"
-              >
-                <LinkIcon icon={link.icon} />
-                <span className="text-sm text-muted-foreground w-20 shrink-0 group-hover:text-foreground transition-colors">
-                  {dict.resume_label}
-                </span>
-                <span className="text-xs text-muted-foreground/50 group-hover:text-muted-foreground transition-colors truncate hidden sm:block">
-                  {link.value}
-                </span>
-                <svg
-                  className="ml-auto w-3.5 h-3.5 text-border group-hover:text-muted-foreground transition-colors shrink-0"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M7 17L17 7M17 7H7M17 7v10"
-                  />
-                </svg>
-              </a>
-            ))}
+            <ResumeLinkDrawer label={dict.resume_label} />
           </div>
         </Section>
 
