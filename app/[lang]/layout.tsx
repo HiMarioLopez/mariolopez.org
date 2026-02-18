@@ -81,7 +81,7 @@ export default async function RootLayout({
     <html lang={lang} suppressHydrationWarning>
       <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}>
         <ResourceHints />
-        <RoutePrefetcher />
+        <RoutePrefetcher lang={lang} />
         <ErrorBoundary>
           <QueryProvider>
             <ThemeProvider
