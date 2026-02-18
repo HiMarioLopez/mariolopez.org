@@ -111,27 +111,27 @@ export function StatusBarLeftControls({
       <span className="w-px h-3 bg-border" />
       <div className="flex items-center gap-0 rounded border border-border overflow-hidden">
         {mode === "human" ? (
-          <span className="px-1.5 py-0.5 bg-foreground text-background text-[10px]">
+          <span className="px-2.5 py-1.5 sm:px-1.5 sm:py-0.5 bg-foreground text-background text-[10px]">
             {humanLabel}
           </span>
         ) : (
           <Link
             href={`/${lang}`}
             aria-label={ariaSwitchHuman}
-            className="px-1.5 py-0.5 text-[10px] text-muted-foreground/60 hover:text-foreground hover:bg-accent transition-colors"
+            className="px-2.5 py-1.5 sm:px-1.5 sm:py-0.5 text-[10px] text-muted-foreground/60 hover:text-foreground hover:bg-accent active:bg-accent transition-colors"
           >
             {humanLabel}
           </Link>
         )}
         {mode === "machine" ? (
-          <span className="px-1.5 py-0.5 bg-foreground text-background text-[10px]">
+          <span className="px-2.5 py-1.5 sm:px-1.5 sm:py-0.5 bg-foreground text-background text-[10px]">
             {machineLabel}
           </span>
         ) : (
           <Link
             href={`/${lang}/machine`}
             aria-label={ariaSwitchMachine}
-            className="px-1.5 py-0.5 text-[10px] text-muted-foreground/60 hover:text-foreground hover:bg-accent transition-colors"
+            className="px-2.5 py-1.5 sm:px-1.5 sm:py-0.5 text-[10px] text-muted-foreground/60 hover:text-foreground hover:bg-accent active:bg-accent transition-colors"
           >
             {machineLabel}
           </Link>
