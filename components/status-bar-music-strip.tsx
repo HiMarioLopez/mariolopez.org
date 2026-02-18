@@ -318,7 +318,7 @@ export function StatusBarMusicStrip({
               startDelayMs={MUSIC_STRIP_CONFIG.TRACK_MARQUEE_START_DELAY_MS}
             />
 
-            <div className="relative mt-2 h-1 w-full overflow-hidden rounded-full bg-border/70">
+            <div className="relative mt-2 h-1 w-full overflow-hidden rounded-full bg-white/35">
               <span
                 className={`block h-full rounded-full transition-[width] duration-1000 ease-linear ${
                   playbackSnapshot.isLikelyNowPlaying
