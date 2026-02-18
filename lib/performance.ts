@@ -8,7 +8,7 @@ import type { FirstInputEntry, LayoutShiftEntry, LCPEntry, WebVitalsMetric } fro
  *
  * @param metric - Web Vitals metric data
  */
-export function reportWebVitals(metric: WebVitalsMetric): void {
+function reportWebVitals(metric: WebVitalsMetric): void {
   // Send to analytics endpoint or logging service
   if (process.env.NODE_ENV === "production") {
     // You can send to your analytics service here
@@ -24,7 +24,7 @@ export function reportWebVitals(metric: WebVitalsMetric): void {
 /**
  * Measures Core Web Vitals and other performance metrics
  */
-export function measurePerformance(): void {
+function measurePerformance(): void {
   if (typeof window === "undefined") return;
 
   // Measure Core Web Vitals
@@ -118,7 +118,7 @@ export function measurePerformance(): void {
  * Measures resource loading performance
  * Logs warnings for slow resources in development
  */
-export function measureResourceTiming(): void {
+function measureResourceTiming(): void {
   if (typeof window === "undefined" || !("performance" in window)) return;
 
   const resources = performance.getEntriesByType("resource") as PerformanceResourceTiming[];

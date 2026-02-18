@@ -23,6 +23,7 @@ import {
 } from "@/lib/constants";
 import { useAvailabilityStatus } from "@/lib/hooks/use-availability-status";
 import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
+import { useVisitorCount } from "@/lib/hooks/use-visitor-count";
 import { formatTimeAgo, getPlatformColor } from "@/lib/utils";
 
 interface StatusBarProps {
@@ -62,12 +63,13 @@ export function StatusBar({ lang, mode, dict }: StatusBarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
-  const [visitorCount, setVisitorCount] = useState<number | null>(null);
   const [nowMs, setNowMs] = useState(() => Date.now());
   const availabilityStatus = useAvailabilityStatus();
   const { data: recentlyPlayed, isPending: isRecentlyPlayedPending } = useRecentlyPlayed();
+  const { data: visitorCount } = useVisitorCount();
   const display = AVAILABILITY_DISPLAY[availabilityStatus];
   const locale = lang === "es-MX" ? "es-MX" : "en-US";
+  const resolvedVisitorCount = typeof visitorCount === "number" ? visitorCount : null;
   const musicNowPlaying =
     dict.music?.now_playing ?? (locale === "es-MX" ? "Sonando ahora" : "Now Playing");
   const musicRecentlyPlayed =
@@ -136,27 +138,6 @@ export function StatusBar({ lang, mode, dict }: StatusBarProps) {
 
     return () => {
       window.clearInterval(intervalId);
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function fetchCount() {
-      try {
-        const res = await fetch("/api/visitor-count");
-        if (!cancelled && res.ok) {
-          const data = await res.json();
-          setVisitorCount(data.count);
-        }
-      } catch {
-        // Silently fail - visitor count is non-critical
-      }
-    }
-
-    fetchCount();
-    return () => {
-      cancelled = true;
     };
   }, []);
 
@@ -363,8 +344,8 @@ export function StatusBar({ lang, mode, dict }: StatusBarProps) {
               {/* Visitor count */}
               <span className="w-px h-3 bg-border" />
               <span className="tabular-nums tracking-tight">
-                {visitorCount !== null
-                  ? visitorCount
+                {resolvedVisitorCount !== null
+                  ? resolvedVisitorCount
                       .toString()
                       .padStart(
                         VISITOR_COUNTER_CONFIG.DIGIT_COUNT,

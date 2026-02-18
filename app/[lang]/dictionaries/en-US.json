@@ -42,7 +42,7 @@
     "section_projects": "projects",
     "section_contact": "contact",
     "resume_label": "resume",
-    "contact_text": "Want to chat or work together? I'd love to hear from you.",
+    "contact_text": "Want to chat or work together? Would love to hear from you.",
     "projects": {
       "chaos_recipe_enhancer": "Desktop automation for Path of Exile",
       "now_playing": "Real-time music integration service",
@@ -110,7 +110,7 @@
       "education": "BAYLOR UNIVERSITY, SCHOOL OF ENGINEERING & COMPUTER SCIENCE, B.S. COMPUTER SCIENCE – MAY 2020"
     },
     "contact_section": {
-      "text": "Want to chat or work together? I'd love to hear from you.",
+      "text": "Want to chat or work together? Would love to hear from you.",
       "email_label": "Email:"
     },
     "socials_labels": {

@@ -213,8 +213,7 @@
     background-size: 200% 100%;
   }
 
-  /* Hero component height - set via CSS to prevent CLS */
-  /* Values match HERO_CONFIG constants: MOBILE_HEIGHT=250, DESKTOP_HEIGHT=350 */
+  /* Legacy hero height defaults kept to prevent layout shift */
   [data-mobile-height][data-desktop-height] {
     height: 250px;
     min-height: 250px;

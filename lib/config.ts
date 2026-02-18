@@ -34,13 +34,6 @@ export const CACHE_HEADERS = {
 } as const;
 
 /**
- * Build configuration
- */
-export const BUILD_CONFIG = {
-  BUILD_TIME_FORMATTED: process.env.NEXT_PUBLIC_BUILD_TIME_FORMATTED || null,
-} as const;
-
-/**
  * Visitor count API configuration
  */
 export const VISITOR_COUNT_CONFIG = {

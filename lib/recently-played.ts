@@ -100,5 +100,3 @@ export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
     return null;
   }
 }
-
-export type { RecentlyPlayed };

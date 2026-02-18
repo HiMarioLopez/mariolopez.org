@@ -20,36 +20,6 @@ export const PLATFORMS = {
 } as const;
 
 /**
- * Song link color (agnostic of platform, works in both themes)
- */
-export const SONG_LINK_COLOR = "#3B82F6"; // blue-500
-
-/**
- * Breakpoint values (matching Tailwind defaults)
- */
-export const BREAKPOINTS = {
-  SM: 640,
-  MD: 768,
-  LG: 1024,
-  XL: 1280,
-  "2XL": 1536,
-} as const;
-
-/**
- * Hero component constants
- */
-export const HERO_CONFIG = {
-  MOBILE_HEIGHT: 250,
-  DESKTOP_HEIGHT: 350,
-  MOBILE_ASCII_FONT_SIZE: 7,
-  DESKTOP_ASCII_FONT_SIZE: 9,
-  MOBILE_TEXT_FONT_SIZE: 100,
-  DESKTOP_TEXT_FONT_SIZE: 150,
-  MOBILE_PLANE_BASE_HEIGHT: 18,
-  DESKTOP_PLANE_BASE_HEIGHT: 25,
-} as const;
-
-/**
  * Time formatting constants
  */
 export const TIME_CONSTANTS = {
@@ -118,23 +88,6 @@ export const NOW_PLAYING_CONFIG = {
    * Client-side cadence for progress indicator updates.
    */
   UPDATE_INTERVAL_MS: 1000,
-} as const;
-
-/**
- * Animation and frame rate configuration
- */
-export const ANIMATION_CONFIG = {
-  FPS_60: 16, // ~60fps in milliseconds
-  FPS_30: 33, // ~30fps in milliseconds
-  FPS_60_SECONDS: 60,
-  INTERACTION_TIMEOUT_MS: 1000, // Consider interacting if mouse moved in last second
-} as const;
-
-/**
- * Locale configuration
- */
-export const LOCALE_CONFIG = {
-  DEFAULT: "en-US",
 } as const;
 
 /**

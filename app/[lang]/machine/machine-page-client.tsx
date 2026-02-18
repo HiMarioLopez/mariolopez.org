@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import { CopyButton } from "@/components/copy-button";
 import { MachineContentDisplay } from "@/components/machine-content-display";
 import { useRecentlyPlayedSection } from "@/components/machine-recently-played";
@@ -48,9 +47,7 @@ export function MachinePageClient({
 }: MachinePageClientProps) {
   const { content: recentlyPlayedSection } = useRecentlyPlayedSection(recentlyPlayedTemplate);
 
-  const fullContent = useMemo(() => {
-    return contentBefore + recentlyPlayedSection + contentAfter;
-  }, [contentBefore, recentlyPlayedSection, contentAfter]);
+  const fullContent = contentBefore + recentlyPlayedSection + contentAfter;
 
   return (
     <div className="min-h-screen bg-background text-foreground font-mono antialiased">

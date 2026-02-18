@@ -186,8 +186,10 @@ interface ProjectItem {
   iconHoverColor?: string;
 }
 
-function renderDescription(text: string, links?: DescLink[]) {
-  if (!links?.length) return text;
+function ProjectDescription({ text, links }: { text: string; links?: DescLink[] }) {
+  if (!links?.length) {
+    return <>{text}</>;
+  }
 
   for (const link of links) {
     const result = link.match.exec(text);
@@ -214,7 +216,7 @@ function renderDescription(text: string, links?: DescLink[]) {
     }
   }
 
-  return text;
+  return <>{text}</>;
 }
 
 function getProjectItems(
@@ -286,8 +288,10 @@ function getProjectItems(
   ];
 }
 
-function renderProjectName(name: string) {
-  if (name !== "blog") return name;
+function ProjectName({ name }: { name: string }) {
+  if (name !== "blog") {
+    return <>{name}</>;
+  }
 
   const decoratedBlogLetters =
     "transition-[color,text-decoration-color] duration-200 group-hover:text-rose-400 dark:group-hover:text-rose-300 group-hover:underline group-hover:decoration-dotted group-hover:decoration-2 group-hover:underline-offset-3 group-hover:decoration-rose-400 dark:group-hover:decoration-rose-300";
@@ -488,11 +492,11 @@ export function LandingPage({
                   name={project.name}
                 />
                 <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors shrink-0">
-                  {renderProjectName(project.name)}
+                  <ProjectName name={project.name} />
                 </span>
                 <span className="text-muted-foreground/30 hidden sm:inline">&mdash;</span>
                 <span className="text-xs text-muted-foreground/50 group-hover:text-muted-foreground transition-colors truncate hidden sm:block">
-                  {renderDescription(project.desc, project.descLinks)}
+                  <ProjectDescription text={project.desc} links={project.descLinks} />
                 </span>
                 {project.status === "active" && (
                   <svg
