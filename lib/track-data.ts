@@ -60,6 +60,7 @@ export function extractTrackInfo(trackData: TrackData): ExtractedTrackInfo {
   const platform = extractPlatform(trackData.source || "");
   const songUrl = trackData.url || "";
   const timestamp = trackData.processedTimestamp || "";
+  const durationMs = extractDurationMs(trackData);
 
   return {
     songName,
@@ -67,7 +68,32 @@ export function extractTrackInfo(trackData: TrackData): ExtractedTrackInfo {
     platform,
     url: songUrl,
     timestamp,
+    durationMs,
   };
+}
+
+/**
+ * Extracts track duration in milliseconds from multiple source formats.
+ */
+function extractDurationMs(trackData: TrackData): number | undefined {
+  const candidates = [
+    trackData.durationMs,
+    trackData.durationInMillis,
+    trackData.duration,
+    trackData.track?.duration_ms,
+    trackData.track?.durationMs,
+    trackData.track?.durationInMillis,
+  ];
+
+  for (const candidate of candidates) {
+    const parsed = typeof candidate === "string" ? Number.parseInt(candidate, 10) : candidate;
+
+    if (typeof parsed === "number" && Number.isFinite(parsed) && parsed > 0) {
+      return parsed;
+    }
+  }
+
+  return undefined;
 }
 
 /**

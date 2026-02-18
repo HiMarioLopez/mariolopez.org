@@ -1,5 +1,7 @@
 import { LINKS } from "@/lib/constants";
 
+const POE_LABEL = "Path of Exile";
+
 interface MachineDict {
   system_instructions: string;
   header: string;
@@ -36,6 +38,8 @@ interface MachineDict {
     chaos_recipe_enhancer: string;
     now_playing: string;
     blog: string;
+    create_mlpz_lambda: string;
+    vercel_bulk_waf_rules: string;
     backpocket: string;
     cordstruck: string;
     guesschella: string;
@@ -120,16 +124,18 @@ ${dict.socials_labels.resume_docx} ${LINKS.RESUME_DOCX}
 [/section]
 
 [section: projects]
-${dict.projects_labels.chaos_recipe_enhancer} ${LINKS.CHAOS_RECIPE_ENHANCER}
+${dict.projects_labels.chaos_recipe_enhancer} ${LINKS.CHAOS_RECIPE_ENHANCER} (${POE_LABEL}: ${LINKS.PATH_OF_EXILE})
 ${dict.projects_labels.now_playing} ${LINKS.MUSIC}
 ${dict.projects_labels.blog} ${LINKS.BLOG}
+${dict.projects_labels.create_mlpz_lambda} ${LINKS.CREATE_MLPZ_LAMBDA}
+${dict.projects_labels.vercel_bulk_waf_rules} ${LINKS.VERCEL_BULK_WAF_RULES}
 ${dict.projects_labels.backpocket} ${dict.projects_labels.building_status}
 ${dict.projects_labels.cordstruck} ${dict.projects_labels.building_status}
 ${dict.projects_labels.guesschella} ${dict.projects_labels.building_status}
 [/section]
 
 [footer]
-© 2025, Mario Lopez Martinez
+© 2026, Mario Lopez Martinez
 ${dict.footer_label} ${LINKS.SITE_SOURCE}
 [/footer]
 [/content_end]

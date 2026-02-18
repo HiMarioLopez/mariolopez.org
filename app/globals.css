@@ -51,14 +51,14 @@
   --primary-foreground: oklch(0 0 0);
   --secondary: oklch(0.15 0 0);
   --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.15 0 0);
-  --muted-foreground: oklch(0.55 0 0);
-  --accent: oklch(0.15 0 0);
+  --muted: oklch(0.18 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.18 0 0);
   --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.396 0.141 25.723);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.2 0 0);
-  --input: oklch(0.2 0 0);
+  --border: oklch(0.25 0 0);
+  --input: oklch(0.25 0 0);
   --ring: oklch(0.98 0 0);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
@@ -213,8 +213,7 @@
     background-size: 200% 100%;
   }
 
-  /* Hero component height - set via CSS to prevent CLS */
-  /* Values match HERO_CONFIG constants: MOBILE_HEIGHT=250, DESKTOP_HEIGHT=350 */
+  /* Legacy hero height defaults kept to prevent layout shift */
   [data-mobile-height][data-desktop-height] {
     height: 250px;
     min-height: 250px;

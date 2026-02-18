@@ -2,7 +2,6 @@
 
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
 interface CopyButtonProps {
   content: string;
@@ -34,11 +33,10 @@ export function CopyButton({ content, dict }: CopyButtonProps) {
   const ariaLabel = dict?.aria_label ?? "Copy to clipboard";
 
   return (
-    <Button
+    <button
       onClick={handleCopy}
-      variant="outline"
-      size="sm"
-      className="gap-1.5 sm:gap-2 font-mono text-xs px-2.5 sm:px-3 bg-background dark:bg-background"
+      type="button"
+      className="flex items-center gap-1.5 bg-card border border-border rounded-lg px-3 py-2 text-[10px] font-mono text-muted-foreground/60 hover:text-foreground transition-colors"
       aria-label={ariaLabel}
     >
       {copied ? (
@@ -52,6 +50,6 @@ export function CopyButton({ content, dict }: CopyButtonProps) {
           {label}
         </>
       )}
-    </Button>
+    </button>
   );
 }

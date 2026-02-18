@@ -64,7 +64,7 @@ export function MachineContentDisplay({
   }, [contentBefore, contentAfter, recentlyPlayedSection, mounted, isLoading]);
 
   return (
-    <pre className="font-mono text-sm text-foreground whitespace-pre-wrap leading-relaxed">
+    <pre className="font-mono text-[13px] text-muted-foreground whitespace-pre-wrap leading-relaxed font-normal">
       {isLoading && mounted ? (
         <>
           {contentBefore}

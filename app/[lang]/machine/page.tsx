@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   generateMachineContentAfter,
   generateMachineContentBefore,
@@ -5,20 +6,26 @@ import {
 import { getDictionary, type Locale } from "../dictionaries";
 import { MachinePageClient } from "./machine-page-client";
 
-/**
- * Server Component that generates static content
- * Only the dynamic recently-played section is handled client-side
- */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const dict = await getDictionary(lang as Locale);
+
+  return {
+    title: `${dict.metadata.title} | ${dict.view_toggle.machine}`,
+    description: dict.metadata.description,
+  };
+}
+
 export default async function MachinePage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   const dict = await getDictionary(lang as Locale);
 
-  // Generate static content on the server
   const contentBefore = generateMachineContentBefore(dict.machine);
   const contentAfter = generateMachineContentAfter(dict.machine);
-
-  // Template for the dynamic recently played section
-  // This needs to match what useRecentlyPlayedSection expects/generates
   const recentlyPlayedTemplate = dict.machine.recently_played_template;
 
   return (
@@ -27,7 +34,7 @@ export default async function MachinePage({ params }: { params: Promise<{ lang: 
       contentAfter={contentAfter}
       lang={lang as Locale}
       recentlyPlayedTemplate={recentlyPlayedTemplate}
-      dict={dict}
+      dict={{ copy_button: dict.copy_button, view_toggle: dict.view_toggle }}
     />
   );
 }

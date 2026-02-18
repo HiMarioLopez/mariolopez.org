@@ -1,3 +1,3 @@
 bun run lint:fix
+bun run check:i18n:strict
 bun run build
-bun run test

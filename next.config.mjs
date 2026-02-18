@@ -13,8 +13,7 @@ const nextConfig = {
     optimizePackageImports: [
       "lucide-react",
       "@radix-ui/react-dropdown-menu",
-      "@radix-ui/react-slot",
-      "@radix-ui/react-tooltip",
+      "@radix-ui/react-popover",
     ],
   },
   // Compress output

@@ -7,23 +7,9 @@ import { NextResponse } from "next/server";
 import { CACHE_HEADERS } from "./config";
 
 /**
- * Application error types
- */
-export class AppError extends Error {
-  constructor(
-    message: string,
-    public readonly statusCode: number = 500,
-    public readonly code?: string,
-  ) {
-    super(message);
-    this.name = "AppError";
-  }
-}
-
-/**
  * API error response structure
  */
-export interface ApiErrorResponse {
+interface ApiErrorResponse {
   error: string;
   code?: string;
 }

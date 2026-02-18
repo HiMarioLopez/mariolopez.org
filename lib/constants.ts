@@ -20,36 +20,6 @@ export const PLATFORMS = {
 } as const;
 
 /**
- * Song link color (agnostic of platform, works in both themes)
- */
-export const SONG_LINK_COLOR = "#3B82F6"; // blue-500
-
-/**
- * Breakpoint values (matching Tailwind defaults)
- */
-export const BREAKPOINTS = {
-  SM: 640,
-  MD: 768,
-  LG: 1024,
-  XL: 1280,
-  "2XL": 1536,
-} as const;
-
-/**
- * Hero component constants
- */
-export const HERO_CONFIG = {
-  MOBILE_HEIGHT: 250,
-  DESKTOP_HEIGHT: 350,
-  MOBILE_ASCII_FONT_SIZE: 7,
-  DESKTOP_ASCII_FONT_SIZE: 9,
-  MOBILE_TEXT_FONT_SIZE: 100,
-  DESKTOP_TEXT_FONT_SIZE: 150,
-  MOBILE_PLANE_BASE_HEIGHT: 18,
-  DESKTOP_PLANE_BASE_HEIGHT: 25,
-} as const;
-
-/**
  * Time formatting constants
  */
 export const TIME_CONSTANTS = {
@@ -98,20 +68,26 @@ export const QUERY_CONFIG = {
 } as const;
 
 /**
- * Animation and frame rate configuration
+ * Now playing heuristic and UI update configuration
  */
-export const ANIMATION_CONFIG = {
-  FPS_60: 16, // ~60fps in milliseconds
-  FPS_30: 33, // ~30fps in milliseconds
-  FPS_60_SECONDS: 60,
-  INTERACTION_TIMEOUT_MS: 1000, // Consider interacting if mouse moved in last second
-} as const;
-
-/**
- * Locale configuration
- */
-export const LOCALE_CONFIG = {
-  DEFAULT: "en-US",
+export const NOW_PLAYING_CONFIG = {
+  /**
+   * Consider tracks in this freshness window as potentially active.
+   * Helps smooth over API/cache propagation delays.
+   */
+  RECENT_PLAY_WINDOW_MS: 5 * 60 * 1000,
+  /**
+   * Extra grace period beyond known duration to account for ingestion lag.
+   */
+  INGESTION_BUFFER_MS: 2 * 60 * 1000,
+  /**
+   * Tolerance for minor client/server clock skew.
+   */
+  FUTURE_TIMESTAMP_TOLERANCE_MS: 45 * 1000,
+  /**
+   * Client-side cadence for progress indicator updates.
+   */
+  UPDATE_INTERVAL_MS: 1000,
 } as const;
 
 /**
@@ -135,7 +111,10 @@ export const LINKS = {
   VERCEL_CUSTOMERS: "https://vercel.com/customers",
   MUSIC: "https://music.mariolopez.org",
   BLOG: "https://bolognese.mariolopez.org",
+  CREATE_MLPZ_LAMBDA: "https://npmx.dev/package/create-mlpz-lambda",
+  VERCEL_BULK_WAF_RULES: "https://github.com/HiMarioLopez/vercel-bulk-waf-rules",
   CHAOS_RECIPE_ENHANCER: "https://github.com/ChaosRecipeEnhancer/ChaosRecipeEnhancer",
+  PATH_OF_EXILE: "https://www.pathofexile.com/",
   BACKPOCKET: "https://backpocket.my",
   EMAIL: "mailto:contact@mariolopez.org",
   EMAIL_HUMAN:
@@ -144,6 +123,16 @@ export const LINKS = {
   RESUME_PDF: `${BASE_URL}/docs/Resume.pdf`,
   RESUME_DOCX: `${BASE_URL}/docs/Resume.docx`,
   SITE_SOURCE: `https://github.com/HiMarioLopez/mariolopez.org`,
+} as const;
+
+/**
+ * Project logo assets
+ */
+export const PROJECT_LOGOS = {
+  CHAOS_RECIPE_ENHANCER: "/images/CRELogo.webp",
+  BACKPOCKET: "/images/BackpocketLogo.webp",
+  CORDSTRUCK: "/images/CordstruckLogo.webp",
+  GUESSCHELLA: "/images/GuesschellaLogo.webp",
 } as const;
 
 /**
@@ -161,6 +150,50 @@ export const RESOURCE_HINTS = [
  */
 export const PERFORMANCE_THRESHOLDS = {
   SLOW_RESOURCE_MS: 1000,
+} as const;
+
+/**
+ * Availability status configuration
+ * Based on Central US time (America/Chicago)
+ */
+export const AVAILABILITY_CONFIG = {
+  TIMEZONE: "America/Chicago",
+  WORK_START_HOUR: 8,
+  WORK_END_HOUR: 17,
+  SLEEP_START_HOUR: 23,
+  SLEEP_END_HOUR: 8,
+  UPDATE_INTERVAL_MS: 60_000,
+} as const;
+
+export type AvailabilityStatus = "cranking" | "away" | "offline";
+
+export const AVAILABILITY_STATUSES = ["cranking", "away", "offline"] as const;
+
+export const AVAILABILITY_DISPLAY = {
+  cranking: {
+    label: { "en-US": "Cranking", "es-MX": "A tope" },
+    jsdoc: { "en-US": "Cranking", "es-MX": "A tope" },
+    desc: { "en-US": "Mon–Fri · 8 am – 5 pm CT", "es-MX": "Lun–Vie · 8 am – 5 pm CT" },
+    dotClass: "bg-emerald-500",
+    textClass: "text-emerald-500",
+    pulse: true,
+  },
+  away: {
+    label: { "en-US": "Away", "es-MX": "Ausente" },
+    jsdoc: { "en-US": "Away", "es-MX": "Ausente" },
+    desc: { "en-US": "After 5 pm & weekends", "es-MX": "Despues de 5 pm y fines de semana" },
+    dotClass: "bg-amber-400",
+    textClass: "text-amber-400",
+    pulse: false,
+  },
+  offline: {
+    label: { "en-US": "Offline", "es-MX": "Desconectado" },
+    jsdoc: { "en-US": "Offline", "es-MX": "Desconectado" },
+    desc: { "en-US": "Late night · 11 pm – 8 am CT", "es-MX": "Noche · 11 pm – 8 am CT" },
+    dotClass: "bg-muted-foreground/40",
+    textClass: "text-muted-foreground/40",
+    pulse: false,
+  },
 } as const;
 
 /**
