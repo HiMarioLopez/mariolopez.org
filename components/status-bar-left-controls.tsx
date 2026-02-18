@@ -109,29 +109,48 @@ export function StatusBarLeftControls({
       </span>
 
       <span className="w-px h-3 bg-border" />
-      <div className="flex items-center gap-0 rounded border border-border overflow-hidden">
+      {/* Mobile: single tap target that toggles to the other mode */}
+      <Link
+        href={mode === "human" ? `/${lang}/machine` : `/${lang}`}
+        aria-label={mode === "human" ? ariaSwitchMachine : ariaSwitchHuman}
+        className="sm:hidden flex items-center gap-0 rounded border border-border overflow-hidden active:opacity-70 transition-opacity"
+      >
+        <span
+          className={`px-2.5 py-1.5 text-[10px] ${mode === "human" ? "bg-foreground text-background" : "text-muted-foreground/60"}`}
+        >
+          {humanLabel}
+        </span>
+        <span
+          className={`px-2.5 py-1.5 text-[10px] ${mode === "machine" ? "bg-foreground text-background" : "text-muted-foreground/60"}`}
+        >
+          {machineLabel}
+        </span>
+      </Link>
+
+      {/* Desktop: individual links for each mode */}
+      <div className="hidden sm:flex items-center gap-0 rounded border border-border overflow-hidden">
         {mode === "human" ? (
-          <span className="px-2.5 py-1.5 sm:px-1.5 sm:py-0.5 bg-foreground text-background text-[10px]">
+          <span className="px-1.5 py-0.5 bg-foreground text-background text-[10px]">
             {humanLabel}
           </span>
         ) : (
           <Link
             href={`/${lang}`}
             aria-label={ariaSwitchHuman}
-            className="px-2.5 py-1.5 sm:px-1.5 sm:py-0.5 text-[10px] text-muted-foreground/60 hover:text-foreground hover:bg-accent active:bg-accent transition-colors"
+            className="px-1.5 py-0.5 text-[10px] text-muted-foreground/60 hover:text-foreground hover:bg-accent transition-colors"
           >
             {humanLabel}
           </Link>
         )}
         {mode === "machine" ? (
-          <span className="px-2.5 py-1.5 sm:px-1.5 sm:py-0.5 bg-foreground text-background text-[10px]">
+          <span className="px-1.5 py-0.5 bg-foreground text-background text-[10px]">
             {machineLabel}
           </span>
         ) : (
           <Link
             href={`/${lang}/machine`}
             aria-label={ariaSwitchMachine}
-            className="px-2.5 py-1.5 sm:px-1.5 sm:py-0.5 text-[10px] text-muted-foreground/60 hover:text-foreground hover:bg-accent active:bg-accent transition-colors"
+            className="px-1.5 py-0.5 text-[10px] text-muted-foreground/60 hover:text-foreground hover:bg-accent transition-colors"
           >
             {machineLabel}
           </Link>
