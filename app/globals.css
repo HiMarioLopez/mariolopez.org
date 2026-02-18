@@ -249,6 +249,15 @@
     }
   }
 
+  @keyframes music-text-marquee-slide {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(calc(-1 * var(--music-marquee-distance, 0px)), 0, 0);
+    }
+  }
+
   .music-strip-gradient {
     background-repeat: no-repeat;
     background-size:
@@ -265,9 +274,19 @@
     will-change: background-position;
   }
 
+  .music-text-marquee {
+    animation-name: music-text-marquee-slide;
+    animation-duration: var(--music-marquee-duration, 12s);
+    animation-delay: var(--music-marquee-delay, 1200ms);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .music-strip-gradient,
-    .music-progress-gradient {
+    .music-progress-gradient,
+    .music-text-marquee {
       animation: none;
     }
   }

@@ -1,6 +1,8 @@
 import { AudioLines } from "lucide-react";
 import Image from "next/image";
-import { PLATFORMS, TIME_CONSTANTS } from "@/lib/constants";
+import { OverflowAutoScrollText } from "@/components/ui/overflow-auto-scroll-text";
+import { UnicodeSpinner } from "@/components/ui/unicode-spinner";
+import { MUSIC_STRIP_CONFIG, PLATFORMS, TIME_CONSTANTS } from "@/lib/constants";
 import type { PlaybackSnapshot } from "@/lib/hooks/use-playback-snapshot";
 import type { ArtworkColors, RecentlyPlayed } from "@/lib/types";
 import { formatTimeAgo } from "@/lib/utils";
@@ -14,9 +16,8 @@ interface StatusBarMusicStripProps {
   playbackSnapshot: PlaybackSnapshot | null;
   platformColor: string | null;
   locale: StatusBarLocale;
-  nowPlayingLabel: string;
-  recentlyPlayedLabel: string;
-  playedLabel: string;
+  nowPlayingOnLabel: string;
+  lastPlayedOnLabel: string;
   openTrackLabel: string;
   unknownDurationLabel: string;
 }
@@ -114,10 +115,15 @@ function getGradientPalette(artworkColors: ArtworkColors | undefined, fallbackCo
 function getMusicStripGradient(
   artworkColors: ArtworkColors | undefined,
   fallbackColor: string,
+  isLikelyNowPlaying: boolean,
 ): string {
   const [colorA, colorB, colorC] = getGradientPalette(artworkColors, fallbackColor);
+  const radialAlpha = isLikelyNowPlaying ? 0.34 : 0.22;
+  const startAlpha = isLikelyNowPlaying ? 0.36 : 0.24;
+  const middleAlpha = isLikelyNowPlaying ? 0.28 : 0.2;
+  const endAlpha = isLikelyNowPlaying ? 0.2 : 0.14;
 
-  return `radial-gradient(90% 100% at 0% 0%, ${toRgba(colorB, 0.22)} 0%, transparent 62%), linear-gradient(112deg, ${toRgba(colorA, 0.24)} 0%, ${toRgba(colorB, 0.2)} 48%, ${toRgba(colorC, 0.14)} 100%)`;
+  return `radial-gradient(90% 100% at 0% 0%, ${toRgba(colorB, radialAlpha)} 0%, transparent 62%), linear-gradient(112deg, ${toRgba(colorA, startAlpha)} 0%, ${toRgba(colorB, middleAlpha)} 48%, ${toRgba(colorC, endAlpha)} 100%)`;
 }
 
 function getProgressGradient(
@@ -135,9 +141,8 @@ export function StatusBarMusicStrip({
   playbackSnapshot,
   platformColor,
   locale,
-  nowPlayingLabel,
-  recentlyPlayedLabel,
-  playedLabel,
+  nowPlayingOnLabel,
+  lastPlayedOnLabel,
   openTrackLabel,
   unknownDurationLabel,
 }: StatusBarMusicStripProps) {
@@ -148,15 +153,19 @@ export function StatusBarMusicStrip({
   if (isPending) {
     return (
       <div className="border-b border-border/80 px-3 sm:px-4 py-2.5">
-        <div className="flex items-center gap-2.5">
-          <span className="skeleton h-9 w-9 rounded-md" />
-          <div className="min-w-0 flex-1">
-            <span className="skeleton block h-3 w-36 rounded" />
-            <span className="skeleton mt-1 block h-3.5 w-52 max-w-full rounded" />
-            <span className="skeleton mt-1 block h-3 w-40 max-w-full rounded" />
+        <div className="relative flex min-h-12 items-stretch gap-2.5">
+          <div className="aspect-square self-stretch shrink-0 min-h-12 min-w-12 overflow-hidden rounded-md border border-border/80 bg-background/70">
+            <span className="skeleton block h-full w-full rounded-none" />
+          </div>
+          <div className="min-w-0 flex-1 pl-0.5 sm:pl-1">
+            <div className="flex items-center justify-between gap-2">
+              <span className="skeleton block h-3 w-32 rounded" />
+              <span className="skeleton block h-2.5 w-14 rounded" />
+            </div>
+            <span className="skeleton mt-1.5 block h-3.5 w-56 max-w-full rounded" />
+            <span className="skeleton mt-2 block h-1 w-full rounded-full" />
           </div>
         </div>
-        <span className="skeleton mt-2 block h-1 w-full rounded-full" />
       </div>
     );
   }
@@ -166,32 +175,60 @@ export function StatusBarMusicStrip({
   }
 
   const playedAgo = formatTimeAgo(recentlyPlayed.timestamp, locale);
+  const isLikelyNowPlaying = playbackSnapshot.isLikelyNowPlaying;
   const platformAccentColor =
     normalizeHexColor(platformColor ?? undefined) ?? PLATFORMS.SPOTIFY.color;
+  const isAppleMusicTrack = recentlyPlayed.platform
+    .toLowerCase()
+    .includes(PLATFORMS.APPLE_MUSIC.source);
+  const isSpotifyTrack = recentlyPlayed.platform.toLowerCase().includes(PLATFORMS.SPOTIFY.source);
+  const nowPlayingAccentColor = isAppleMusicTrack
+    ? PLATFORMS.APPLE_MUSIC.color
+    : isSpotifyTrack
+      ? PLATFORMS.SPOTIFY.color
+      : platformAccentColor;
   const gradientSeedColor =
     normalizeHexColor(recentlyPlayed.artworkColors?.textColor1) ?? platformAccentColor;
   const artworkUrl = resolveArtworkUrl(recentlyPlayed.artworkUrl);
-  const stripGradient = getMusicStripGradient(recentlyPlayed.artworkColors, gradientSeedColor);
+  const stripGradient = getMusicStripGradient(
+    recentlyPlayed.artworkColors,
+    gradientSeedColor,
+    isLikelyNowPlaying,
+  );
   const progressGradient = getProgressGradient(recentlyPlayed.artworkColors, gradientSeedColor);
-  const accentStrongColor = `color-mix(in srgb, ${platformAccentColor} 62%, var(--foreground))`;
-  const accentSoftColor = `color-mix(in srgb, ${platformAccentColor} 42%, var(--foreground))`;
-  const nowPlayingLabelStyle = playbackSnapshot.isLikelyNowPlaying
+  const statusAccentSeed = nowPlayingAccentColor;
+  const statusDotStyle = isLikelyNowPlaying
     ? {
-        borderColor: toRgba(platformAccentColor, 0.42),
-        backgroundColor: toRgba(platformAccentColor, 0.16),
-        color: accentStrongColor,
+        backgroundColor: toRgba(statusAccentSeed, 0.92),
+        boxShadow: `0 0 0 1px ${toRgba(statusAccentSeed, 0.56)}, 0 0 12px ${toRgba(statusAccentSeed, 0.46)}`,
       }
     : undefined;
-  const platformLabelStyle = playbackSnapshot.isLikelyNowPlaying
+  const statusTextColor = `color-mix(in srgb, ${statusAccentSeed} 78%, var(--foreground))`;
+  const statusMetaColor = `color-mix(in srgb, ${statusAccentSeed} 40%, var(--foreground))`;
+  const statusTextStyle = isLikelyNowPlaying
     ? {
-        color: accentSoftColor,
+        color: statusTextColor,
       }
     : undefined;
-  const activityIconStyle = playbackSnapshot.isLikelyNowPlaying
+  const statusMetaStyle = isLikelyNowPlaying
     ? {
-        color: accentStrongColor,
+        color: statusMetaColor,
+        opacity: 0.86,
       }
     : undefined;
+  const activityIconStyle = isLikelyNowPlaying
+    ? {
+        color: statusTextColor,
+        opacity: 1,
+      }
+    : undefined;
+  const activitySpinnerWidthCh = isAppleMusicTrack
+    ? MUSIC_STRIP_CONFIG.APPLE_MUSIC_ACTIVITY_SPINNER_WIDTH_CH
+    : undefined;
+  const activitySpinnerClassName = isAppleMusicTrack
+    ? "text-[8px] leading-none font-medium"
+    : "text-[10px] leading-none font-medium";
+  const trackDisplayLabel = `${recentlyPlayed.song} — ${recentlyPlayed.artist}`;
 
   return (
     <div className="border-b border-border/80 px-3 sm:px-4 py-2.5">
@@ -215,14 +252,14 @@ export function StatusBarMusicStrip({
           className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/20"
         />
 
-        <div className="relative flex items-center gap-2.5">
-          <div className="h-9 w-9 shrink-0 overflow-hidden rounded-md border border-border/80 bg-background/70">
+        <div className="relative flex min-h-12 items-stretch gap-2.5">
+          <div className="aspect-square self-stretch shrink-0 min-h-12 min-w-12 overflow-hidden rounded-md border border-border/80 bg-background/70">
             {artworkUrl ? (
               <Image
                 src={artworkUrl}
                 alt=""
-                width={36}
-                height={36}
+                width={48}
+                height={48}
                 className="h-full w-full object-cover"
               />
             ) : (
@@ -231,68 +268,75 @@ export function StatusBarMusicStrip({
               </span>
             )}
           </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5 text-[10px] leading-none">
-              <span
-                className={
-                  playbackSnapshot.isLikelyNowPlaying
-                    ? "inline-flex items-center rounded-full border px-1.5 py-0.5 font-medium tracking-[0.12em] uppercase"
-                    : "tracking-[0.13em] uppercase text-text-tertiary"
-                }
-                style={nowPlayingLabelStyle}
-              >
-                {playbackSnapshot.isLikelyNowPlaying ? nowPlayingLabel : recentlyPlayedLabel}
-              </span>
-              <span className="text-text-decorative">/</span>
-              <span
-                className={
-                  playbackSnapshot.isLikelyNowPlaying ? "text-text-secondary" : "text-text-tertiary"
-                }
-                style={platformLabelStyle}
-              >
-                {recentlyPlayed.platform}
-              </span>
-              {playbackSnapshot.isLikelyNowPlaying && (
-                <AudioLines size={10} className="animate-pulse" style={activityIconStyle} />
+          <div className="min-w-0 flex-1 pl-0.5 sm:pl-1">
+            <div className="flex items-center justify-between gap-2 text-[10px] leading-none text-text-secondary">
+              {isLikelyNowPlaying ? (
+                <>
+                  <span className="min-w-0 inline-flex items-center gap-1.5">
+                    <span
+                      aria-hidden="true"
+                      className="h-1.5 w-1.5 shrink-0 rounded-full"
+                      style={statusDotStyle}
+                    />
+                    <span className="truncate" style={statusTextStyle}>
+                      {nowPlayingOnLabel} {recentlyPlayed.platform}
+                    </span>
+                    <UnicodeSpinner
+                      name={MUSIC_STRIP_CONFIG.ACTIVITY_SPINNER_NAME}
+                      reducedMotionSymbol={MUSIC_STRIP_CONFIG.REDUCED_MOTION_SYMBOL}
+                      fixedWidthCh={activitySpinnerWidthCh}
+                      className={`${activitySpinnerClassName} shrink-0`}
+                      style={activityIconStyle}
+                    />
+                  </span>
+                  <span
+                    className="tabular-nums whitespace-nowrap text-[9px] font-normal tracking-tight sm:text-[10px]"
+                    style={statusMetaStyle}
+                  >
+                    {formatDurationMs(playbackSnapshot.displayElapsedMs)} /{" "}
+                    {playbackSnapshot.durationMs
+                      ? formatDurationMs(playbackSnapshot.durationMs)
+                      : unknownDurationLabel}
+                  </span>
+                </>
+              ) : (
+                <span className="min-w-0 inline-flex items-center gap-1.5">
+                  <span className="truncate text-text-secondary">
+                    {lastPlayedOnLabel} {recentlyPlayed.platform}
+                  </span>
+                  <span className="shrink-0 text-text-decorative">·</span>
+                  <span className="shrink-0 tabular-nums text-text-secondary">{playedAgo}</span>
+                </span>
               )}
             </div>
 
-            <p className="mt-1 text-[11px] text-foreground truncate">
-              {recentlyPlayed.song} — {recentlyPlayed.artist}
-            </p>
+            <OverflowAutoScrollText
+              text={trackDisplayLabel}
+              className="mt-1.5 text-[11px] text-foreground"
+              gapPx={MUSIC_STRIP_CONFIG.TRACK_MARQUEE_GAP_PX}
+              speedPxPerSecond={MUSIC_STRIP_CONFIG.TRACK_MARQUEE_SPEED_PX_PER_SECOND}
+              startDelayMs={MUSIC_STRIP_CONFIG.TRACK_MARQUEE_START_DELAY_MS}
+            />
 
-            <div className="mt-1 flex items-center gap-1.5 text-[10px] text-text-tertiary">
-              <span className="truncate">
-                {playedLabel} {playedAgo}
-              </span>
-              <span className="text-text-decorative">·</span>
-              <span className="tabular-nums whitespace-nowrap">
-                {formatDurationMs(playbackSnapshot.displayElapsedMs)} /{" "}
-                {playbackSnapshot.durationMs
-                  ? formatDurationMs(playbackSnapshot.durationMs)
-                  : unknownDurationLabel}
-              </span>
+            <div className="relative mt-2 h-1 w-full overflow-hidden rounded-full bg-border/70">
+              <span
+                className={`block h-full rounded-full transition-[width] duration-1000 ease-linear ${
+                  playbackSnapshot.isLikelyNowPlaying
+                    ? "music-progress-gradient bg-emerald-500/90"
+                    : "bg-muted-foreground/50"
+                }`}
+                style={{
+                  width: `${playbackSnapshot.progressPercent}%`,
+                  ...(playbackSnapshot.isLikelyNowPlaying
+                    ? {
+                        backgroundImage: progressGradient,
+                        animationDuration: "8s",
+                      }
+                    : {}),
+                }}
+              />
             </div>
           </div>
-        </div>
-
-        <div className="relative mt-2 h-1 w-full overflow-hidden rounded-full bg-border/70">
-          <span
-            className={`block h-full rounded-full transition-[width] duration-1000 ease-linear ${
-              playbackSnapshot.isLikelyNowPlaying
-                ? "music-progress-gradient bg-emerald-500/90"
-                : "bg-muted-foreground/50"
-            }`}
-            style={{
-              width: `${playbackSnapshot.progressPercent}%`,
-              ...(playbackSnapshot.isLikelyNowPlaying
-                ? {
-                    backgroundImage: progressGradient,
-                    animationDuration: "8s",
-                  }
-                : {}),
-            }}
-          />
         </div>
       </a>
     </div>

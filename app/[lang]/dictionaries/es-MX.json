@@ -11,9 +11,8 @@
     "language": "IDIOMA",
     "aria_toggle_language": "Cambiar idioma",
     "music": {
-      "now_playing": "Sonando ahora",
-      "recently_played": "Reproducida recientemente",
-      "played": "reproducida",
+      "now_playing_on": "Sonando en",
+      "last_played_on": "Ultima reproduccion en",
       "open_track": "Abrir cancion",
       "unknown_duration": "ventana estimada"
     }

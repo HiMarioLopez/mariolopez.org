@@ -4,7 +4,7 @@ import { StatusBarLeftControls } from "@/components/status-bar-left-controls";
 import { StatusBarMusicStrip } from "@/components/status-bar-music-strip";
 import { StatusBarRightControls } from "@/components/status-bar-right-controls";
 import { useAvailabilityStatus } from "@/lib/hooks/use-availability-status";
-import { usePlaybackSnapshot } from "@/lib/hooks/use-playback-snapshot";
+import { useBufferedRecentlyPlayed } from "@/lib/hooks/use-buffered-recently-played";
 import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
 import { useVisitorCount } from "@/lib/hooks/use-visitor-count";
 import { getPlatformColor } from "@/lib/utils";
@@ -24,9 +24,8 @@ interface StatusBarProps {
     language: string;
     aria_toggle_language: string;
     music: {
-      now_playing: string;
-      recently_played: string;
-      played: string;
+      now_playing_on: string;
+      last_played_on: string;
       open_track: string;
       unknown_duration: string;
     };
@@ -42,21 +41,17 @@ function resolveLocale(lang: string): StatusBarLocale {
 export function StatusBar({ lang, mode, dict }: StatusBarProps) {
   const locale = resolveLocale(lang);
   const availabilityStatus = useAvailabilityStatus();
-  const { data: recentlyPlayed, isPending: isRecentlyPlayedPending } = useRecentlyPlayed();
+  const { data: recentlyPlayedFromQuery, isPending: isRecentlyPlayedPending } = useRecentlyPlayed();
+  const { recentlyPlayed, playbackSnapshot } = useBufferedRecentlyPlayed(recentlyPlayedFromQuery);
   const { data: visitorCount } = useVisitorCount();
-  const playbackSnapshot = usePlaybackSnapshot({
-    timestamp: recentlyPlayed?.timestamp,
-    durationMs: recentlyPlayed?.durationMs,
-  });
   const resolvedVisitorCount = typeof visitorCount === "number" ? visitorCount : null;
   const shouldShowMusicPlayer = mode === "human";
   const platformColor = recentlyPlayed?.platform ? getPlatformColor(recentlyPlayed.platform) : null;
-  const musicNowPlaying =
-    dict.music?.now_playing ?? (locale === "es-MX" ? "Sonando ahora" : "Now Playing");
-  const musicRecentlyPlayed =
-    dict.music?.recently_played ??
-    (locale === "es-MX" ? "Reproducida recientemente" : "Recently Played");
-  const musicPlayed = dict.music?.played ?? (locale === "es-MX" ? "reproducida" : "played");
+  const musicNowPlayingOn =
+    dict.music?.now_playing_on ?? (locale === "es-MX" ? "Sonando en" : "Now Playing on");
+  const musicLastPlayedOn =
+    dict.music?.last_played_on ??
+    (locale === "es-MX" ? "Ultima reproduccion en" : "Last played on");
   const musicOpenTrack =
     dict.music?.open_track ?? (locale === "es-MX" ? "Abrir cancion" : "Open track");
   const musicUnknownDuration =
@@ -68,14 +63,13 @@ export function StatusBar({ lang, mode, dict }: StatusBarProps) {
         <div className="bg-card border border-border rounded-lg pointer-events-auto overflow-hidden">
           <StatusBarMusicStrip
             shouldShowMusicPlayer={shouldShowMusicPlayer}
-            isPending={isRecentlyPlayedPending}
+            isPending={isRecentlyPlayedPending && !recentlyPlayed}
             recentlyPlayed={recentlyPlayed}
             playbackSnapshot={playbackSnapshot}
             platformColor={platformColor}
             locale={locale}
-            nowPlayingLabel={musicNowPlaying}
-            recentlyPlayedLabel={musicRecentlyPlayed}
-            playedLabel={musicPlayed}
+            nowPlayingOnLabel={musicNowPlayingOn}
+            lastPlayedOnLabel={musicLastPlayedOn}
             openTrackLabel={musicOpenTrack}
             unknownDurationLabel={musicUnknownDuration}
           />

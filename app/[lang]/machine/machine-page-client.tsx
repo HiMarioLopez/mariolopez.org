@@ -31,9 +31,8 @@ interface MachinePageClientProps {
       language: string;
       aria_toggle_language: string;
       music: {
-        now_playing: string;
-        recently_played: string;
-        played: string;
+        now_playing_on: string;
+        last_played_on: string;
         open_track: string;
         unknown_duration: string;
       };

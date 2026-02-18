@@ -61,9 +61,8 @@ interface ViewToggleDict {
   language: string;
   aria_toggle_language: string;
   music: {
-    now_playing: string;
-    recently_played: string;
-    played: string;
+    now_playing_on: string;
+    last_played_on: string;
     open_track: string;
     unknown_duration: string;
   };
@@ -118,7 +117,7 @@ function ProjectBadge({
         </span>
       ) : Icon ? (
         <span
-          className="inline-flex h-4 w-4 items-center justify-center rounded-sm border border-border/80 bg-muted/20 transition-colors group-hover:bg-muted/30 group-focus-within:bg-muted/30"
+          className="inline-flex h-4 w-4 items-center justify-center"
           style={
             iconHoverColor
               ? ({ "--project-icon-hover-color": iconHoverColor } as React.CSSProperties)
@@ -545,7 +544,7 @@ export function LandingPage({
 
           {/* Links */}
           <Section label={dict.section_links}>
-            <div className="space-y-0">
+            <div className="space-y-1">
               {LINK_ITEMS.map((link) => (
                 <a
                   key={link.href}
@@ -583,7 +582,7 @@ export function LandingPage({
 
           {/* Projects */}
           <Section label={dict.section_projects}>
-            <div className="space-y-0">
+            <div className="space-y-1">
               {projectItems.map((project) => (
                 <div
                   key={project.name}

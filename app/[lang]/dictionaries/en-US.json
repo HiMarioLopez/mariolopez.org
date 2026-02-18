@@ -11,9 +11,8 @@
     "language": "LANGUAGE",
     "aria_toggle_language": "Switch language",
     "music": {
-      "now_playing": "Now Playing",
-      "recently_played": "Recently Played",
-      "played": "played",
+      "now_playing_on": "Now Playing on",
+      "last_played_on": "Last played on",
       "open_track": "Open track",
       "unknown_duration": "estimated window"
     }

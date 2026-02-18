@@ -1,3 +1,5 @@
+import type { UnicodeSpinnerName } from "@/lib/unicode-spinners";
+
 /**
  * Application constants
  * UI, platform, and other constant values
@@ -88,7 +90,36 @@ export const NOW_PLAYING_CONFIG = {
    * Client-side cadence for progress indicator updates.
    */
   UPDATE_INTERVAL_MS: 1000,
+  /**
+   * When the same track refreshes with a nearby timestamp, keep the
+   * original client session timestamp to avoid visible progress rewinds.
+   */
+  SAME_TRACK_TIMESTAMP_DRIFT_TOLERANCE_MS: 90 * 1000,
+  /**
+   * Minimum forward timestamp delta required to treat a different track
+   * payload as a confident "new song" while one is still active.
+   */
+  TRACK_SWITCH_DELTA_MS: 2 * 1000,
 } as const;
+
+/**
+ * Music strip display configuration
+ */
+export const MUSIC_STRIP_CONFIG = {
+  ACTIVITY_SPINNER_NAME: "waverows",
+  APPLE_MUSIC_ACTIVITY_SPINNER_WIDTH_CH: 4,
+  REDUCED_MOTION_SYMBOL: ".",
+  TRACK_MARQUEE_GAP_PX: 28,
+  TRACK_MARQUEE_SPEED_PX_PER_SECOND: 30,
+  TRACK_MARQUEE_START_DELAY_MS: 1200,
+} as const satisfies {
+  ACTIVITY_SPINNER_NAME: UnicodeSpinnerName;
+  APPLE_MUSIC_ACTIVITY_SPINNER_WIDTH_CH: number;
+  REDUCED_MOTION_SYMBOL: string;
+  TRACK_MARQUEE_GAP_PX: number;
+  TRACK_MARQUEE_SPEED_PX_PER_SECOND: number;
+  TRACK_MARQUEE_START_DELAY_MS: number;
+};
 
 /**
  * Base URL for the site
