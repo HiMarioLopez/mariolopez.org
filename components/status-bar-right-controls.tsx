@@ -3,6 +3,7 @@
 import { Globe, Monitor, Moon, Sun } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,13 +33,18 @@ export function StatusBarRightControls({
   ariaToggleLanguage,
 }: StatusBarRightControlsProps) {
   const { theme, setTheme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const resolvedTheme = theme ?? "system";
+  const resolvedTheme = isMounted ? (theme ?? "system") : "system";
   const themeTriggerId = `${STATUS_BAR_IDS.THEME_TRIGGER}-${lang}`;
   const themeMenuId = `${STATUS_BAR_IDS.THEME_MENU}-${lang}`;
   const languageTriggerId = `${STATUS_BAR_IDS.LANGUAGE_TRIGGER}-${lang}`;
   const languageMenuId = `${STATUS_BAR_IDS.LANGUAGE_MENU}-${lang}`;
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <div className="flex items-center gap-2.5 sm:gap-3">
