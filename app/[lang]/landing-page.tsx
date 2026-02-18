@@ -75,7 +75,7 @@ function LinkIcon({ icon: Icon }: { icon: LucideIcon }) {
       <Icon
         size={14}
         strokeWidth={1.5}
-        className="text-muted-foreground/40 group-hover:text-muted-foreground transition-colors"
+        className="text-text-decorative group-hover:text-muted-foreground transition-colors"
       />
     </span>
   );
@@ -128,7 +128,7 @@ function ProjectBadge({
           <Icon
             size={11}
             strokeWidth={1.8}
-            className={`text-muted-foreground/60 transition-colors ${
+            className={`text-text-tertiary transition-colors ${
               iconHoverColor
                 ? "group-hover:text-[var(--project-icon-hover-color)] group-focus-within:text-[var(--project-icon-hover-color)]"
                 : (iconHoverClass ??
@@ -152,7 +152,7 @@ function Section({ label, children }: { label: string; children: React.ReactNode
   return (
     <section className="mb-10 md:mb-12">
       <div className="flex items-center gap-3 mb-4">
-        <span className="text-border select-none font-mono text-xs">#</span>
+        <span className="text-text-decorative select-none font-mono text-xs">#</span>
         <h2 className="text-[11px] font-mono tracking-[0.15em] uppercase text-muted-foreground">
           {label}
         </h2>
@@ -269,7 +269,7 @@ function ResumeLinkDrawer({ label }: { label: string }) {
           {label}
         </span>
         <span
-          className={`hidden text-xs text-muted-foreground/50 transition-opacity sm:block ${
+          className={`hidden text-xs text-text-tertiary transition-opacity sm:block ${
             isDrawerVisible ? "opacity-0" : "opacity-100"
           }`}
         >
@@ -292,7 +292,7 @@ function ResumeLinkDrawer({ label }: { label: string }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`${label} ${item.value}`}
-            className={`group/item inline-flex items-center gap-1 rounded-sm px-1.5 py-1 text-[11px] text-muted-foreground/75 transition-colors hover:bg-accent/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70 ${
+            className={`group/item inline-flex items-center gap-1 rounded-sm px-1.5 py-1 text-[11px] text-text-tertiary transition-colors hover:bg-accent/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70 ${
               index > 0 ? "ml-1 border-l border-border/60 pl-2" : ""
             }`}
             onClick={() => setIsDrawerPinnedOpen(false)}
@@ -300,7 +300,7 @@ function ResumeLinkDrawer({ label }: { label: string }) {
             <item.icon
               size={11}
               strokeWidth={1.7}
-              className="text-muted-foreground/70 group-hover/item:text-foreground transition-colors"
+              className="text-text-tertiary group-hover/item:text-foreground transition-colors"
             />
             <span className="font-medium tracking-[0.08em]">{item.value}</span>
           </a>
@@ -482,13 +482,11 @@ export function LandingPage({
           <div className="flex items-center justify-between mb-6 sm:mb-8">
             <div className="flex items-center gap-2 text-muted-foreground text-xs">
               <span>mariolopez.org</span>
-              <span className="text-border">/</span>
-              <span className="text-foreground/60">~</span>
+              <span className="text-text-decorative">/</span>
+              <span className="text-text-tertiary">~</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[11px] sm:text-xs text-muted-foreground/70">
-                {dict.greeting}
-              </span>
+              <span className="text-[11px] sm:text-xs text-text-tertiary">{dict.greeting}</span>
               <span className="text-lg select-none" title={dict.greeting}>
                 🤠
               </span>
@@ -496,7 +494,7 @@ export function LandingPage({
           </div>
 
           {/* JSDoc block */}
-          <pre className="text-muted-foreground/60 text-[11px] sm:text-xs leading-relaxed mb-6">{`/**
+          <pre className="text-text-tertiary text-[11px] sm:text-xs leading-relaxed mb-6">{`/**
  * @name    Mario Lopez Martinez
  * @role    ${dict.jsdoc_role}
  * @company ${dict.jsdoc_company}
@@ -536,7 +534,7 @@ export function LandingPage({
               href={LINKS.VERCEL_FIELD_ENGINEERING}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 dark:text-blue-400 border-b border-blue-500/30 dark:border-blue-400/30 hover:border-blue-500 dark:hover:border-blue-400 transition-colors pb-px"
+              className="text-blue-700 dark:text-blue-300 border-b border-blue-700/35 dark:border-blue-300/35 hover:border-blue-700 dark:hover:border-blue-300 transition-colors pb-px"
             >
               {dict.intro_hiring}
             </a>
@@ -559,11 +557,11 @@ export function LandingPage({
                 <span className="text-sm text-muted-foreground w-20 shrink-0 mr-1 group-hover:text-foreground transition-colors">
                   {link.label}
                 </span>
-                <span className="text-xs text-muted-foreground/50 group-hover:text-muted-foreground transition-colors truncate hidden sm:block">
+                <span className="text-xs text-text-tertiary group-hover:text-muted-foreground transition-colors truncate hidden sm:block">
                   {link.value}
                 </span>
                 <svg
-                  className="ml-auto w-3.5 h-3.5 text-border group-hover:text-muted-foreground transition-colors shrink-0"
+                  className="ml-auto w-3.5 h-3.5 text-text-decorative group-hover:text-muted-foreground transition-colors shrink-0"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -615,13 +613,13 @@ export function LandingPage({
                 <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors shrink-0">
                   <ProjectName name={project.name} />
                 </span>
-                <span className="text-muted-foreground/30 hidden sm:inline">&mdash;</span>
-                <span className="text-xs text-muted-foreground/50 group-hover:text-muted-foreground transition-colors truncate hidden sm:block">
+                <span className="text-text-decorative hidden sm:inline">&mdash;</span>
+                <span className="text-xs text-text-tertiary group-hover:text-muted-foreground transition-colors truncate hidden sm:block">
                   <ProjectDescription text={project.desc} links={project.descLinks} />
                 </span>
                 {project.status === "active" && (
                   <svg
-                    className="ml-auto w-3.5 h-3.5 text-border group-hover:text-muted-foreground transition-colors shrink-0"
+                    className="ml-auto w-3.5 h-3.5 text-text-decorative group-hover:text-muted-foreground transition-colors shrink-0"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -652,7 +650,7 @@ export function LandingPage({
               contact@mariolopez.org
             </span>
             <svg
-              className="ml-auto w-3.5 h-3.5 text-border group-hover:text-muted-foreground transition-colors shrink-0"
+              className="ml-auto w-3.5 h-3.5 text-text-decorative group-hover:text-muted-foreground transition-colors shrink-0"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

@@ -202,7 +202,7 @@ export function StatusBarMusicStrip({
                 className="h-full w-full object-cover"
               />
             ) : (
-              <span className="inline-flex h-full w-full items-center justify-center text-muted-foreground/60">
+              <span className="inline-flex h-full w-full items-center justify-center text-text-tertiary">
                 <AudioLines size={14} />
               </span>
             )}
@@ -211,9 +211,7 @@ export function StatusBarMusicStrip({
             <div className="flex items-center gap-1.5 text-[10px] leading-none">
               <span
                 className={`tracking-[0.13em] uppercase ${
-                  playbackSnapshot.isLikelyNowPlaying
-                    ? "text-foreground/90"
-                    : "text-muted-foreground/60"
+                  playbackSnapshot.isLikelyNowPlaying ? "text-foreground" : "text-text-tertiary"
                 }`}
                 style={
                   playbackSnapshot.isLikelyNowPlaying
@@ -225,22 +223,22 @@ export function StatusBarMusicStrip({
               >
                 {playbackSnapshot.isLikelyNowPlaying ? nowPlayingLabel : recentlyPlayedLabel}
               </span>
-              <span className="text-border">/</span>
-              <span className="text-muted-foreground/60">{recentlyPlayed.platform}</span>
+              <span className="text-text-decorative">/</span>
+              <span className="text-text-tertiary">{recentlyPlayed.platform}</span>
               {playbackSnapshot.isLikelyNowPlaying && (
                 <AudioLines size={10} className="animate-pulse" style={{ color: accentColor }} />
               )}
             </div>
 
-            <p className="mt-1 text-[11px] text-foreground/90 truncate">
+            <p className="mt-1 text-[11px] text-foreground truncate">
               {recentlyPlayed.song} — {recentlyPlayed.artist}
             </p>
 
-            <div className="mt-1 flex items-center gap-1.5 text-[10px] text-muted-foreground/55">
+            <div className="mt-1 flex items-center gap-1.5 text-[10px] text-text-tertiary">
               <span className="truncate">
                 {playedLabel} {playedAgo}
               </span>
-              <span className="text-border">·</span>
+              <span className="text-text-decorative">·</span>
               <span className="tabular-nums whitespace-nowrap">
                 {formatDurationMs(playbackSnapshot.displayElapsedMs)} /{" "}
                 {playbackSnapshot.durationMs

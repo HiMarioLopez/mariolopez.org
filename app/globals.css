@@ -17,6 +17,9 @@
   --secondary-foreground: oklch(0.15 0 0);
   --muted: oklch(0.96 0 0);
   --muted-foreground: oklch(0.45 0 0);
+  --text-secondary: oklch(0.36 0 0);
+  --text-tertiary: oklch(0.4 0 0);
+  --text-decorative: oklch(0.4 0 0);
   --accent: oklch(0.96 0 0);
   --accent-foreground: oklch(0.15 0 0);
   --destructive: oklch(0.577 0.245 27.325);
@@ -53,6 +56,9 @@
   --secondary-foreground: oklch(0.98 0 0);
   --muted: oklch(0.18 0 0);
   --muted-foreground: oklch(0.7 0 0);
+  --text-secondary: oklch(0.86 0 0);
+  --text-tertiary: oklch(0.76 0 0);
+  --text-decorative: oklch(0.72 0 0);
   --accent: oklch(0.18 0 0);
   --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.396 0.141 25.723);
@@ -94,6 +100,9 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-decorative: var(--text-decorative);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
@@ -139,7 +148,7 @@
 @layer components {
   /* Centralized link styling */
   .link-accent {
-    @apply text-yellow-500 underline decoration-dotted decoration-yellow-500 hover:text-yellow-400 hover:decoration-yellow-400 transition-colors underline-offset-4;
+    @apply text-yellow-700 dark:text-yellow-300 underline decoration-dotted decoration-yellow-700/70 dark:decoration-yellow-300/70 hover:text-yellow-600 dark:hover:text-yellow-200 hover:decoration-yellow-600 dark:hover:decoration-yellow-200 transition-colors underline-offset-4;
   }
 
   /* Icon grayscale - only apply on hover-capable devices (desktop) */

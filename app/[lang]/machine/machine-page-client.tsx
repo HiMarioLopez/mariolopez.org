@@ -136,7 +136,7 @@ export function MachinePageClient({
             <CopyButton
               content={fullContent}
               dict={dict.copy_button}
-              className="h-7 rounded-md border-border/70 bg-background/70 px-2.5 py-1 text-[10px] text-muted-foreground/70 hover:text-foreground"
+              className="h-7 rounded-md border-border/70 bg-background/70 px-2.5 py-1 text-[10px] text-text-secondary hover:text-foreground"
             />
             <span aria-hidden="true" className="mx-1 h-4 w-px shrink-0 bg-border/70" />
             <div className="flex items-center gap-1">
@@ -158,7 +158,7 @@ export function MachinePageClient({
                   />
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute left-1/2 top-full z-30 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-border/70 bg-background/95 px-1.5 py-0.5 text-[9px] font-mono text-muted-foreground opacity-0 shadow-sm transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
+                    className="pointer-events-none absolute left-1/2 top-full z-30 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-border/70 bg-background/95 px-1.5 py-0.5 text-[9px] font-mono text-text-secondary opacity-0 shadow-sm transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
                   >
                     {openInAriaTemplate.replace("%provider%", provider.name)}
                   </span>

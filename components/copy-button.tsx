@@ -39,7 +39,7 @@ export function CopyButton({ content, className, dict }: CopyButtonProps) {
       onClick={handleCopy}
       type="button"
       className={cn(
-        "flex items-center gap-1.5 bg-card border border-border rounded-lg px-3 py-2 text-[10px] font-mono text-muted-foreground/60 hover:text-foreground transition-colors",
+        "flex items-center gap-1.5 bg-card border border-border rounded-lg px-3 py-2 text-[10px] font-mono text-text-tertiary hover:text-foreground transition-colors",
         className,
       )}
       aria-label={ariaLabel}

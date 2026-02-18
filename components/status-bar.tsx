@@ -80,7 +80,7 @@ export function StatusBar({ lang, mode, dict }: StatusBarProps) {
             unknownDurationLabel={musicUnknownDuration}
           />
 
-          <div className="px-3 sm:px-4 py-2 flex items-center justify-between text-[10px] font-mono text-muted-foreground/60">
+          <div className="px-3 sm:px-4 py-2 flex items-center justify-between text-[10px] font-mono text-text-tertiary">
             <StatusBarLeftControls
               lang={lang}
               mode={mode}

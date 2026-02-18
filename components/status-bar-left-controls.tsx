@@ -69,7 +69,7 @@ export function StatusBarLeftControls({
           className="w-[220px] p-0 font-mono"
         >
           <div className="px-3 pt-2.5 pb-1.5 border-b border-border">
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground/50">
+            <span className="text-[10px] uppercase tracking-widest text-text-tertiary">
               {locale === "es-MX" ? "Disponibilidad" : "Availability"}
             </span>
           </div>
@@ -87,12 +87,10 @@ export function StatusBarLeftControls({
                     <div className={`text-[11px] font-medium leading-tight ${status.textClass}`}>
                       {status.label[locale]}
                       {isActive && (
-                        <span className="ml-1.5 text-[9px] text-muted-foreground/50 font-normal">
-                          ←
-                        </span>
+                        <span className="ml-1.5 text-[9px] text-text-tertiary font-normal">←</span>
                       )}
                     </div>
-                    <div className="text-[10px] text-muted-foreground/50 leading-snug mt-px">
+                    <div className="text-[10px] text-text-tertiary leading-snug mt-px">
                       {status.desc[locale]}
                     </div>
                   </div>
@@ -101,14 +99,14 @@ export function StatusBarLeftControls({
             })}
           </div>
           <div className="px-3 pt-1 pb-2 border-t border-border">
-            <span className="text-[10px] text-muted-foreground/40">
+            <span className="text-[10px] text-text-tertiary">
               {locale === "es-MX" ? "Horarios en hora central (CT)" : "All times Central US"}
             </span>
           </div>
         </PopoverContent>
       </Popover>
 
-      <span className="hidden sm:inline text-muted-foreground/40">Houston, TX</span>
+      <span className="hidden sm:inline text-text-tertiary">Houston, TX</span>
 
       <span className="w-px h-3 bg-border" />
       <span className="tabular-nums tracking-tight">
@@ -126,7 +124,7 @@ export function StatusBarLeftControls({
           <Link
             href={`/${lang}`}
             aria-label={ariaSwitchHuman}
-            className="px-1.5 py-0.5 text-[10px] text-muted-foreground/60 hover:text-foreground hover:bg-accent transition-colors"
+            className="px-1.5 py-0.5 text-[10px] text-text-tertiary hover:text-foreground hover:bg-accent transition-colors"
           >
             {humanLabel}
           </Link>
@@ -139,7 +137,7 @@ export function StatusBarLeftControls({
           <Link
             href={`/${lang}/machine`}
             aria-label={ariaSwitchMachine}
-            className="px-1.5 py-0.5 text-[10px] text-muted-foreground/60 hover:text-foreground hover:bg-accent transition-colors"
+            className="px-1.5 py-0.5 text-[10px] text-text-tertiary hover:text-foreground hover:bg-accent transition-colors"
           >
             {machineLabel}
           </Link>
