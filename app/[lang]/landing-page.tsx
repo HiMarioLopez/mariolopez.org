@@ -349,7 +349,7 @@ function ProjectDescription({ text, links }: { text: string; links?: DescLink[] 
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative z-10 border-b border-muted-foreground/20 hover:text-foreground hover:border-foreground/40 transition-colors"
+            className="relative z-10 underline decoration-dotted underline-offset-2 decoration-muted-foreground/45 hover:text-foreground hover:decoration-foreground/65 transition-[color,text-decoration-color]"
             onClick={(e) => e.stopPropagation()}
           >
             {matched}
@@ -381,6 +381,12 @@ function getProjectItems(
       desc: dict.projects.now_playing,
       href: LINKS.MUSIC,
       status: "active",
+      descLinks: [
+        {
+          match: /over-engineered|sobre-ingenierizado/i,
+          href: LINKS.MUSIC_REPO_OUTLINE,
+        },
+      ],
       icon: Music,
       iconHoverClass: "group-hover:text-emerald-400 group-focus-within:text-emerald-400",
       iconHoverColor: nowPlayingIconHoverColor ?? undefined,
@@ -390,6 +396,7 @@ function getProjectItems(
       desc: dict.projects.backpocket,
       href: LINKS.BACKPOCKET,
       status: "active",
+      descLinks: [{ match: /RIP Pocket|QEPD Pocket/i, href: LINKS.POCKET }],
       logoSrc: PROJECT_LOGOS.BACKPOCKET,
     },
     {

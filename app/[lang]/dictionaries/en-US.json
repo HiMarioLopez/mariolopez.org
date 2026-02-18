@@ -46,8 +46,8 @@
     "contact_text": "Want to chat or work together? Would love to hear from you.",
     "projects": {
       "chaos_recipe_enhancer": "Desktop automation for Path of Exile",
-      "now_playing": "Real-time music integration service",
-      "backpocket": "Personal knowledge management",
+      "now_playing": "An over-engineered site to track my now playing",
+      "backpocket": "Personal knowledge management · RIP Pocket",
       "blog": "Technical writing & thoughts",
       "create_mlpz_lambda": "CLI scaffold for AWS Lambda projects",
       "vercel_bulk_waf_rules": "Bulk manage Vercel WAF rules",

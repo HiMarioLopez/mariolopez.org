@@ -223,7 +223,7 @@ ${machine.contact_section.text}
 
 ## ${labels.projects}
 - ${machine.projects_labels.chaos_recipe_enhancer} ${LINKS.CHAOS_RECIPE_ENHANCER} (${POE_LABEL}: ${LINKS.PATH_OF_EXILE})
-- ${machine.projects_labels.now_playing} ${LINKS.MUSIC}
+- ${machine.projects_labels.now_playing} ${LINKS.MUSIC} (${LINKS.MUSIC_REPO_OUTLINE})
 - ${machine.projects_labels.blog} ${LINKS.BLOG}
 - ${machine.projects_labels.create_mlpz_lambda} ${LINKS.CREATE_MLPZ_LAMBDA}
 - ${machine.projects_labels.vercel_bulk_waf_rules} ${LINKS.VERCEL_BULK_WAF_RULES}

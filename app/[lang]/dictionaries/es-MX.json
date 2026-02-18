@@ -46,8 +46,8 @@
     "contact_text": "¿Quieres platicar o trabajar juntos? Me encantaría saber de ti.",
     "projects": {
       "chaos_recipe_enhancer": "Automatizaci\u00f3n para Path of Exile",
-      "now_playing": "Servicio de integraci\u00f3n musical en tiempo real",
-      "backpocket": "Gesti\u00f3n de conocimiento personal",
+      "now_playing": "Un sitio sobre-ingenierizado para rastrear lo que estoy escuchando",
+      "backpocket": "Gesti\u00f3n de conocimiento personal · QEPD Pocket",
       "blog": "Escritura t\u00e9cnica y reflexiones",
       "create_mlpz_lambda": "CLI para iniciar proyectos de AWS Lambda",
       "vercel_bulk_waf_rules": "Bulk manage Vercel WAF rules",

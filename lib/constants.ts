@@ -110,6 +110,9 @@ export const LINKS = {
   VERCEL_FIELD_ENGINEERING: "https://vercel.com/careers?function=Field+Engineering",
   VERCEL_CUSTOMERS: "https://vercel.com/customers",
   MUSIC: "https://music.mariolopez.org",
+  MUSIC_REPO_OUTLINE:
+    "https://github.com/HiMarioLopez/music.mariolopez.org?tab=readme-ov-file#outline",
+  POCKET: "https://getpocket.com/home",
   BLOG: "https://bolognese.mariolopez.org",
   CREATE_MLPZ_LAMBDA: "https://npmx.dev/package/create-mlpz-lambda",
   VERCEL_BULK_WAF_RULES: "https://github.com/HiMarioLopez/vercel-bulk-waf-rules",

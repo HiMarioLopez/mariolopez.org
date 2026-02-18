@@ -127,7 +127,7 @@ ${dict.socials_labels.resume_docx} ${LINKS.RESUME_DOCX}
 
 [section: projects]
 ${dict.projects_labels.chaos_recipe_enhancer} ${LINKS.CHAOS_RECIPE_ENHANCER} (${POE_LABEL}: ${LINKS.PATH_OF_EXILE})
-${dict.projects_labels.now_playing} ${LINKS.MUSIC}
+${dict.projects_labels.now_playing} ${LINKS.MUSIC} (${LINKS.MUSIC_REPO_OUTLINE})
 ${dict.projects_labels.blog} ${LINKS.BLOG}
 ${dict.projects_labels.create_mlpz_lambda} ${LINKS.CREATE_MLPZ_LAMBDA}
 ${dict.projects_labels.vercel_bulk_waf_rules} ${LINKS.VERCEL_BULK_WAF_RULES}
