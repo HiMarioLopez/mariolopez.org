@@ -181,8 +181,8 @@ const LINK_ITEMS = [
 ] as const;
 
 const RESUME_LINK_ITEMS = [
-  { icon: FileText, value: "PDF", href: LINKS.RESUME_PDF },
-  { icon: File, value: "DOCX", href: LINKS.RESUME_DOCX },
+  { icon: File, value: "pdf", href: LINKS.RESUME_PDF },
+  { icon: FileText, value: "docx", href: LINKS.RESUME_DOCX },
 ] as const;
 
 function ResumeLinkDrawer({ label }: { label: string }) {
