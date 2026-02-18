@@ -19,13 +19,13 @@ export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
         headers: {
           "Content-Type": "application/json",
         },
-        next: { revalidate: CACHE_CONFIG.REVALIDATE_SECONDS },
+        next: { revalidate: CACHE_CONFIG.RECENTLY_PLAYED_REVALIDATE_SECONDS },
       }),
       fetch(appleMusicUrl, {
         headers: {
           "Content-Type": "application/json",
         },
-        next: { revalidate: CACHE_CONFIG.REVALIDATE_SECONDS },
+        next: { revalidate: CACHE_CONFIG.RECENTLY_PLAYED_REVALIDATE_SECONDS },
       }),
     ]);
 

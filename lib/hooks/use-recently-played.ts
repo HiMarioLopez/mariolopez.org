@@ -25,7 +25,8 @@ export function useRecentlyPlayed() {
   return useQuery<RecentlyPlayed | null>({
     queryKey: ["recently-played"],
     queryFn: ({ signal }) => fetchRecentlyPlayed({ signal }),
-    staleTime: CACHE_CONFIG.REVALIDATE_SECONDS * 1000, // Consider data fresh for configured seconds
+    staleTime: CACHE_CONFIG.RECENTLY_PLAYED_REVALIDATE_SECONDS * 1000,
+    refetchInterval: CACHE_CONFIG.RECENTLY_PLAYED_REVALIDATE_SECONDS * 1000,
     retry: 1, // Retry once on failure for better error recovery
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff, max 30s
   });

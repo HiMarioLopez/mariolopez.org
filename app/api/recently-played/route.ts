@@ -3,8 +3,8 @@ import { CACHE_HEADERS } from "@/lib/config";
 import { createErrorResponse, logError } from "@/lib/errors";
 import { getRecentlyPlayed } from "@/lib/recently-played";
 
-// Note: Must be a literal number for Next.js segment config (see CACHE_CONFIG.REVALIDATE_SECONDS)
-export const revalidate = 300;
+// Note: Must be a literal number for Next.js segment config
+export const revalidate = 60;
 
 /**
  * GET /api/recently-played
@@ -24,10 +24,10 @@ export async function GET() {
 
     const response = NextResponse.json(recentlyPlayed);
 
-    // Set caching headers with stale-while-revalidate pattern
-    response.headers.set("Cache-Control", CACHE_HEADERS.SUCCESS);
-    response.headers.set("CDN-Cache-Control", CACHE_HEADERS.CDN);
-    response.headers.set("Vercel-CDN-Cache-Control", CACHE_HEADERS.CDN);
+    // Keep API cache policy in sync with now-playing refresh cadence.
+    response.headers.set("Cache-Control", CACHE_HEADERS.RECENTLY_PLAYED_SUCCESS);
+    response.headers.set("CDN-Cache-Control", CACHE_HEADERS.RECENTLY_PLAYED_CDN);
+    response.headers.set("Vercel-CDN-Cache-Control", CACHE_HEADERS.RECENTLY_PLAYED_CDN);
 
     return response;
   } catch (error) {
