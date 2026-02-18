@@ -1,3 +1,4 @@
+import type { BuildMetadata } from "@/lib/build-metadata";
 import { LINKS } from "@/lib/constants";
 
 const POE_LABEL = "Path of Exile";
@@ -26,6 +27,7 @@ interface MachineDict {
   contact_section: {
     text: string;
     email_label: string;
+    site_last_updated_label: string;
   };
   socials_labels: {
     github: string;
@@ -83,7 +85,10 @@ ${aboutSection}
  * Generates the static content after the recently-played section
  * This is generated on the server to optimize string concatenation
  */
-export function generateMachineContentAfter(dict: MachineDict): string {
+export function generateMachineContentAfter(
+  dict: MachineDict,
+  buildMetadata: BuildMetadata,
+): string {
   const jobs = dict.resume_section.jobs
     .map((job) => `${job.date}\n${job.title}\n${job.description}`)
     .join("\n\n");
@@ -114,6 +119,7 @@ ${dict.resume_section.education}
 ${dict.contact_section.text}
 
 ${dict.contact_section.email_label} ${LINKS.EMAIL_MACHINE}
+${dict.contact_section.site_last_updated_label} ${buildMetadata.siteLastUpdatedDisplay}
 [/section]
 
 [section: socials]

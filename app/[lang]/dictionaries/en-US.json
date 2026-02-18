@@ -41,9 +41,13 @@
     "intro_hiring": "hiring",
     "section_links": "links",
     "section_projects": "projects",
+    "section_meta": "meta",
     "section_contact": "contact",
     "resume_label": "resume",
     "contact_text": "Want to chat or work together? Would love to hear from you.",
+    "build_info": {
+      "label": "I last updated this site"
+    },
     "projects": {
       "chaos_recipe_enhancer": "Desktop automation for Path of Exile",
       "now_playing": "An over-engineered site to track my now playing",
@@ -112,7 +116,8 @@
     },
     "contact_section": {
       "text": "Want to chat or work together? Would love to hear from you.",
-      "email_label": "Email:"
+      "email_label": "Email:",
+      "site_last_updated_label": "I last updated this site"
     },
     "socials_labels": {
       "github": "GitHub:",

@@ -3,8 +3,11 @@ import {
   generateMachineContentAfter,
   generateMachineContentBefore,
 } from "@/components/machine-content";
+import { getBuildMetadata } from "@/lib/build-metadata";
 import { getDictionary, type Locale } from "../dictionaries";
 import { MachinePageClient } from "./machine-page-client";
+
+export const dynamic = "force-static";
 
 export async function generateMetadata({
   params,
@@ -23,9 +26,10 @@ export async function generateMetadata({
 export default async function MachinePage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   const dict = await getDictionary(lang as Locale);
+  const buildMetadata = getBuildMetadata(lang);
 
   const contentBefore = generateMachineContentBefore(dict.machine);
-  const contentAfter = generateMachineContentAfter(dict.machine);
+  const contentAfter = generateMachineContentAfter(dict.machine, buildMetadata);
   const recentlyPlayedTemplate = dict.machine.recently_played_template;
 
   return (

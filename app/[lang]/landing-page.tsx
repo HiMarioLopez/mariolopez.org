@@ -16,6 +16,7 @@ import {
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { StatusBar } from "@/components/status-bar";
+import type { BuildMetadata } from "@/lib/build-metadata";
 import { AVAILABILITY_DISPLAY, LINKS, PROJECT_LOGOS } from "@/lib/constants";
 import { useAvailabilityStatus } from "@/lib/hooks/use-availability-status";
 import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
@@ -35,9 +36,13 @@ interface LandingDict {
   intro_hiring: string;
   section_links: string;
   section_projects: string;
+  section_meta: string;
   section_contact: string;
   resume_label: string;
   contact_text: string;
+  build_info: {
+    label: string;
+  };
   projects: {
     chaos_recipe_enhancer: string;
     now_playing: string;
@@ -459,10 +464,12 @@ export function LandingPage({
   lang,
   dict,
   statusBarDict,
+  buildMetadata,
 }: {
   lang: string;
   dict: LandingDict;
   statusBarDict: ViewToggleDict;
+  buildMetadata: BuildMetadata;
 }) {
   const availabilityStatus = useAvailabilityStatus();
   const { data: recentlyPlayed } = useRecentlyPlayed();
@@ -664,6 +671,23 @@ export function LandingPage({
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
               </svg>
             </a>
+          </Section>
+
+          {/* Meta */}
+          <Section label={dict.section_meta}>
+            <p className="flex flex-wrap items-center gap-1.5 text-[12px] text-text-decorative">
+              <span>{dict.build_info.label}</span>
+              <time
+                className="text-text-tertiary font-mono [font-variant-numeric:tabular-nums]"
+                dateTime={buildMetadata.siteLastUpdatedIso}
+              >
+                {buildMetadata.siteLastUpdatedDisplay}
+              </time>
+              <span
+                aria-hidden="true"
+                className="inline-block h-2 w-2 rounded-[2px] border border-emerald-800/45 bg-emerald-600 dark:border-emerald-300/55 dark:bg-emerald-400"
+              />
+            </p>
           </Section>
 
           <div className="h-36 sm:h-16" />

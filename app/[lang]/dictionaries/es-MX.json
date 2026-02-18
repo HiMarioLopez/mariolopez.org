@@ -41,9 +41,13 @@
     "intro_hiring": "contratando",
     "section_links": "enlaces",
     "section_projects": "proyectos",
+    "section_meta": "meta",
     "section_contact": "contacto",
     "resume_label": "curr\u00edculum",
     "contact_text": "¿Quieres platicar o trabajar juntos? Me encantaría saber de ti.",
+    "build_info": {
+      "label": "Actualicé este sitio por última vez"
+    },
     "projects": {
       "chaos_recipe_enhancer": "Automatizaci\u00f3n para Path of Exile",
       "now_playing": "Un sitio sobre-ingenierizado para rastrear lo que estoy escuchando",
@@ -112,7 +116,8 @@
     },
     "contact_section": {
       "text": "¿Quieres platicar o trabajar juntos? Me encantaría saber de ti.",
-      "email_label": "Correo electrónico:"
+      "email_label": "Correo electr\u00f3nico:",
+      "site_last_updated_label": "Actualicé este sitio por última vez"
     },
     "socials_labels": {
       "github": "GitHub:",
