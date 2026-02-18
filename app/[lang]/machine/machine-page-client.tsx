@@ -58,7 +58,7 @@ export function MachinePageClient({
             contentAfter={contentAfter}
             recentlyPlayedTemplate={recentlyPlayedTemplate}
           />
-          <div className="h-20" />
+          <div className="h-36 sm:h-20" />
         </div>
       </div>
 
