@@ -265,7 +265,7 @@ function ResumeLinkDrawer({ label }: { label: string }) {
         onClick={() => setIsDrawerPinnedOpen((prev) => !prev)}
       >
         <LinkIcon icon={FileText} />
-        <span className="text-sm text-muted-foreground w-20 shrink-0 mr-1 group-hover:text-foreground transition-colors">
+        <span className="text-sm text-text-secondary w-20 shrink-0 mr-1 group-hover:text-foreground transition-colors">
           {label}
         </span>
         <span
@@ -475,149 +475,92 @@ export function LandingPage({
   const projectItems = getProjectItems(dict, nowPlayingIconHoverColor);
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-mono antialiased selection:bg-foreground/15 selection:text-foreground">
-      <div className="max-w-[680px] mx-auto px-5 sm:px-6 py-8 sm:py-10 md:py-16">
-        {/* Header */}
-        <header className="mb-10 md:mb-14">
-          <div className="flex items-center justify-between mb-6 sm:mb-8">
-            <div className="flex items-center gap-2 text-muted-foreground text-xs">
-              <span>mariolopez.org</span>
-              <span className="text-text-decorative">/</span>
-              <span className="text-text-tertiary">~</span>
+    <>
+      <main className="min-h-screen bg-background text-foreground font-mono antialiased selection:bg-foreground/15 selection:text-foreground">
+        <div className="max-w-[680px] mx-auto px-5 sm:px-6 py-8 sm:py-10 md:py-16">
+          {/* Header */}
+          <header className="mb-10 md:mb-14">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
+              <div className="flex items-center gap-2 text-muted-foreground text-xs">
+                <span>mariolopez.org</span>
+                <span className="text-text-decorative">/</span>
+                <span className="text-text-tertiary">~</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] sm:text-xs text-text-tertiary">{dict.greeting}</span>
+                <span className="text-lg select-none" title={dict.greeting}>
+                  🤠
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] sm:text-xs text-text-tertiary">{dict.greeting}</span>
-              <span className="text-lg select-none" title={dict.greeting}>
-                🤠
-              </span>
-            </div>
-          </div>
 
-          {/* JSDoc block */}
-          <pre className="text-text-tertiary text-[11px] sm:text-xs leading-relaxed mb-6">{`/**
+            {/* JSDoc block */}
+            <pre className="text-text-tertiary text-[11px] sm:text-xs leading-relaxed mb-6">{`/**
  * @name    Mario Lopez Martinez
  * @role    ${dict.jsdoc_role}
  * @company ${dict.jsdoc_company}
  * @status  ${statusLabel}
  */`}</pre>
 
-          <h1 className="sr-only">Mario Lopez Martinez</h1>
-          <p className="text-sm sm:text-[15px] text-muted-foreground leading-relaxed max-w-[500px]">
-            <a
-              href={LINKS.VERCEL_CAREERS}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-foreground border-b border-border hover:border-foreground transition-colors pb-px"
-            >
-              {dict.intro_role}
-            </a>{" "}
-            {dict.intro_at}{" "}
-            <a
-              href={LINKS.VERCEL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-foreground border-b border-border hover:border-foreground transition-colors pb-px"
-            >
-              {dict.intro_company}
-            </a>
-            . {dict.intro_solving}{" "}
-            <a
-              href={LINKS.VERCEL_CUSTOMERS}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-foreground border-b border-border hover:border-foreground transition-colors pb-px"
-            >
-              {dict.intro_customers}
-            </a>
-            . {dict.intro_team}{" "}
-            <a
-              href={LINKS.VERCEL_FIELD_ENGINEERING}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-700 dark:text-blue-300 border-b border-blue-700/35 dark:border-blue-300/35 hover:border-blue-700 dark:hover:border-blue-300 transition-colors pb-px"
-            >
-              {dict.intro_hiring}
-            </a>
-            .
-          </p>
-        </header>
-
-        {/* Links */}
-        <Section label={dict.section_links}>
-          <div className="space-y-0">
-            {LINK_ITEMS.map((link) => (
+            <h1 className="sr-only">Mario Lopez Martinez</h1>
+            <p className="text-sm sm:text-[15px] text-muted-foreground leading-relaxed max-w-[500px]">
               <a
-                key={link.href}
-                href={link.href}
+                href={LINKS.VERCEL_CAREERS}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-3 py-3 sm:py-2.5 hover:bg-accent -mx-3 px-3 rounded-md transition-colors"
+                className="text-foreground border-b border-border hover:border-foreground transition-colors pb-px"
               >
-                <LinkIcon icon={link.icon} />
-                <span className="text-sm text-muted-foreground w-20 shrink-0 mr-1 group-hover:text-foreground transition-colors">
-                  {link.label}
-                </span>
-                <span className="text-xs text-text-tertiary group-hover:text-muted-foreground transition-colors truncate hidden sm:block">
-                  {link.value}
-                </span>
-                <svg
-                  className="ml-auto w-3.5 h-3.5 text-text-decorative group-hover:text-muted-foreground transition-colors shrink-0"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M7 17L17 7M17 7H7M17 7v10"
-                  />
-                </svg>
+                {dict.intro_role}
+              </a>{" "}
+              {dict.intro_at}{" "}
+              <a
+                href={LINKS.VERCEL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground border-b border-border hover:border-foreground transition-colors pb-px"
+              >
+                {dict.intro_company}
               </a>
-            ))}
-            <ResumeLinkDrawer label={dict.resume_label} />
-          </div>
-        </Section>
-
-        {/* Projects */}
-        <Section label={dict.section_projects}>
-          <div className="space-y-0">
-            {projectItems.map((project) => (
-              <div
-                key={project.name}
-                className={`group relative flex items-center gap-3 py-3 sm:py-2.5 -mx-3 px-3 rounded-md transition-colors ${
-                  project.status === "active" ? "hover:bg-accent" : "opacity-35 cursor-not-allowed"
-                }`}
+              . {dict.intro_solving}{" "}
+              <a
+                href={LINKS.VERCEL_CUSTOMERS}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground border-b border-border hover:border-foreground transition-colors pb-px"
               >
-                {project.status === "active" && (
-                  <a
-                    href={project.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute inset-0 z-0"
-                    aria-label={project.name}
-                  >
-                    <span className="sr-only">{project.name}</span>
-                  </a>
-                )}
-                <ProjectBadge
-                  status={project.status}
-                  logoSrc={project.logoSrc}
-                  emoji={project.emoji}
-                  icon={project.icon}
-                  iconHoverClass={project.iconHoverClass}
-                  iconHoverColor={project.iconHoverColor}
-                  name={project.name}
-                />
-                <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors shrink-0">
-                  <ProjectName name={project.name} />
-                </span>
-                <span className="text-text-decorative hidden sm:inline">&mdash;</span>
-                <span className="text-xs text-text-tertiary group-hover:text-muted-foreground transition-colors truncate hidden sm:block">
-                  <ProjectDescription text={project.desc} links={project.descLinks} />
-                </span>
-                {project.status === "active" && (
+                {dict.intro_customers}
+              </a>
+              . {dict.intro_team}{" "}
+              <a
+                href={LINKS.VERCEL_FIELD_ENGINEERING}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-700 dark:text-blue-300 border-b border-blue-700/35 dark:border-blue-300/35 hover:border-blue-700 dark:hover:border-blue-300 transition-colors pb-px"
+              >
+                {dict.intro_hiring}
+              </a>
+              .
+            </p>
+          </header>
+
+          {/* Links */}
+          <Section label={dict.section_links}>
+            <div className="space-y-0">
+              {LINK_ITEMS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3 py-3 sm:py-2.5 hover:bg-accent -mx-3 px-3 rounded-md transition-colors"
+                >
+                  <LinkIcon icon={link.icon} />
+                  <span className="text-sm text-text-secondary w-20 shrink-0 mr-1 group-hover:text-foreground transition-colors">
+                    {link.label}
+                  </span>
+                  <span className="text-xs text-text-secondary group-hover:text-foreground transition-colors truncate hidden sm:block">
+                    {link.value}
+                  </span>
                   <svg
                     className="ml-auto w-3.5 h-3.5 text-text-decorative group-hover:text-muted-foreground transition-colors shrink-0"
                     fill="none"
@@ -632,40 +575,102 @@ export function LandingPage({
                       d="M7 17L17 7M17 7H7M17 7v10"
                     />
                   </svg>
-                )}
-              </div>
-            ))}
-          </div>
-        </Section>
+                </a>
+              ))}
+              <ResumeLinkDrawer label={dict.resume_label} />
+            </div>
+          </Section>
 
-        {/* Contact */}
-        <Section label={dict.section_contact}>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-1">{dict.contact_text}</p>
-          <a
-            href={LINKS.EMAIL_HUMAN}
-            className="group flex items-center gap-3 py-3 sm:py-2.5 hover:bg-accent -mx-3 px-3 rounded-md transition-colors"
-          >
-            <LinkIcon icon={Mail} />
-            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-              contact@mariolopez.org
-            </span>
-            <svg
-              className="ml-auto w-3.5 h-3.5 text-text-decorative group-hover:text-muted-foreground transition-colors shrink-0"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-              aria-hidden="true"
+          {/* Projects */}
+          <Section label={dict.section_projects}>
+            <div className="space-y-0">
+              {projectItems.map((project) => (
+                <div
+                  key={project.name}
+                  className={`group relative flex items-center gap-3 py-3 sm:py-2.5 -mx-3 px-3 rounded-md transition-colors ${
+                    project.status === "active"
+                      ? "hover:bg-accent"
+                      : "cursor-not-allowed bg-accent/40"
+                  }`}
+                  aria-disabled={project.status !== "active"}
+                >
+                  {project.status === "active" && (
+                    <a
+                      href={project.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute inset-0 z-0"
+                      aria-label={project.name}
+                    >
+                      <span className="sr-only">{project.name}</span>
+                    </a>
+                  )}
+                  <ProjectBadge
+                    status={project.status}
+                    logoSrc={project.logoSrc}
+                    emoji={project.emoji}
+                    icon={project.icon}
+                    iconHoverClass={project.iconHoverClass}
+                    iconHoverColor={project.iconHoverColor}
+                    name={project.name}
+                  />
+                  <span className="text-sm text-text-secondary group-hover:text-foreground transition-colors shrink-0">
+                    <ProjectName name={project.name} />
+                  </span>
+                  <span className="text-text-decorative hidden sm:inline">&mdash;</span>
+                  <span className="text-xs text-text-secondary group-hover:text-foreground transition-colors truncate hidden sm:block">
+                    <ProjectDescription text={project.desc} links={project.descLinks} />
+                  </span>
+                  {project.status === "active" && (
+                    <svg
+                      className="ml-auto w-3.5 h-3.5 text-text-decorative group-hover:text-muted-foreground transition-colors shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M7 17L17 7M17 7H7M17 7v10"
+                      />
+                    </svg>
+                  )}
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          {/* Contact */}
+          <Section label={dict.section_contact}>
+            <p className="text-sm text-text-secondary leading-relaxed mb-1">{dict.contact_text}</p>
+            <a
+              href={LINKS.EMAIL_HUMAN}
+              className="group flex items-center gap-3 py-3 sm:py-2.5 hover:bg-accent -mx-3 px-3 rounded-md transition-colors"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-            </svg>
-          </a>
-        </Section>
+              <LinkIcon icon={Mail} />
+              <span className="text-sm text-text-secondary group-hover:text-foreground transition-colors">
+                contact@mariolopez.org
+              </span>
+              <svg
+                className="ml-auto w-3.5 h-3.5 text-text-decorative group-hover:text-muted-foreground transition-colors shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+                aria-hidden="true"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+              </svg>
+            </a>
+          </Section>
 
-        <div className="h-36 sm:h-16" />
-      </div>
+          <div className="h-36 sm:h-16" />
+        </div>
+      </main>
 
       <StatusBar lang={lang} mode="human" dict={statusBarDict} />
-    </div>
+    </>
   );
 }

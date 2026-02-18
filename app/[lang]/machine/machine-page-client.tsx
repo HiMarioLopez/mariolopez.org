@@ -117,59 +117,61 @@ export function MachinePageClient({
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-mono antialiased">
-      <div className="flex min-h-screen items-center justify-center px-6 pb-6 pt-20 sm:px-8 sm:pb-8 sm:pt-24">
-        <div className="max-w-[680px] w-full">
-          <MachineContentDisplay
-            contentBefore={contentBefore}
-            contentAfter={contentAfter}
-            recentlyPlayedTemplate={recentlyPlayedTemplate}
-          />
-          <div className="h-36 sm:h-20" />
-        </div>
-      </div>
-
-      {/* Copy button fixed top center */}
-      <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[70]">
-        <div className="relative isolate">
-          <div className="flex items-center gap-1 rounded-xl border border-border/80 bg-background/90 p-1 shadow-sm backdrop-blur-md">
-            <CopyButton
-              content={fullContent}
-              dict={dict.copy_button}
-              className="h-7 rounded-md border-border/70 bg-background/70 px-2.5 py-1 text-[10px] text-text-secondary hover:text-foreground"
+    <>
+      <main className="min-h-screen bg-background text-foreground font-mono antialiased">
+        <div className="flex min-h-screen items-center justify-center px-6 pb-6 pt-20 sm:px-8 sm:pb-8 sm:pt-24">
+          <div className="max-w-[680px] w-full">
+            <MachineContentDisplay
+              contentBefore={contentBefore}
+              contentAfter={contentAfter}
+              recentlyPlayedTemplate={recentlyPlayedTemplate}
             />
-            <span aria-hidden="true" className="mx-1 h-4 w-px shrink-0 bg-border/70" />
-            <div className="flex items-center gap-1">
-              {LLM_PROVIDER_ITEMS.map((provider) => (
-                <button
-                  key={provider.id}
-                  type="button"
-                  aria-label={openInAriaTemplate.replace("%provider%", provider.name)}
-                  onClick={() => handleOpenInProvider(provider)}
-                  className="group relative inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-background/70 transition-colors hover:border-muted-foreground/70 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70"
-                >
-                  <Image
-                    src={provider.logoSrc}
-                    alt=""
-                    width={14}
-                    height={14}
-                    aria-hidden="true"
-                    className={provider.logoClassName}
-                  />
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute left-1/2 top-full z-30 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-border/70 bg-background/95 px-1.5 py-0.5 text-[9px] font-mono text-text-secondary opacity-0 shadow-sm transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
+            <div className="h-36 sm:h-20" />
+          </div>
+        </div>
+
+        {/* Copy button fixed top center */}
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[70]">
+          <div className="relative isolate">
+            <div className="flex items-center gap-1 rounded-xl border border-border/80 bg-background/90 p-1 shadow-sm backdrop-blur-md">
+              <CopyButton
+                content={fullContent}
+                dict={dict.copy_button}
+                className="h-7 rounded-md border-border/70 bg-background/70 px-2.5 py-1 text-[10px] text-text-secondary hover:text-foreground"
+              />
+              <span aria-hidden="true" className="mx-1 h-4 w-px shrink-0 bg-border/70" />
+              <div className="flex items-center gap-1">
+                {LLM_PROVIDER_ITEMS.map((provider) => (
+                  <button
+                    key={provider.id}
+                    type="button"
+                    aria-label={openInAriaTemplate.replace("%provider%", provider.name)}
+                    onClick={() => handleOpenInProvider(provider)}
+                    className="group relative inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-background/70 transition-colors hover:border-muted-foreground/70 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70"
                   >
-                    {openInAriaTemplate.replace("%provider%", provider.name)}
-                  </span>
-                </button>
-              ))}
+                    <Image
+                      src={provider.logoSrc}
+                      alt=""
+                      width={14}
+                      height={14}
+                      aria-hidden="true"
+                      className={provider.logoClassName}
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute left-1/2 top-full z-30 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-border/70 bg-background/95 px-1.5 py-0.5 text-[9px] font-mono text-text-secondary opacity-0 shadow-sm transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
+                    >
+                      {openInAriaTemplate.replace("%provider%", provider.name)}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </main>
 
       <StatusBar lang={lang} mode="machine" dict={dict.view_toggle} />
-    </div>
+    </>
   );
 }
