@@ -150,11 +150,13 @@ export function StatusBarMusicStrip({
       <div className="border-b border-border/80 px-3 sm:px-4 py-2.5">
         <div className="flex items-center gap-2.5">
           <span className="skeleton h-9 w-9 rounded-md" />
-          <div className="min-w-0 flex-1 space-y-1">
-            <span className="skeleton block h-2.5 w-28 rounded" />
-            <span className="skeleton block h-3 w-48 max-w-full rounded" />
+          <div className="min-w-0 flex-1">
+            <span className="skeleton block h-3 w-36 rounded" />
+            <span className="skeleton mt-1 block h-3.5 w-52 max-w-full rounded" />
+            <span className="skeleton mt-1 block h-3 w-40 max-w-full rounded" />
           </div>
         </div>
+        <span className="skeleton mt-2 block h-1 w-full rounded-full" />
       </div>
     );
   }
@@ -164,13 +166,32 @@ export function StatusBarMusicStrip({
   }
 
   const playedAgo = formatTimeAgo(recentlyPlayed.timestamp, locale);
-  const accentColor =
-    normalizeHexColor(recentlyPlayed.artworkColors?.textColor1) ??
-    normalizeHexColor(platformColor ?? undefined) ??
-    PLATFORMS.SPOTIFY.color;
+  const platformAccentColor =
+    normalizeHexColor(platformColor ?? undefined) ?? PLATFORMS.SPOTIFY.color;
+  const gradientSeedColor =
+    normalizeHexColor(recentlyPlayed.artworkColors?.textColor1) ?? platformAccentColor;
   const artworkUrl = resolveArtworkUrl(recentlyPlayed.artworkUrl);
-  const stripGradient = getMusicStripGradient(recentlyPlayed.artworkColors, accentColor);
-  const progressGradient = getProgressGradient(recentlyPlayed.artworkColors, accentColor);
+  const stripGradient = getMusicStripGradient(recentlyPlayed.artworkColors, gradientSeedColor);
+  const progressGradient = getProgressGradient(recentlyPlayed.artworkColors, gradientSeedColor);
+  const accentStrongColor = `color-mix(in srgb, ${platformAccentColor} 62%, var(--foreground))`;
+  const accentSoftColor = `color-mix(in srgb, ${platformAccentColor} 42%, var(--foreground))`;
+  const nowPlayingLabelStyle = playbackSnapshot.isLikelyNowPlaying
+    ? {
+        borderColor: toRgba(platformAccentColor, 0.42),
+        backgroundColor: toRgba(platformAccentColor, 0.16),
+        color: accentStrongColor,
+      }
+    : undefined;
+  const platformLabelStyle = playbackSnapshot.isLikelyNowPlaying
+    ? {
+        color: accentSoftColor,
+      }
+    : undefined;
+  const activityIconStyle = playbackSnapshot.isLikelyNowPlaying
+    ? {
+        color: accentStrongColor,
+      }
+    : undefined;
 
   return (
     <div className="border-b border-border/80 px-3 sm:px-4 py-2.5">
@@ -183,8 +204,11 @@ export function StatusBarMusicStrip({
       >
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-85 transition-opacity duration-300 group-hover:opacity-100"
-          style={{ backgroundImage: stripGradient }}
+          className="music-strip-gradient pointer-events-none absolute inset-0 opacity-70 transition-opacity duration-300 group-hover:opacity-90"
+          style={{
+            backgroundImage: stripGradient,
+            animationDuration: playbackSnapshot.isLikelyNowPlaying ? "14s" : "22s",
+          }}
         />
         <span
           aria-hidden="true"
@@ -210,23 +234,26 @@ export function StatusBarMusicStrip({
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5 text-[10px] leading-none">
               <span
-                className={`tracking-[0.13em] uppercase ${
-                  playbackSnapshot.isLikelyNowPlaying ? "text-foreground" : "text-text-tertiary"
-                }`}
-                style={
+                className={
                   playbackSnapshot.isLikelyNowPlaying
-                    ? {
-                        color: accentColor,
-                      }
-                    : undefined
+                    ? "inline-flex items-center rounded-full border px-1.5 py-0.5 font-medium tracking-[0.12em] uppercase"
+                    : "tracking-[0.13em] uppercase text-text-tertiary"
                 }
+                style={nowPlayingLabelStyle}
               >
                 {playbackSnapshot.isLikelyNowPlaying ? nowPlayingLabel : recentlyPlayedLabel}
               </span>
               <span className="text-text-decorative">/</span>
-              <span className="text-text-tertiary">{recentlyPlayed.platform}</span>
+              <span
+                className={
+                  playbackSnapshot.isLikelyNowPlaying ? "text-text-secondary" : "text-text-tertiary"
+                }
+                style={platformLabelStyle}
+              >
+                {recentlyPlayed.platform}
+              </span>
               {playbackSnapshot.isLikelyNowPlaying && (
-                <AudioLines size={10} className="animate-pulse" style={{ color: accentColor }} />
+                <AudioLines size={10} className="animate-pulse" style={activityIconStyle} />
               )}
             </div>
 
@@ -249,14 +276,21 @@ export function StatusBarMusicStrip({
           </div>
         </div>
 
-        <div className="relative mt-2 h-[3px] w-full overflow-hidden rounded-full bg-border/70">
+        <div className="relative mt-2 h-1 w-full overflow-hidden rounded-full bg-border/70">
           <span
             className={`block h-full rounded-full transition-[width] duration-1000 ease-linear ${
-              playbackSnapshot.isLikelyNowPlaying ? "bg-emerald-500/90" : "bg-muted-foreground/50"
+              playbackSnapshot.isLikelyNowPlaying
+                ? "music-progress-gradient bg-emerald-500/90"
+                : "bg-muted-foreground/50"
             }`}
             style={{
               width: `${playbackSnapshot.progressPercent}%`,
-              ...(playbackSnapshot.isLikelyNowPlaying ? { backgroundImage: progressGradient } : {}),
+              ...(playbackSnapshot.isLikelyNowPlaying
+                ? {
+                    backgroundImage: progressGradient,
+                    animationDuration: "8s",
+                  }
+                : {}),
             }}
           />
         </div>

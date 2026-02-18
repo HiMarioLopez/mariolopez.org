@@ -222,6 +222,56 @@
     background-size: 200% 100%;
   }
 
+  @keyframes music-strip-gradient-drift {
+    0% {
+      background-position:
+        0% 0%,
+        0% 50%;
+    }
+    50% {
+      background-position:
+        100% 100%,
+        100% 50%;
+    }
+    100% {
+      background-position:
+        0% 0%,
+        0% 50%;
+    }
+  }
+
+  @keyframes music-progress-gradient-slide {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .music-strip-gradient {
+    background-repeat: no-repeat;
+    background-size:
+      170% 170%,
+      220% 220%;
+    animation: music-strip-gradient-drift 18s ease-in-out infinite;
+    will-change: background-position;
+  }
+
+  .music-progress-gradient {
+    background-repeat: no-repeat;
+    background-size: 180% 100%;
+    animation: music-progress-gradient-slide 9s linear infinite;
+    will-change: background-position;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .music-strip-gradient,
+    .music-progress-gradient {
+      animation: none;
+    }
+  }
+
   /* Legacy hero height defaults kept to prevent layout shift */
   [data-mobile-height][data-desktop-height] {
     height: 250px;
