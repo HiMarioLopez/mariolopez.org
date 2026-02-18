@@ -3,7 +3,6 @@
 import { Globe, Monitor, Moon, Sun } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +10,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LINKS } from "@/lib/constants";
+import { LINKS, STATUS_BAR_IDS } from "@/lib/constants";
 
 interface StatusBarRightControlsProps {
   lang: string;
@@ -35,57 +34,57 @@ export function StatusBarRightControls({
   const { theme, setTheme } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
+  const resolvedTheme = theme ?? "system";
+  const themeTriggerId = `${STATUS_BAR_IDS.THEME_TRIGGER}-${lang}`;
+  const themeMenuId = `${STATUS_BAR_IDS.THEME_MENU}-${lang}`;
+  const languageTriggerId = `${STATUS_BAR_IDS.LANGUAGE_TRIGGER}-${lang}`;
+  const languageMenuId = `${STATUS_BAR_IDS.LANGUAGE_MENU}-${lang}`;
 
   return (
     <div className="flex items-center gap-2.5 sm:gap-3">
-      {mounted && (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button
-              type="button"
-              className="h-6 w-6 inline-flex items-center justify-center rounded hover:bg-accent hover:text-foreground transition-colors"
-              aria-label={ariaToggleTheme}
-            >
-              {theme === "light" ? (
-                <Sun size={12} />
-              ) : theme === "dark" ? (
-                <Moon size={12} />
-              ) : (
-                <Monitor size={12} />
-              )}
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            side="top"
-            align="end"
-            className="min-w-[100px] font-mono text-[11px] text-muted-foreground"
-          >
-            <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
-              <DropdownMenuRadioItem value="system">{autoLabel}</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="light">{lightLabel}</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="dark">{darkLabel}</DropdownMenuRadioItem>
-            </DropdownMenuRadioGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          id={themeTriggerId}
+          type="button"
+          className="h-6 w-6 inline-flex items-center justify-center rounded hover:bg-accent hover:text-foreground transition-colors"
+          aria-label={ariaToggleTheme}
+        >
+          {resolvedTheme === "light" ? (
+            <Sun size={12} />
+          ) : resolvedTheme === "dark" ? (
+            <Moon size={12} />
+          ) : (
+            <Monitor size={12} />
+          )}
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          id={themeMenuId}
+          side="top"
+          align="end"
+          className="min-w-[100px] font-mono text-[11px] text-muted-foreground"
+        >
+          <DropdownMenuRadioGroup value={resolvedTheme} onValueChange={setTheme}>
+            <DropdownMenuRadioItem value="system">{autoLabel}</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="light">{lightLabel}</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="dark">{darkLabel}</DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       <span className="w-px h-3 bg-border" />
 
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <button
-            type="button"
-            className="h-6 w-6 inline-flex items-center justify-center rounded hover:bg-accent hover:text-foreground transition-colors"
-            aria-label={ariaToggleLanguage}
-            title={languageLabel}
-          >
-            <Globe size={12} />
-          </button>
+        <DropdownMenuTrigger
+          id={languageTriggerId}
+          type="button"
+          className="h-6 w-6 inline-flex items-center justify-center rounded hover:bg-accent hover:text-foreground transition-colors"
+          aria-label={ariaToggleLanguage}
+          title={languageLabel}
+        >
+          <Globe size={12} />
         </DropdownMenuTrigger>
         <DropdownMenuContent
+          id={languageMenuId}
           side="top"
           align="end"
           className="min-w-[100px] font-mono text-[11px] text-muted-foreground"

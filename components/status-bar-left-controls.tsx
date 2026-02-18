@@ -4,6 +4,7 @@ import {
   AVAILABILITY_DISPLAY,
   AVAILABILITY_STATUSES,
   type AvailabilityStatus,
+  STATUS_BAR_IDS,
   VISITOR_COUNTER_CONFIG,
 } from "@/lib/constants";
 
@@ -39,27 +40,34 @@ export function StatusBarLeftControls({
           .toString()
           .padStart(VISITOR_COUNTER_CONFIG.DIGIT_COUNT, VISITOR_COUNTER_CONFIG.PADDING_CHAR)
       : VISITOR_COUNTER_CONFIG.DEFAULT_DISPLAY;
+  const availabilityPopoverId = `${STATUS_BAR_IDS.AVAILABILITY_POPOVER}-${lang}-${mode}`;
+  const availabilityTriggerId = `${availabilityPopoverId}-trigger`;
 
   return (
     <div className="flex items-center gap-2.5 sm:gap-3">
       <Popover>
-        <PopoverTrigger asChild>
-          <button
-            type="button"
-            className={`${display.textClass} flex items-center gap-1.5 rounded-sm px-1 py-0.5 cursor-pointer transition-colors transition-opacity hover:bg-accent/40 hover:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-border/70`}
-            aria-label={
-              locale === "es-MX" ? "Ver horarios de disponibilidad" : "View availability schedule"
-            }
-          >
-            <span
-              className={`w-1.5 h-1.5 rounded-full ${display.dotClass}${display.pulse ? " animate-pulse" : ""}`}
-            />
-            <span className="hidden sm:inline">
-              {display.label[locale].toLocaleLowerCase(locale)}
-            </span>
-          </button>
+        <PopoverTrigger
+          id={availabilityTriggerId}
+          type="button"
+          className={`${display.textClass} flex items-center gap-1.5 rounded-sm px-1 py-0.5 cursor-pointer transition-colors transition-opacity hover:bg-accent/40 hover:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-border/70`}
+          aria-label={
+            locale === "es-MX" ? "Ver horarios de disponibilidad" : "View availability schedule"
+          }
+        >
+          <span
+            className={`w-1.5 h-1.5 rounded-full ${display.dotClass}${display.pulse ? " animate-pulse" : ""}`}
+          />
+          <span className="hidden sm:inline">
+            {display.label[locale].toLocaleLowerCase(locale)}
+          </span>
         </PopoverTrigger>
-        <PopoverContent side="top" align="start" sideOffset={8} className="w-[220px] p-0 font-mono">
+        <PopoverContent
+          id={availabilityPopoverId}
+          side="top"
+          align="start"
+          sideOffset={8}
+          className="w-[220px] p-0 font-mono"
+        >
           <div className="px-3 pt-2.5 pb-1.5 border-b border-border">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground/50">
               {locale === "es-MX" ? "Disponibilidad" : "Availability"}

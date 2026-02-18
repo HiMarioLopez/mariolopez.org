@@ -209,3 +209,15 @@ export const VISITOR_COUNTER_CONFIG = {
   /** Stable position keys for digit displays (avoids array index as React key) */
   DIGIT_POSITIONS: ["pos-0", "pos-1", "pos-2", "pos-3", "pos-4", "pos-5"] as const,
 } as const;
+
+/**
+ * Stable ids for status bar controls.
+ * These avoid hydration drift when React/Radix generated ids diverge.
+ */
+export const STATUS_BAR_IDS = {
+  AVAILABILITY_POPOVER: "status-bar-availability-popover",
+  THEME_TRIGGER: "status-bar-theme-trigger",
+  THEME_MENU: "status-bar-theme-menu",
+  LANGUAGE_TRIGGER: "status-bar-language-trigger",
+  LANGUAGE_MENU: "status-bar-language-menu",
+} as const;
