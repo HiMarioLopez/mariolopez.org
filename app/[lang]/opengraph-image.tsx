@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import { ImageResponse } from "next/og";
 import { AVAILABILITY_DISPLAY } from "@/lib/constants";
 import { getDictionary, type Locale } from "./dictionaries";
@@ -11,11 +12,8 @@ export const contentType = "image/png";
 
 async function loadFontData(relativePath: string): Promise<ArrayBuffer | null> {
   try {
-    const response = await fetch(new URL(relativePath, import.meta.url), { cache: "force-cache" });
-    if (!response.ok) {
-      return null;
-    }
-    return await response.arrayBuffer();
+    const fileBuffer = await readFile(new URL(relativePath, import.meta.url));
+    return Uint8Array.from(fileBuffer).buffer;
   } catch (_error) {
     return null;
   }
@@ -82,6 +80,11 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
         ]
       : []),
   ];
+  const imageOptions = {
+    ...size,
+    // Avoid passing an empty font list to satori in production.
+    ...(fonts.length > 0 ? { fonts } : {}),
+  };
 
   return new ImageResponse(
     <div
@@ -171,9 +174,6 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
         </div>
       </div>
     </div>,
-    {
-      ...size,
-      fonts,
-    },
+    imageOptions,
   );
 }
