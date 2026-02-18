@@ -226,8 +226,8 @@ export function StatusBarMusicStrip({
     ? MUSIC_STRIP_CONFIG.APPLE_MUSIC_ACTIVITY_SPINNER_WIDTH_CH
     : undefined;
   const activitySpinnerClassName = isAppleMusicTrack
-    ? "text-[8px] leading-none font-medium"
-    : "text-[10px] leading-none font-medium";
+    ? "text-[8px] leading-[1.2] font-medium"
+    : "text-[10px] leading-[1.2] font-medium";
   const trackDisplayLabel = `${recentlyPlayed.song} — ${recentlyPlayed.artist}`;
 
   return (
@@ -269,7 +269,7 @@ export function StatusBarMusicStrip({
             )}
           </div>
           <div className="min-w-0 flex-1 pl-0.5 sm:pl-1">
-            <div className="flex items-center justify-between gap-2 text-[10px] leading-none text-text-secondary">
+            <div className="flex items-center justify-between gap-2 text-[10px] leading-[1.2] text-text-secondary">
               {isLikelyNowPlaying ? (
                 <>
                   <span className="min-w-0 inline-flex items-center gap-1.5">
