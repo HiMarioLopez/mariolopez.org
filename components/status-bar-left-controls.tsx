@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   AVAILABILITY_DISPLAY,
@@ -32,6 +35,7 @@ export function StatusBarLeftControls({
   ariaSwitchHuman,
   ariaSwitchMachine,
 }: StatusBarLeftControlsProps) {
+  const router = useRouter();
   const display = AVAILABILITY_DISPLAY[availabilityStatus];
   const visitorCountDisplay =
     visitorCount !== null
@@ -110,10 +114,13 @@ export function StatusBarLeftControls({
 
       <span className="w-px h-3 bg-border" />
       {/* Mobile: single tap target that toggles to the other mode */}
-      <Link
-        href={mode === "human" ? `/${lang}/machine` : `/${lang}`}
+      <button
+        type="button"
+        onClick={() => {
+          router.push(mode === "human" ? `/${lang}/machine` : `/${lang}`);
+        }}
         aria-label={mode === "human" ? ariaSwitchMachine : ariaSwitchHuman}
-        className="sm:hidden flex items-center gap-0 rounded border border-border overflow-hidden active:opacity-70 transition-opacity"
+        className="sm:hidden flex items-center gap-0 rounded border border-border overflow-hidden active:opacity-70 transition-opacity cursor-pointer"
       >
         <span
           className={`px-2.5 py-1.5 text-[10px] ${mode === "human" ? "bg-foreground text-background" : "text-muted-foreground/60"}`}
@@ -125,7 +132,7 @@ export function StatusBarLeftControls({
         >
           {machineLabel}
         </span>
-      </Link>
+      </button>
 
       {/* Desktop: individual links for each mode */}
       <div className="hidden sm:flex items-center gap-0 rounded border border-border overflow-hidden">
