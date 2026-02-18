@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import type { LucideIcon } from "lucide-react";
 import { File, FileText, Github, Linkedin, Mail, Music, Shield, Twitter, Zap } from "lucide-react";
+import Image from "next/image";
 import { StatusBar } from "@/components/status-bar";
 import { AVAILABILITY_DISPLAY, LINKS, PROJECT_LOGOS } from "@/lib/constants";
 import { useAvailabilityStatus } from "@/lib/hooks/use-availability-status";
@@ -118,7 +118,8 @@ function ProjectBadge({
             className={`text-muted-foreground/60 transition-colors ${
               iconHoverColor
                 ? "group-hover:text-[var(--project-icon-hover-color)] group-focus-within:text-[var(--project-icon-hover-color)]"
-                : iconHoverClass ?? "group-hover:text-foreground group-focus-within:text-foreground"
+                : (iconHoverClass ??
+                  "group-hover:text-foreground group-focus-within:text-foreground")
             }`}
           />
         </span>
@@ -216,7 +217,10 @@ function renderDescription(text: string, links?: DescLink[]) {
   return text;
 }
 
-function getProjectItems(dict: LandingDict, nowPlayingIconHoverColor: string | null): ProjectItem[] {
+function getProjectItems(
+  dict: LandingDict,
+  nowPlayingIconHoverColor: string | null,
+): ProjectItem[] {
   return [
     {
       name: "chaos-recipe-enhancer",
@@ -327,7 +331,9 @@ export function LandingPage({
               <span className="text-foreground/60">~</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[11px] sm:text-xs text-muted-foreground/70">{dict.greeting}</span>
+              <span className="text-[11px] sm:text-xs text-muted-foreground/70">
+                {dict.greeting}
+              </span>
               <span className="text-lg select-none" title={dict.greeting}>
                 🤠
               </span>
