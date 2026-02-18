@@ -1,7 +1,18 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
-import { File, FileText, Github, Linkedin, Mail, Music, Shield, Twitter, Zap } from "lucide-react";
+import {
+  Bookmark,
+  File,
+  FileText,
+  Github,
+  Linkedin,
+  Mail,
+  Music,
+  Shield,
+  Twitter,
+  Zap,
+} from "lucide-react";
 import Image from "next/image";
 import { StatusBar } from "@/components/status-bar";
 import { AVAILABILITY_DISPLAY, LINKS, PROJECT_LOGOS } from "@/lib/constants";
@@ -159,6 +170,12 @@ const LINK_ITEMS = [
     href: LINKS.LINKEDIN,
   },
   { icon: Twitter, label: "twitter", value: "twitter.com/HiMarioLopez", href: LINKS.TWITTER },
+  {
+    icon: Bookmark,
+    label: "backpocket",
+    value: "backpocket.mariolopez.org",
+    href: LINKS.BACKPOCKET_SPACE,
+  },
 ] as const;
 
 const RESUME_LINK_ITEMS = [

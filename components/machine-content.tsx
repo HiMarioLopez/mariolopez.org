@@ -31,6 +31,7 @@ interface MachineDict {
     github: string;
     linkedin: string;
     twitter: string;
+    backpocket: string;
     resume_pdf: string;
     resume_docx: string;
   };
@@ -119,6 +120,7 @@ ${dict.contact_section.email_label} ${LINKS.EMAIL_MACHINE}
 ${dict.socials_labels.github} ${LINKS.GITHUB}
 ${dict.socials_labels.linkedin} ${LINKS.LINKEDIN}
 ${dict.socials_labels.twitter} ${LINKS.TWITTER}
+${dict.socials_labels.backpocket} ${LINKS.BACKPOCKET_SPACE}
 ${dict.socials_labels.resume_pdf} ${LINKS.RESUME_PDF}
 ${dict.socials_labels.resume_docx} ${LINKS.RESUME_DOCX}
 [/section]

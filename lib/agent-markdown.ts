@@ -33,6 +33,7 @@ interface MachineDict {
     github: string;
     linkedin: string;
     twitter: string;
+    backpocket: string;
     resume_pdf: string;
     resume_docx: string;
   };
@@ -216,6 +217,7 @@ ${machine.contact_section.text}
 - ${machine.socials_labels.github} ${LINKS.GITHUB}
 - ${machine.socials_labels.linkedin} ${LINKS.LINKEDIN}
 - ${machine.socials_labels.twitter} ${LINKS.TWITTER}
+- ${machine.socials_labels.backpocket} ${LINKS.BACKPOCKET_SPACE}
 - ${machine.socials_labels.resume_pdf} ${LINKS.RESUME_PDF}
 - ${machine.socials_labels.resume_docx} ${LINKS.RESUME_DOCX}
 
