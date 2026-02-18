@@ -106,6 +106,7 @@ function ProjectBadge({
           alt={`${name} logo`}
           width={16}
           height={16}
+          sizes="16px"
           className="h-4 w-4 rounded-sm object-contain grayscale opacity-75 transition-[filter,opacity] duration-200 group-hover:grayscale-0 group-hover:opacity-100 group-focus-within:grayscale-0 group-focus-within:opacity-100"
         />
       ) : emoji ? (
