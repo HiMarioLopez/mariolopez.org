@@ -67,6 +67,8 @@ export const TIME_THRESHOLDS = {
 export const QUERY_CONFIG = {
   GC_TIME_MINUTES: 5,
   GC_TIME_MS: 5 * 60 * 1000, // 5 minutes in milliseconds
+  RECENTLY_PLAYED_ACTIVE_REFETCH_INTERVAL_MS: 10 * 1000,
+  RECENTLY_PLAYED_IDLE_REFETCH_INTERVAL_MS: 30 * 1000,
 } as const;
 
 /**

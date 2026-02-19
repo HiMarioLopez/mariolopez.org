@@ -30,6 +30,7 @@ export const CACHE_CONFIG = {
  * Cache control headers
  */
 export const CACHE_HEADERS = {
+  NO_STORE: "no-store",
   SUCCESS: `public, s-maxage=${CACHE_CONFIG.REVALIDATE_SECONDS}, stale-while-revalidate=${CACHE_CONFIG.STALE_WHILE_REVALIDATE_SECONDS}`,
   RECENTLY_PLAYED_SUCCESS: `public, s-maxage=${CACHE_CONFIG.RECENTLY_PLAYED_REVALIDATE_SECONDS}, stale-while-revalidate=${CACHE_CONFIG.RECENTLY_PLAYED_STALE_WHILE_REVALIDATE_SECONDS}`,
   ERROR: `public, s-maxage=${CACHE_CONFIG.ERROR_CACHE_SECONDS}, stale-while-revalidate=${CACHE_CONFIG.ERROR_STALE_WHILE_REVALIDATE_SECONDS}`,

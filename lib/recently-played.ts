@@ -1,4 +1,4 @@
-import { API_CONFIG, CACHE_CONFIG } from "./config";
+import { API_CONFIG } from "./config";
 import { logError } from "./errors";
 import { extractTrackInfo, normalizeTrackData } from "./track-data";
 import type { ArtworkColors, RecentlyPlayed } from "./types";
@@ -19,13 +19,13 @@ export async function getRecentlyPlayed(): Promise<RecentlyPlayed | null> {
         headers: {
           "Content-Type": "application/json",
         },
-        next: { revalidate: CACHE_CONFIG.RECENTLY_PLAYED_REVALIDATE_SECONDS },
+        cache: "no-store",
       }),
       fetch(appleMusicUrl, {
         headers: {
           "Content-Type": "application/json",
         },
-        next: { revalidate: CACHE_CONFIG.RECENTLY_PLAYED_REVALIDATE_SECONDS },
+        cache: "no-store",
       }),
     ]);
 
