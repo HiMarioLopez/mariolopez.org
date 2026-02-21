@@ -126,7 +126,6 @@ function getMusicStripGradient(
   return `radial-gradient(90% 100% at 0% 0%, ${toRgba(colorB, radialAlpha)} 0%, transparent 62%), linear-gradient(112deg, ${toRgba(colorA, startAlpha)} 0%, ${toRgba(colorB, middleAlpha)} 48%, ${toRgba(colorC, endAlpha)} 100%)`;
 }
 
-
 export function StatusBarMusicStrip({
   shouldShowMusicPlayer,
   isPending,
@@ -314,9 +313,7 @@ export function StatusBarMusicStrip({
             <div className="relative mt-2 h-[3px] w-full overflow-hidden rounded-full bg-white/15">
               <span
                 className={`block h-full rounded-full transition-[width] duration-1000 ease-linear ${
-                  playbackSnapshot.isLikelyNowPlaying
-                    ? ""
-                    : "bg-muted-foreground/30"
+                  playbackSnapshot.isLikelyNowPlaying ? "" : "bg-muted-foreground/30"
                 }`}
                 style={{
                   width: `${playbackSnapshot.progressPercent}%`,
