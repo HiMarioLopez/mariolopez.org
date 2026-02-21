@@ -126,13 +126,6 @@ function getMusicStripGradient(
   return `radial-gradient(90% 100% at 0% 0%, ${toRgba(colorB, radialAlpha)} 0%, transparent 62%), linear-gradient(112deg, ${toRgba(colorA, startAlpha)} 0%, ${toRgba(colorB, middleAlpha)} 48%, ${toRgba(colorC, endAlpha)} 100%)`;
 }
 
-function getProgressGradient(
-  artworkColors: ArtworkColors | undefined,
-  fallbackColor: string,
-): string {
-  const [colorA, colorB, colorC] = getGradientPalette(artworkColors, fallbackColor);
-  return `linear-gradient(90deg, ${colorA} 0%, ${colorB} 55%, ${colorC} 100%)`;
-}
 
 export function StatusBarMusicStrip({
   shouldShowMusicPlayer,
@@ -195,7 +188,7 @@ export function StatusBarMusicStrip({
     gradientSeedColor,
     isLikelyNowPlaying,
   );
-  const progressGradient = getProgressGradient(recentlyPlayed.artworkColors, gradientSeedColor);
+
   const statusAccentSeed = nowPlayingAccentColor;
   const statusDotStyle = isLikelyNowPlaying
     ? {
@@ -318,19 +311,19 @@ export function StatusBarMusicStrip({
               startDelayMs={MUSIC_STRIP_CONFIG.TRACK_MARQUEE_START_DELAY_MS}
             />
 
-            <div className="relative mt-2 h-1 w-full overflow-hidden rounded-full bg-white/35">
+            <div className="relative mt-2 h-[3px] w-full overflow-hidden rounded-full bg-white/15">
               <span
                 className={`block h-full rounded-full transition-[width] duration-1000 ease-linear ${
                   playbackSnapshot.isLikelyNowPlaying
-                    ? "music-progress-gradient bg-emerald-500/90"
-                    : "bg-muted-foreground/50"
+                    ? ""
+                    : "bg-muted-foreground/30"
                 }`}
                 style={{
                   width: `${playbackSnapshot.progressPercent}%`,
                   ...(playbackSnapshot.isLikelyNowPlaying
                     ? {
-                        backgroundImage: progressGradient,
-                        animationDuration: "8s",
+                        backgroundColor: gradientSeedColor,
+                        boxShadow: `0 0 6px ${toRgba(gradientSeedColor, 0.5)}`,
                       }
                     : {}),
                 }}

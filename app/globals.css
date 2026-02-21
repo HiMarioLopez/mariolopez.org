@@ -240,15 +240,6 @@
     }
   }
 
-  @keyframes music-progress-gradient-slide {
-    0% {
-      background-position: 0% 50%;
-    }
-    100% {
-      background-position: 100% 50%;
-    }
-  }
-
   @keyframes music-text-marquee-slide {
     from {
       transform: translate3d(0, 0, 0);
@@ -267,13 +258,6 @@
     will-change: background-position;
   }
 
-  .music-progress-gradient {
-    background-repeat: no-repeat;
-    background-size: 180% 100%;
-    animation: music-progress-gradient-slide 9s linear infinite;
-    will-change: background-position;
-  }
-
   .music-text-marquee {
     animation-name: music-text-marquee-slide;
     animation-duration: var(--music-marquee-duration, 12s);
@@ -285,7 +269,6 @@
 
   @media (prefers-reduced-motion: reduce) {
     .music-strip-gradient,
-    .music-progress-gradient,
     .music-text-marquee {
       animation: none;
     }
