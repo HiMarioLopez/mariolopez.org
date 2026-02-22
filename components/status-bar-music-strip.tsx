@@ -122,7 +122,10 @@ function hslToHex(h: number, s: number, l: number): string {
             : h < 300
               ? [x, 0, c]
               : [c, 0, x];
-  const toHexByte = (v: number) => Math.round((v + m) * 255).toString(16).padStart(2, "0");
+  const toHexByte = (v: number) =>
+    Math.round((v + m) * 255)
+      .toString(16)
+      .padStart(2, "0");
   return `#${toHexByte(rgb[0])}${toHexByte(rgb[1])}${toHexByte(rgb[2])}`;
 }
 
