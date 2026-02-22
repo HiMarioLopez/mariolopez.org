@@ -225,18 +225,43 @@
   @keyframes music-strip-gradient-drift {
     0% {
       background-position:
+        100% 110%,
         0% 0%,
+        55% -15%,
         0% 50%;
+      filter: hue-rotate(0deg) saturate(1);
+    }
+    25% {
+      background-position:
+        40% 80%,
+        60% 35%,
+        85% 15%,
+        40% 65%;
+      filter: hue-rotate(10deg) saturate(1.18);
     }
     50% {
       background-position:
-        100% 100%,
-        100% 50%;
+        10% 40%,
+        100% 90%,
+        20% 70%,
+        100% 40%;
+      filter: hue-rotate(0deg) saturate(1.25);
+    }
+    75% {
+      background-position:
+        70% 20%,
+        15% 80%,
+        90% -5%,
+        60% 75%;
+      filter: hue-rotate(-10deg) saturate(1.18);
     }
     100% {
       background-position:
+        100% 110%,
         0% 0%,
+        55% -15%,
         0% 50%;
+      filter: hue-rotate(0deg) saturate(1);
     }
   }
 
@@ -252,10 +277,12 @@
   .music-strip-gradient {
     background-repeat: no-repeat;
     background-size:
-      170% 170%,
-      220% 220%;
+      190% 220%,
+      210% 230%,
+      160% 200%,
+      270% 270%;
     animation: music-strip-gradient-drift 18s ease-in-out infinite;
-    will-change: background-position;
+    will-change: background-position, filter;
   }
 
   .music-text-marquee {
