@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import type { StatusBarFlyoutId } from "@/components/status-bar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   AVAILABILITY_DISPLAY,
@@ -21,6 +22,8 @@ interface StatusBarLeftControlsProps {
   machineLabel: string;
   ariaSwitchHuman: string;
   ariaSwitchMachine: string;
+  openFlyout: StatusBarFlyoutId;
+  setOpenFlyout: (id: StatusBarFlyoutId) => void;
 }
 
 export function StatusBarLeftControls({
@@ -33,6 +36,8 @@ export function StatusBarLeftControls({
   machineLabel,
   ariaSwitchHuman,
   ariaSwitchMachine,
+  openFlyout,
+  setOpenFlyout,
 }: StatusBarLeftControlsProps) {
   const [isMounted, setIsMounted] = useState(false);
   const display = AVAILABILITY_DISPLAY[availabilityStatus];
@@ -69,7 +74,10 @@ export function StatusBarLeftControls({
   return (
     <div className="flex items-center gap-2.5 sm:gap-3">
       {isMounted ? (
-        <Popover>
+        <Popover
+          open={openFlyout === "availability"}
+          onOpenChange={(open) => setOpenFlyout(open ? "availability" : null)}
+        >
           <PopoverTrigger asChild>{availabilityButton}</PopoverTrigger>
           <PopoverContent
             id={availabilityPopoverId}

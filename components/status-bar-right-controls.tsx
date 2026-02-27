@@ -4,6 +4,7 @@ import { Globe, Monitor, Moon, Sun } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import type { StatusBarFlyoutId } from "@/components/status-bar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +22,8 @@ interface StatusBarRightControlsProps {
   ariaToggleTheme: string;
   languageLabel: string;
   ariaToggleLanguage: string;
+  openFlyout: StatusBarFlyoutId;
+  setOpenFlyout: (id: StatusBarFlyoutId) => void;
 }
 
 export function StatusBarRightControls({
@@ -31,6 +34,8 @@ export function StatusBarRightControls({
   ariaToggleTheme,
   languageLabel,
   ariaToggleLanguage,
+  openFlyout,
+  setOpenFlyout,
 }: StatusBarRightControlsProps) {
   const { theme, setTheme } = useTheme();
   const [isMounted, setIsMounted] = useState(false);
@@ -49,7 +54,11 @@ export function StatusBarRightControls({
   return (
     <div className="flex items-center gap-2.5 sm:gap-3">
       {isMounted ? (
-        <DropdownMenu>
+        <DropdownMenu
+          open={openFlyout === "theme"}
+          onOpenChange={(open) => setOpenFlyout(open ? "theme" : null)}
+          modal={false}
+        >
           <DropdownMenuTrigger
             id={themeTriggerId}
             type="button"
@@ -83,7 +92,11 @@ export function StatusBarRightControls({
 
       <span className="w-px h-3 bg-border" />
 
-      <DropdownMenu>
+      <DropdownMenu
+        open={openFlyout === "language"}
+        onOpenChange={(open) => setOpenFlyout(open ? "language" : null)}
+        modal={false}
+      >
         <DropdownMenuTrigger
           id={languageTriggerId}
           type="button"

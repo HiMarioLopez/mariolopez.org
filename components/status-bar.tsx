@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { StatusBarLeftControls } from "@/components/status-bar-left-controls";
 import { StatusBarMusicStrip } from "@/components/status-bar-music-strip";
 import { StatusBarRightControls } from "@/components/status-bar-right-controls";
@@ -38,8 +40,11 @@ function resolveLocale(lang: string): StatusBarLocale {
   return lang === "es-MX" ? "es-MX" : "en-US";
 }
 
+export type StatusBarFlyoutId = "availability" | "theme" | "language" | null;
+
 export function StatusBar({ lang, mode, dict }: StatusBarProps) {
   const locale = resolveLocale(lang);
+  const [openFlyout, setOpenFlyout] = useState<StatusBarFlyoutId>(null);
   const availabilityStatus = useAvailabilityStatus();
   const { data: recentlyPlayedFromQuery, isPending: isRecentlyPlayedPending } = useRecentlyPlayed();
   const { recentlyPlayed, playbackSnapshot } = useBufferedRecentlyPlayed(recentlyPlayedFromQuery);
@@ -85,6 +90,8 @@ export function StatusBar({ lang, mode, dict }: StatusBarProps) {
               machineLabel={dict.machine}
               ariaSwitchHuman={dict.aria_switch_human}
               ariaSwitchMachine={dict.aria_switch_machine}
+              openFlyout={openFlyout}
+              setOpenFlyout={setOpenFlyout}
             />
             <StatusBarRightControls
               lang={lang}
@@ -94,6 +101,8 @@ export function StatusBar({ lang, mode, dict }: StatusBarProps) {
               ariaToggleTheme={dict.aria_toggle_theme}
               languageLabel={dict.language}
               ariaToggleLanguage={dict.aria_toggle_language}
+              openFlyout={openFlyout}
+              setOpenFlyout={setOpenFlyout}
             />
           </div>
         </div>
