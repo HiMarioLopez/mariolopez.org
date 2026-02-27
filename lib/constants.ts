@@ -164,6 +164,15 @@ export const LINKS = {
   RESUME_PDF: `${BASE_URL}/docs/Resume.pdf`,
   RESUME_DOCX: `${BASE_URL}/docs/Resume.docx`,
   SITE_SOURCE: `https://github.com/HiMarioLopez/mariolopez.org`,
+  BAYLOR: "https://www.baylor.edu/ecs/",
+  AWS_CERT_SOLUTIONS_ARCHITECT:
+    "https://www.credly.com/badges/980a9f44-7a58-4831-b7af-7879fcf8ec4b/public_url",
+  AWS_CERT_DEVELOPER:
+    "https://www.credly.com/badges/be6523a7-1d11-46fd-b288-b1e29be71398/public_url",
+  AWS_CERT_SECURITY:
+    "https://www.credly.com/badges/b10ccd98-78ec-44c1-bc26-47737b00a98b/public_url",
+  AWS_CERT_AI_PRACTITIONER:
+    "https://www.credly.com/badges/88ffd888-be2a-42d7-bfe1-44964f1349ed/public_url",
 } as const;
 
 /**
@@ -174,6 +183,16 @@ export const PROJECT_LOGOS = {
   BACKPOCKET: "/images/BackpocketLogo.webp",
   CORDSTRUCK: "/images/CordstruckLogo.webp",
   GUESSCHELLA: "/images/GuesschellaLogo.webp",
+} as const;
+
+/**
+ * AWS certification badge assets
+ */
+export const AWS_BADGE_IMAGES = {
+  SOLUTIONS_ARCHITECT: "/images/AWSCertifiedSolutionsArchitectAssociateBadge.png",
+  DEVELOPER: "/images/AWSCertifiedDeveloperAssociateBadge.png",
+  SECURITY: "/images/AWSCertifiedSecuritySpecialtyBadge.png",
+  AI_PRACTITIONER: "/images/AWSCertifiedAIPractitionerBadge.png",
 } as const;
 
 /**

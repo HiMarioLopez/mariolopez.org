@@ -66,7 +66,7 @@ const USAGE_SOURCES: UsageSource[] = [
   { file: "app/[lang]/layout.tsx" },
   { file: "app/[lang]/page.tsx" },
   { file: "app/[lang]/machine/page.tsx" },
-  { file: "app/[lang]/landing-page.tsx", rootPrefix: "landing" },
+  { file: "app/[lang]/landing-page.tsx", rootPrefix: "landing", expandObjectAccesses: true },
   { file: "app/[lang]/machine/machine-page-client.tsx" },
   { file: "components/machine-content.tsx", rootPrefix: "machine", expandObjectAccesses: true },
   { file: "components/copy-button.tsx", rootPrefix: "copy_button" },
@@ -135,13 +135,51 @@ function normalizeOptionalChaining(content: string): string {
   return content.replaceAll("?.", ".");
 }
 
+/**
+ * Well-known JS property/method names that should be stripped from extracted
+ * dictionary access paths. These appear when code calls e.g. `dict.items.map(...)`
+ * and the greedy regex captures `.map` as part of the dict path.
+ */
+const JS_PROPERTY_SUFFIXES = new Set([
+  "map",
+  "filter",
+  "forEach",
+  "find",
+  "findIndex",
+  "some",
+  "every",
+  "reduce",
+  "reduceRight",
+  "flat",
+  "flatMap",
+  "length",
+  "includes",
+  "indexOf",
+  "join",
+  "slice",
+  "sort",
+  "at",
+  "keys",
+  "values",
+  "entries",
+]);
+
 function extractDictAccesses(content: string): string[] {
   const normalized = normalizeOptionalChaining(content);
   const regex = /\bdict((?:\.[A-Za-z0-9_]+)+)/g;
   const accesses: string[] = [];
   let match = regex.exec(normalized);
   while (match) {
-    accesses.push(match[1].slice(1));
+    let path = match[1].slice(1);
+    // Strip trailing JS method/property names from the path
+    const lastDot = path.lastIndexOf(".");
+    if (lastDot !== -1) {
+      const tail = path.slice(lastDot + 1);
+      if (JS_PROPERTY_SUFFIXES.has(tail)) {
+        path = path.slice(0, lastDot);
+      }
+    }
+    accesses.push(path);
     match = regex.exec(normalized);
   }
   return accesses;

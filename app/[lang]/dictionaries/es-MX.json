@@ -41,6 +41,7 @@
     "intro_hiring": "contratando",
     "section_links": "enlaces",
     "section_projects": "proyectos",
+    "section_credentials": "educación y credenciales",
     "section_meta": "meta",
     "section_contact": "contacto",
     "resume_label": "curr\u00edculum",
@@ -57,6 +58,38 @@
       "vercel_bulk_waf_rules": "Bulk manage Vercel WAF rules",
       "cordstruck": "En desarrollo",
       "guesschella": "En desarrollo"
+    },
+    "credentials": {
+      "education_pre": "Me gradu\u00e9 de",
+      "school": "Baylor University",
+      "education_post": "en 2020 con una licenciatura en Ciencias de la Computaci\u00f3n.",
+      "certs_intro": "Mientras estuve en AWS, obtuve algunas certificaciones:",
+      "certs": [
+        {
+          "name": "Arquitecto de Soluciones",
+          "level": "Asociado",
+          "issued": "Nov 2022",
+          "expires": "Nov 2028"
+        },
+        {
+          "name": "Practicante de IA",
+          "level": "Fundacional",
+          "issued": "Sep 2024",
+          "expires": "Sep 2027"
+        },
+        {
+          "name": "Seguridad",
+          "level": "Especialidad",
+          "issued": "Sep 2023",
+          "expires": "Sep 2026"
+        },
+        {
+          "name": "Desarrollador",
+          "level": "Asociado",
+          "issued": "Mar 2023",
+          "expires": "Mar 2026"
+        }
+      ]
     }
   },
   "machine": {
