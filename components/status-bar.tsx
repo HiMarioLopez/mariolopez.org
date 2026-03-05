@@ -48,7 +48,7 @@ export function StatusBar({ lang, mode, dict }: StatusBarProps) {
   const availabilityStatus = useAvailabilityStatus();
   const { data: recentlyPlayedFromQuery, isPending: isRecentlyPlayedPending } = useRecentlyPlayed();
   const { recentlyPlayed, playbackSnapshot } = useBufferedRecentlyPlayed(recentlyPlayedFromQuery);
-  const { data: visitorCount } = useVisitorCount();
+  const { data: visitorCount } = useVisitorCount({ increment: true });
   const resolvedVisitorCount = typeof visitorCount === "number" ? visitorCount : null;
   const shouldShowMusicPlayer = mode === "human";
   const platformColor = recentlyPlayed?.platform ? getPlatformColor(recentlyPlayed.platform) : null;
