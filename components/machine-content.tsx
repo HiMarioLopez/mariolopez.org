@@ -143,7 +143,7 @@ ${dict.projects_labels.guesschella} ${dict.projects_labels.building_status}
 [/section]
 
 [footer]
-© 2026, Mario Lopez Martinez
+© 2026, Mario Lopez
 ${dict.footer_label} ${LINKS.SITE_SOURCE}
 [/footer]
 [/content_end]

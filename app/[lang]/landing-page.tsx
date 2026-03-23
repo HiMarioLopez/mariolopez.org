@@ -527,13 +527,13 @@ export function LandingPage({
 
             {/* JSDoc block */}
             <pre className="text-text-tertiary text-[11px] sm:text-xs leading-relaxed mb-6">{`/**
- * @name    Mario Lopez Martinez
+ * @name    Mario Lopez
  * @role    ${dict.jsdoc_role}
  * @company ${dict.jsdoc_company}
  * @status  ${statusLabel}
  */`}</pre>
 
-            <h1 className="sr-only">Mario Lopez Martinez</h1>
+            <h1 className="sr-only">Mario Lopez</h1>
             <p className="text-sm sm:text-[15px] text-muted-foreground leading-relaxed max-w-[500px]">
               <a
                 href={LINKS.VERCEL_CAREERS}
