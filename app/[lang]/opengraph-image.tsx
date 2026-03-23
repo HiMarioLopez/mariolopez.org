@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 import { AVAILABILITY_DISPLAY } from "@/lib/constants";
 import { getDictionary, type Locale } from "./dictionaries";
 
-export const alt = "Howdy Hey 🤠 — Mario Lopez";
+export const alt = "Howdy Hey 🤠 — Mario Lopez Martinez";
 export const size = {
   width: 1200,
   height: 630,
@@ -41,7 +41,7 @@ function getLocale(lang: string): Locale {
 
 function buildIdentityBlock(role: string, company: string, status: string): string {
   return `/**
- * @name    Mario Lopez
+ * @name    Mario Lopez Martinez
  * @role    ${role}
  * @company ${company}
  * @status  ${status}

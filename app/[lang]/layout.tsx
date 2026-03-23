@@ -56,7 +56,7 @@ export async function generateMetadata({
           url: ogImageUrl,
           width: 1200,
           height: 630,
-          alt: "Howdy Hey 🤠 — Mario Lopez",
+          alt: "Howdy Hey 🤠 — Mario Lopez Martinez",
         },
       ],
     },
