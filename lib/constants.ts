@@ -259,8 +259,8 @@ export const AVAILABILITY_STATUSES = ["cranking", "flowing", "away", "offline"] 
 export const STATUS_OVERRIDE = {
   /** The status to show during the override period (during waking hours) */
   status: "flowing" as AvailabilityStatus,
-  /** End date for the override (exclusive, in Central US time) */
-  endDate: new Date("2026-03-29T00:00:00"), // Until end of Saturday March 28
+  /** End date for the override (inclusive, Central US time - year, month (0-indexed), day) */
+  endDate: new Date(2026, 2, 28), // Through Saturday March 28, 2026
 } as const;
 
 export const AVAILABILITY_DISPLAY = {

@@ -5,10 +5,25 @@ import { AVAILABILITY_CONFIG, STATUS_OVERRIDE, type AvailabilityStatus } from "@
 
 /**
  * Checks if a temporary status override is currently active.
+ * Compares against the end date which is specified in Central Time.
  */
 function isOverrideActive(centralTime: Date): boolean {
   if (!STATUS_OVERRIDE) return false;
-  return centralTime < STATUS_OVERRIDE.endDate;
+  // Compare year, month, day in Central Time
+  const endDate = STATUS_OVERRIDE.endDate;
+  const centralYear = centralTime.getFullYear();
+  const centralMonth = centralTime.getMonth();
+  const centralDay = centralTime.getDate();
+  const endYear = endDate.getFullYear();
+  const endMonth = endDate.getMonth();
+  const endDay = endDate.getDate();
+  
+  // Override is active if we haven't reached the end date yet
+  if (centralYear < endYear) return true;
+  if (centralYear > endYear) return false;
+  if (centralMonth < endMonth) return true;
+  if (centralMonth > endMonth) return false;
+  return centralDay <= endDay;
 }
 
 /**
@@ -31,7 +46,16 @@ function getAvailabilityStatus(): AvailabilityStatus {
     hour >= AVAILABILITY_CONFIG.SLEEP_END_HOUR && hour < AVAILABILITY_CONFIG.SLEEP_START_HOUR;
 
   // Check for temporary status override during waking hours
-  if (isWakingHours && isOverrideActive(centralTime)) {
+  const overrideActive = isOverrideActive(centralTime);
+  console.log("[v0] Availability check:", {
+    centralTime: centralTime.toISOString(),
+    hour,
+    day,
+    isWakingHours,
+    overrideActive,
+    endDate: STATUS_OVERRIDE?.endDate?.toISOString(),
+  });
+  if (isWakingHours && overrideActive) {
     return STATUS_OVERRIDE.status;
   }
 
