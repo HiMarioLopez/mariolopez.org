@@ -247,9 +247,21 @@ export const AVAILABILITY_CONFIG = {
   UPDATE_INTERVAL_MS: 60_000,
 } as const;
 
-export type AvailabilityStatus = "cranking" | "away" | "offline";
+export type AvailabilityStatus = "cranking" | "flowing" | "away" | "offline";
 
-export const AVAILABILITY_STATUSES = ["cranking", "away", "offline"] as const;
+export const AVAILABILITY_STATUSES = ["cranking", "flowing", "away", "offline"] as const;
+
+/**
+ * Temporary status override configuration.
+ * When active, replaces the normal availability logic during waking hours.
+ * Set to null to disable.
+ */
+export const STATUS_OVERRIDE = {
+  /** The status to show during the override period (during waking hours) */
+  status: "flowing" as AvailabilityStatus,
+  /** End date for the override (inclusive, Central US time - year, month (0-indexed), day) */
+  endDate: new Date(2026, 2, 28), // Through Saturday March 28, 2026
+} as const;
 
 export const AVAILABILITY_DISPLAY = {
   cranking: {
@@ -258,6 +270,14 @@ export const AVAILABILITY_DISPLAY = {
     desc: { "en-US": "Mon–Fri · 8 am – 5 pm CT", "es-MX": "Lun–Vie · 8 am – 5 pm CT" },
     dotClass: "bg-emerald-500",
     textClass: "text-emerald-700 dark:text-emerald-400",
+    pulse: true,
+  },
+  flowing: {
+    label: { "en-US": "Flowing", "es-MX": "En flujo" },
+    jsdoc: { "en-US": "Flowing", "es-MX": "En flujo" },
+    desc: { "en-US": "Not cranking, just vibing", "es-MX": "Sin prisa, disfrutando" },
+    dotClass: "bg-sky-400",
+    textClass: "text-sky-700 dark:text-sky-400",
     pulse: true,
   },
   away: {
