@@ -46,16 +46,7 @@ function getAvailabilityStatus(): AvailabilityStatus {
     hour >= AVAILABILITY_CONFIG.SLEEP_END_HOUR && hour < AVAILABILITY_CONFIG.SLEEP_START_HOUR;
 
   // Check for temporary status override during waking hours
-  const overrideActive = isOverrideActive(centralTime);
-  console.log("[v0] Availability check:", {
-    centralTime: centralTime.toISOString(),
-    hour,
-    day,
-    isWakingHours,
-    overrideActive,
-    endDate: STATUS_OVERRIDE?.endDate?.toISOString(),
-  });
-  if (isWakingHours && overrideActive) {
+  if (isWakingHours && isOverrideActive(centralTime)) {
     return STATUS_OVERRIDE.status;
   }
 
