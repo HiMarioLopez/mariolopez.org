@@ -173,5 +173,19 @@
     },
     "footer_label": "Código:",
     "recently_played_template": "Mi canción reproducida más recientemente en %platform% es \"%song%\" de %artist% (reproducida %timeAgo%).\n\nEscuchar: %url%\n"
+  },
+  "survey": {
+    "eyebrow": "encuesta",
+    "heading": "Ayúdame a mejorar este sitio",
+    "intro": "Estoy preparando una encuesta breve sobre qué es útil aquí y qué falta. Todavía no está activa — esta página es un placeholder mientras defino las preguntas.",
+    "status_label": "estado",
+    "status_value": "Borrador — aún no recibe respuestas.",
+    "planned_label": "qué voy a preguntar",
+    "planned_first": "¿Cómo llegaste a este sitio?",
+    "planned_second": "¿Qué esperabas encontrar?",
+    "planned_third": "¿Qué debería construir o escribir después?",
+    "back_label": "volver al inicio",
+    "metadata_title": "Encuesta",
+    "metadata_description": "Una encuesta breve sobre mariolopez.org. Muy pronto."
   }
 }

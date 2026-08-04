@@ -66,6 +66,7 @@ const USAGE_SOURCES: UsageSource[] = [
   { file: "app/[lang]/layout.tsx" },
   { file: "app/[lang]/page.tsx" },
   { file: "app/[lang]/machine/page.tsx" },
+  { file: "app/[lang]/survey/page.tsx" },
   { file: "app/[lang]/landing-page.tsx", rootPrefix: "landing", expandObjectAccesses: true },
   { file: "app/[lang]/machine/machine-page-client.tsx" },
   { file: "components/machine-content.tsx", rootPrefix: "machine", expandObjectAccesses: true },

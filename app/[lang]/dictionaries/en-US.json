@@ -173,5 +173,19 @@
     },
     "footer_label": "Source:",
     "recently_played_template": "My most recently played song on %platform% is \"%song%\" by %artist% (played %timeAgo%).\n\nListen: %url%\n"
+  },
+  "survey": {
+    "eyebrow": "survey",
+    "heading": "Help shape this site",
+    "intro": "I'm putting together a short survey about what's useful here and what's missing. It isn't live yet — this page is a placeholder while I figure out the questions.",
+    "status_label": "status",
+    "status_value": "Stub — not yet accepting responses.",
+    "planned_label": "what I'll ask",
+    "planned_first": "How did you end up on this site?",
+    "planned_second": "What were you hoping to find?",
+    "planned_third": "What should I build or write about next?",
+    "back_label": "back to home",
+    "metadata_title": "Survey",
+    "metadata_description": "A short survey about mariolopez.org. Coming soon."
   }
 }
