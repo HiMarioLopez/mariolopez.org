@@ -25,15 +25,19 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          bun-version: latest
+          node-version: 24
+          cache: pnpm
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Check links on production site
-        run: bun run check-links:prod
+        run: pnpm run check-links:prod
         env:
           NEXT_PUBLIC_SITE_URL: https://mariolopez.org

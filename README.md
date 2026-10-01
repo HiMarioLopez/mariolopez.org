@@ -5,7 +5,7 @@ Personal website built with Next.js 16, focused on performance, bilingual conten
 ## Tech Stack
 
 - **Core:** Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4
-- **Runtime and tooling:** Bun, Biome, Vitest, Husky
+- **Runtime and tooling:** Node.js, pnpm, Biome, Vitest, Husky
 - **UI:** Radix UI, Lucide React, next-themes
 - **Data:** TanStack Query, Upstash Redis (visitor counting), external music API
 - **Monitoring:** Vercel Analytics, Vercel Speed Insights, custom Core Web Vitals tracking
@@ -50,16 +50,16 @@ proxy.ts                   # Locale + markdown content negotiation
 ## Development
 
 ```bash
-bun install
-bun run dev
-bun run build
-bun run start
-bun run lint
-bun run lint:fix
-bun run format
-bun run test
-bun run check:i18n
-bun run check-links:prod
+pnpm install
+pnpm run dev
+pnpm run build
+pnpm run start
+pnpm run lint
+pnpm run lint:fix
+pnpm run format
+pnpm run test
+pnpm run check:i18n
+pnpm run check-links:prod
 ```
 
 ## Environment Variables

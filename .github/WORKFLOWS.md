@@ -16,9 +16,9 @@ Automatically checks for broken links on the production site.
 ### What it does
 
 1. Checks out the code
-2. Sets up Bun
+2. Sets up pnpm + Node.js
 3. Installs dependencies
-4. Runs `bun run check-links:prod` to check all links on https://mariolopez.org
+4. Runs `pnpm run check-links:prod` to check all links on https://mariolopez.org
 
 ### Failure behavior
 
@@ -55,9 +55,9 @@ Automatically runs the Vitest unit test suite every day to catch regressions eve
 ### What it does
 
 1. Checks out the repository
-2. Sets up Bun
-3. Installs dependencies via `bun install --frozen-lockfile`
-4. Executes `bun run test:run` (Vitest run mode)
+2. Sets up pnpm + Node.js
+3. Installs dependencies via `pnpm install --frozen-lockfile`
+4. Executes `pnpm run test:run` (Vitest run mode)
 
 ### Customizing the schedule
 
@@ -90,7 +90,7 @@ Uses GitHub Models (free AI inference) to perform automated code quality audits 
 ### What it does
 
 1. Checks out the repository
-2. Sets up Bun and installs dependencies
+2. Sets up pnpm + Node.js and installs dependencies
 3. Collects codebase context (package.json, config files, key components)
 4. Sends code to GPT-4o-mini via GitHub Models for analysis
 5. Creates or updates a GitHub Issue with findings

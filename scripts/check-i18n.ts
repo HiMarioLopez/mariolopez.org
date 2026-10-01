@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * i18n dictionary audit script
  *
@@ -10,9 +10,9 @@
  *    - unused
  *
  * Usage:
- *   bun scripts/check-i18n.ts
- *   bun scripts/check-i18n.ts --strict
- *   bun scripts/check-i18n.ts --json
+ *   node scripts/check-i18n.ts
+ *   node scripts/check-i18n.ts --strict
+ *   node scripts/check-i18n.ts --json
  */
 
 import { readFileSync } from "node:fs";

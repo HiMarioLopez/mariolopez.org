@@ -5,17 +5,15 @@ import {
   Bookmark,
   File,
   FileText,
-  Github,
-  Linkedin,
   Mail,
   Music,
   Shield,
-  Twitter,
   Zap,
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { StatusBar } from "@/components/status-bar";
+import { Github, Linkedin, Twitter } from "@/components/ui/brand-icons";
 import type { BuildMetadata } from "@/lib/build-metadata";
 import { AVAILABILITY_DISPLAY, AWS_BADGE_IMAGES, LINKS, PROJECT_LOGOS } from "@/lib/constants";
 import { useAvailabilityStatus } from "@/lib/hooks/use-availability-status";

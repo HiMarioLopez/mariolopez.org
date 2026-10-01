@@ -82,7 +82,7 @@ describe("useVisitorCount queryFn behavior", () => {
   it("queryFn calls GET /api/visitor-count when increment is false", () => {
     // Re-mock useQuery to capture the queryFn
     mockUseQuery.mockImplementation(
-      (config: { queryFn: (ctx: { signal?: AbortSignal }) => Promise<number | null> }) => {
+      (_config: { queryFn: (ctx: { signal?: AbortSignal }) => Promise<number | null> }) => {
         // Just capture, don't call
         return { data: null, isLoading: true };
       },
@@ -105,7 +105,7 @@ describe("useVisitorCount queryFn behavior", () => {
 
   it("queryFn calls POST /api/visitor-count when increment is true", () => {
     mockUseQuery.mockImplementation(
-      (config: { queryFn: (ctx: { signal?: AbortSignal }) => Promise<number | null> }) => {
+      (_config: { queryFn: (ctx: { signal?: AbortSignal }) => Promise<number | null> }) => {
         return { data: null, isLoading: true };
       },
     );
