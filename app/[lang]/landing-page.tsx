@@ -2,12 +2,11 @@
 
 import type { LucideIcon } from "lucide-react";
 import { File, FileText, Mail } from "lucide-react";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { StatusBar } from "@/components/status-bar";
 import { Github, Linkedin, Twitter } from "@/components/ui/brand-icons";
 import type { BuildMetadata } from "@/lib/build-metadata";
-import { AVAILABILITY_DISPLAY, AWS_BADGE_IMAGES, LINKS } from "@/lib/constants";
+import { AVAILABILITY_DISPLAY, LINKS } from "@/lib/constants";
 import { useAvailabilityStatus } from "@/lib/hooks/use-availability-status";
 
 interface LandingDict {
@@ -17,31 +16,20 @@ interface LandingDict {
   intro_role: string;
   intro_at: string;
   intro_company: string;
+  intro_proud: string;
+  intro_school: string;
   intro_solving: string;
   intro_customers: string;
   intro_scope: string;
   intro_team: string;
   intro_hiring: string;
   section_links: string;
-  section_credentials: string;
   section_meta: string;
   section_contact: string;
   resume_label: string;
   contact_text: string;
   build_info: {
     label: string;
-  };
-  credentials: {
-    education_pre: string;
-    school: string;
-    education_post: string;
-    certs_intro: string;
-    certs: Array<{
-      name: string;
-      level: string;
-      issued: string;
-      expires: string;
-    }>;
   };
 }
 
@@ -105,17 +93,6 @@ const LINK_ITEMS = [
 const RESUME_LINK_ITEMS = [
   { icon: File, value: "pdf", href: LINKS.RESUME_PDF },
   { icon: FileText, value: "docx", href: LINKS.RESUME_DOCX },
-] as const;
-
-/**
- * AWS certification badge metadata, ordered to match the certs array in dictionaries.
- * Order: Solutions Architect, AI Practitioner, Security, Developer
- */
-const AWS_CERT_BADGE_META = [
-  { src: AWS_BADGE_IMAGES.SOLUTIONS_ARCHITECT, href: LINKS.AWS_CERT_SOLUTIONS_ARCHITECT },
-  { src: AWS_BADGE_IMAGES.AI_PRACTITIONER, href: LINKS.AWS_CERT_AI_PRACTITIONER },
-  { src: AWS_BADGE_IMAGES.SECURITY, href: LINKS.AWS_CERT_SECURITY },
-  { src: AWS_BADGE_IMAGES.DEVELOPER, href: LINKS.AWS_CERT_DEVELOPER },
 ] as const;
 
 function ResumeLinkDrawer({ label }: { label: string }) {
@@ -306,6 +283,15 @@ export function LandingPage({
               >
                 {dict.intro_company}
               </a>
+              . {dict.intro_proud}{" "}
+              <a
+                href={LINKS.BAYLOR}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground border-b border-border hover:border-foreground transition-colors pb-px"
+              >
+                {dict.intro_school}
+              </a>
               . {dict.intro_solving}{" "}
               <a
                 href={LINKS.VERCEL_CUSTOMERS}
@@ -363,59 +349,6 @@ export function LandingPage({
                 </a>
               ))}
               <ResumeLinkDrawer label={dict.resume_label} />
-            </div>
-          </Section>
-
-          {/* Education & Credentials */}
-          <Section label={dict.section_credentials}>
-            <p className="text-sm text-text-secondary leading-relaxed mb-4">
-              {dict.credentials.education_pre}{" "}
-              <a
-                href={LINKS.BAYLOR}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground border-b border-border hover:border-foreground transition-colors pb-px"
-              >
-                {dict.credentials.school}
-              </a>{" "}
-              {dict.credentials.education_post}
-            </p>
-            <p className="text-sm text-text-secondary leading-relaxed mb-3">
-              {dict.credentials.certs_intro}
-            </p>
-            <div className="grid grid-cols-2 gap-2 sm:gap-3">
-              {dict.credentials.certs.map((cert, index) => {
-                const badgeMeta = AWS_CERT_BADGE_META[index];
-                return (
-                  <a
-                    key={badgeMeta.href}
-                    href={badgeMeta.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex flex-col items-center gap-2 rounded-md border border-border/60 bg-accent/30 px-3 py-3 sm:py-4 transition-colors hover:bg-accent hover:border-border"
-                  >
-                    <Image
-                      src={badgeMeta.src}
-                      alt={cert.name}
-                      width={36}
-                      height={40}
-                      sizes="36px"
-                      className="h-[40px] w-[36px] object-contain grayscale opacity-60 transition-[filter,opacity] duration-200 group-hover:grayscale-0 group-hover:opacity-100"
-                    />
-                    <div className="flex flex-col items-center gap-0.5 text-center">
-                      <span className="text-xs sm:text-sm text-text-secondary group-hover:text-foreground transition-colors font-medium">
-                        {cert.name}
-                      </span>
-                      <span className="text-[10px] sm:text-[11px] text-text-tertiary group-hover:text-muted-foreground transition-colors">
-                        {cert.level}
-                      </span>
-                      <span className="text-[10px] sm:text-[11px] text-text-decorative">
-                        expires {cert.expires}
-                      </span>
-                    </div>
-                  </a>
-                );
-              })}
             </div>
           </Section>
 

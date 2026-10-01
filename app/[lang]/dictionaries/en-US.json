@@ -34,51 +34,20 @@
     "intro_role": "Platform Architect",
     "intro_at": "at",
     "intro_company": "Vercel",
+    "intro_proud": "Proud",
+    "intro_school": "Baylor Grad",
     "intro_solving": "Helping",
     "intro_customers": "ambitious teams",
     "intro_scope": "ship apps and AI at scale",
     "intro_team": "Team is",
     "intro_hiring": "hiring",
     "section_links": "links",
-    "section_credentials": "education & credentials",
     "section_meta": "meta",
     "section_contact": "contact",
     "resume_label": "resume",
     "contact_text": "Want to chat or work together? Would love to hear from you.",
     "build_info": {
       "label": "I last updated this site"
-    },
-    "credentials": {
-      "education_pre": "Graduated from",
-      "school": "Baylor University",
-      "education_post": "in 2020 with a B.S. in Computer Science.",
-      "certs_intro": "While I was at AWS, I picked up a few certifications:",
-      "certs": [
-        {
-          "name": "Solutions Architect",
-          "level": "Associate",
-          "issued": "Nov 2022",
-          "expires": "Nov 2028"
-        },
-        {
-          "name": "AI Practitioner",
-          "level": "Foundational",
-          "issued": "Sep 2024",
-          "expires": "Sep 2027"
-        },
-        {
-          "name": "Security",
-          "level": "Specialty",
-          "issued": "Sep 2023",
-          "expires": "Sep 2026"
-        },
-        {
-          "name": "Developer",
-          "level": "Associate",
-          "issued": "Mar 2023",
-          "expires": "Mar 2026"
-        }
-      ]
     }
   },
   "machine": {

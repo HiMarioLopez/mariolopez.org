@@ -28,57 +28,26 @@
     "description": "Soy un Arquitecto de Plataforma, trabajando con gente brillante en Vercel, ayudando a equipos ambiciosos a lanzar aplicaciones y cargas de IA a escala. Este es mi sitio web personal."
   },
   "landing": {
-    "greeting": "\u00a1Qu\u00e9 onda!",
+    "greeting": "¡Qué onda!",
     "jsdoc_role": "Arquitecto de Plataforma",
     "jsdoc_company": "Vercel",
     "intro_role": "Arquitecto de Plataforma",
     "intro_at": "en",
     "intro_company": "Vercel",
+    "intro_proud": "Orgulloso",
+    "intro_school": "egresado de Baylor",
     "intro_solving": "Ayudando a",
     "intro_customers": "equipos ambiciosos",
     "intro_scope": "a lanzar aplicaciones y cargas de IA a escala",
-    "intro_team": "El equipo est\u00e1",
+    "intro_team": "El equipo está",
     "intro_hiring": "contratando",
     "section_links": "enlaces",
-    "section_credentials": "educación y credenciales",
     "section_meta": "meta",
     "section_contact": "contacto",
-    "resume_label": "curr\u00edculum",
+    "resume_label": "currículum",
     "contact_text": "¿Quieres platicar o trabajar juntos? Me encantaría saber de ti.",
     "build_info": {
       "label": "Actualicé este sitio por última vez"
-    },
-    "credentials": {
-      "education_pre": "Me gradu\u00e9 de",
-      "school": "Baylor University",
-      "education_post": "en 2020 con una licenciatura en Ciencias de la Computaci\u00f3n.",
-      "certs_intro": "Mientras estuve en AWS, obtuve algunas certificaciones:",
-      "certs": [
-        {
-          "name": "Arquitecto de Soluciones",
-          "level": "Asociado",
-          "issued": "Nov 2022",
-          "expires": "Nov 2028"
-        },
-        {
-          "name": "Practicante de IA",
-          "level": "Fundacional",
-          "issued": "Sep 2024",
-          "expires": "Sep 2027"
-        },
-        {
-          "name": "Seguridad",
-          "level": "Especialidad",
-          "issued": "Sep 2023",
-          "expires": "Sep 2026"
-        },
-        {
-          "name": "Desarrollador",
-          "level": "Asociado",
-          "issued": "Mar 2023",
-          "expires": "Mar 2026"
-        }
-      ]
     }
   },
   "machine": {
@@ -138,7 +107,7 @@
     },
     "contact_section": {
       "text": "¿Quieres platicar o trabajar juntos? Me encantaría saber de ti.",
-      "email_label": "Correo electr\u00f3nico:",
+      "email_label": "Correo electrónico:",
       "site_last_updated_label": "Actualicé este sitio por última vez"
     },
     "socials_labels": {
