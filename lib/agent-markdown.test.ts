@@ -51,20 +51,8 @@ const MACHINE_FIXTURE = {
     github: "GitHub:",
     linkedin: "LinkedIn:",
     twitter: "Twitter:",
-    backpocket: "Backpocket:",
     resume_pdf: "Resume (PDF):",
     resume_docx: "Resume (DOCX):",
-  },
-  projects_labels: {
-    chaos_recipe_enhancer: "Chaos Recipe Enhancer:",
-    now_playing: "Now Playing:",
-    blog: "Blog:",
-    create_mlpz_lambda: "create-mlpz-lambda:",
-    vercel_bulk_waf_rules: "vercel-bulk-waf-rules:",
-    backpocket: "Backpocket:",
-    cordstruck: "Cordstruck:",
-    guesschella: "Guesschella:",
-    building_status: "(building)",
   },
   footer_label: "Source code:",
   recently_played_template:
@@ -206,7 +194,6 @@ describe("generateAgentMarkdown", () => {
       expect(result).toContain("## Resume");
       expect(result).toContain("## Contact");
       expect(result).toContain("## Socials");
-      expect(result).toContain("## Projects");
       expect(result).toContain("## Source");
     });
   });
@@ -288,19 +275,6 @@ describe("generateAgentMarkdown", () => {
     });
   });
 
-  // ── Projects section ─────────────────────────────────────────────────────
-
-  describe("projects section", () => {
-    it("includes project links", () => {
-      const result = generateAgentMarkdown(BASE_OPTIONS);
-      expect(result).toContain(LINKS.CHAOS_RECIPE_ENHANCER);
-      expect(result).toContain(LINKS.MUSIC);
-      expect(result).toContain(LINKS.BLOG);
-      expect(result).toContain(LINKS.CREATE_MLPZ_LAMBDA);
-      expect(result).toContain(LINKS.VERCEL_BULK_WAF_RULES);
-    });
-  });
-
   // ── Source section ───────────────────────────────────────────────────────
 
   describe("source section", () => {
@@ -320,7 +294,6 @@ describe("generateAgentMarkdown", () => {
       expect(result).toContain("## Curriculum");
       expect(result).toContain("## Contacto");
       expect(result).toContain("## Redes");
-      expect(result).toContain("## Proyectos");
       expect(result).toContain("## Codigo fuente");
     });
 

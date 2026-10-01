@@ -1,8 +1,6 @@
 import type { BuildMetadata } from "@/lib/build-metadata";
 import { LINKS } from "@/lib/constants";
 
-const POE_LABEL = "Path of Exile";
-
 interface MachineDict {
   system_instructions: string;
   header: string;
@@ -33,20 +31,8 @@ interface MachineDict {
     github: string;
     linkedin: string;
     twitter: string;
-    backpocket: string;
     resume_pdf: string;
     resume_docx: string;
-  };
-  projects_labels: {
-    chaos_recipe_enhancer: string;
-    now_playing: string;
-    blog: string;
-    create_mlpz_lambda: string;
-    vercel_bulk_waf_rules: string;
-    backpocket: string;
-    cordstruck: string;
-    guesschella: string;
-    building_status: string;
   };
   footer_label: string;
   recently_played_template: string;
@@ -126,20 +112,8 @@ ${dict.contact_section.site_last_updated_label} ${buildMetadata.siteLastUpdatedD
 ${dict.socials_labels.github} ${LINKS.GITHUB}
 ${dict.socials_labels.linkedin} ${LINKS.LINKEDIN}
 ${dict.socials_labels.twitter} ${LINKS.TWITTER}
-${dict.socials_labels.backpocket} ${LINKS.BACKPOCKET_SPACE}
 ${dict.socials_labels.resume_pdf} ${LINKS.RESUME_PDF}
 ${dict.socials_labels.resume_docx} ${LINKS.RESUME_DOCX}
-[/section]
-
-[section: projects]
-${dict.projects_labels.chaos_recipe_enhancer} ${LINKS.CHAOS_RECIPE_ENHANCER} (${POE_LABEL}: ${LINKS.PATH_OF_EXILE})
-${dict.projects_labels.now_playing} ${LINKS.MUSIC} (${LINKS.MUSIC_REPO_OUTLINE})
-${dict.projects_labels.blog} ${LINKS.BLOG}
-${dict.projects_labels.create_mlpz_lambda} ${LINKS.CREATE_MLPZ_LAMBDA}
-${dict.projects_labels.vercel_bulk_waf_rules} ${LINKS.VERCEL_BULK_WAF_RULES}
-${dict.projects_labels.backpocket} ${dict.projects_labels.building_status}
-${dict.projects_labels.cordstruck} ${dict.projects_labels.building_status}
-${dict.projects_labels.guesschella} ${dict.projects_labels.building_status}
 [/section]
 
 [footer]

@@ -2,8 +2,6 @@ import { LINKS } from "@/lib/constants";
 import type { RecentlyPlayed } from "@/lib/types";
 import { formatTimeAgo } from "@/lib/utils";
 
-const POE_LABEL = "Path of Exile";
-
 export const SUPPORTED_LOCALES = ["en-US", "es-MX"] as const;
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
@@ -33,20 +31,8 @@ interface MachineDict {
     github: string;
     linkedin: string;
     twitter: string;
-    backpocket: string;
     resume_pdf: string;
     resume_docx: string;
-  };
-  projects_labels: {
-    chaos_recipe_enhancer: string;
-    now_playing: string;
-    blog: string;
-    create_mlpz_lambda: string;
-    vercel_bulk_waf_rules: string;
-    backpocket: string;
-    cordstruck: string;
-    guesschella: string;
-    building_status: string;
   };
   footer_label: string;
   recently_played_template: string;
@@ -60,7 +46,6 @@ interface MarkdownLabels {
   resume: string;
   contact: string;
   socials: string;
-  projects: string;
   source: string;
 }
 
@@ -74,7 +59,6 @@ const MARKDOWN_LABELS: Record<SupportedLocale, MarkdownLabels> = {
     resume: "Resume",
     contact: "Contact",
     socials: "Socials",
-    projects: "Projects",
     source: "Source",
   },
   "es-MX": {
@@ -86,7 +70,6 @@ const MARKDOWN_LABELS: Record<SupportedLocale, MarkdownLabels> = {
     resume: "Curriculum",
     contact: "Contacto",
     socials: "Redes",
-    projects: "Proyectos",
     source: "Codigo fuente",
   },
 };
@@ -217,19 +200,8 @@ ${machine.contact_section.text}
 - ${machine.socials_labels.github} ${LINKS.GITHUB}
 - ${machine.socials_labels.linkedin} ${LINKS.LINKEDIN}
 - ${machine.socials_labels.twitter} ${LINKS.TWITTER}
-- ${machine.socials_labels.backpocket} ${LINKS.BACKPOCKET_SPACE}
 - ${machine.socials_labels.resume_pdf} ${LINKS.RESUME_PDF}
 - ${machine.socials_labels.resume_docx} ${LINKS.RESUME_DOCX}
-
-## ${labels.projects}
-- ${machine.projects_labels.chaos_recipe_enhancer} ${LINKS.CHAOS_RECIPE_ENHANCER} (${POE_LABEL}: ${LINKS.PATH_OF_EXILE})
-- ${machine.projects_labels.now_playing} ${LINKS.MUSIC} (${LINKS.MUSIC_REPO_OUTLINE})
-- ${machine.projects_labels.blog} ${LINKS.BLOG}
-- ${machine.projects_labels.create_mlpz_lambda} ${LINKS.CREATE_MLPZ_LAMBDA}
-- ${machine.projects_labels.vercel_bulk_waf_rules} ${LINKS.VERCEL_BULK_WAF_RULES}
-- ${machine.projects_labels.backpocket} ${machine.projects_labels.building_status}
-- ${machine.projects_labels.cordstruck} ${machine.projects_labels.building_status}
-- ${machine.projects_labels.guesschella} ${machine.projects_labels.building_status}
 
 ## ${labels.source}
 - ${machine.footer_label} ${LINKS.SITE_SOURCE}

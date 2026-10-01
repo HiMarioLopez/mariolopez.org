@@ -40,7 +40,6 @@
     "intro_team": "El equipo est\u00e1",
     "intro_hiring": "contratando",
     "section_links": "enlaces",
-    "section_projects": "proyectos",
     "section_credentials": "educación y credenciales",
     "section_meta": "meta",
     "section_contact": "contacto",
@@ -48,16 +47,6 @@
     "contact_text": "¿Quieres platicar o trabajar juntos? Me encantaría saber de ti.",
     "build_info": {
       "label": "Actualicé este sitio por última vez"
-    },
-    "projects": {
-      "chaos_recipe_enhancer": "Automatizaci\u00f3n para Path of Exile",
-      "now_playing": "Un sitio sobre-ingenierizado para rastrear lo que estoy escuchando",
-      "backpocket": "Gesti\u00f3n de conocimiento personal · QEPD Pocket",
-      "blog": "Escritura t\u00e9cnica y reflexiones",
-      "create_mlpz_lambda": "CLI para iniciar proyectos de AWS Lambda",
-      "vercel_bulk_waf_rules": "Bulk manage Vercel WAF rules",
-      "cordstruck": "En desarrollo",
-      "guesschella": "En desarrollo"
     },
     "credentials": {
       "education_pre": "Me gradu\u00e9 de",
@@ -156,20 +145,8 @@
       "github": "GitHub:",
       "linkedin": "LinkedIn:",
       "twitter": "Twitter:",
-      "backpocket": "Backpocket:",
       "resume_pdf": "Currículum PDF:",
       "resume_docx": "Currículum DOCX:"
-    },
-    "projects_labels": {
-      "chaos_recipe_enhancer": "Chaos Recipe Enhancer:",
-      "now_playing": "Reproduciendo ahora:",
-      "blog": "Blog:",
-      "create_mlpz_lambda": "create-mlpz-lambda:",
-      "vercel_bulk_waf_rules": "Vercel Bulk WAF Rules:",
-      "backpocket": "Backpocket:",
-      "cordstruck": "Cordstruck:",
-      "guesschella": "Guesschella:",
-      "building_status": "Construyendo."
     },
     "footer_label": "Código:",
     "recently_played_template": "Mi canción reproducida más recientemente en %platform% es \"%song%\" de %artist% (reproducida %timeAgo%).\n\nEscuchar: %url%\n"

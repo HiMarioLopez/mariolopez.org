@@ -1,24 +1,14 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
-import {
-  Bookmark,
-  File,
-  FileText,
-  Mail,
-  Music,
-  Shield,
-  Zap,
-} from "lucide-react";
+import { File, FileText, Mail } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { StatusBar } from "@/components/status-bar";
 import { Github, Linkedin, Twitter } from "@/components/ui/brand-icons";
 import type { BuildMetadata } from "@/lib/build-metadata";
-import { AVAILABILITY_DISPLAY, AWS_BADGE_IMAGES, LINKS, PROJECT_LOGOS } from "@/lib/constants";
+import { AVAILABILITY_DISPLAY, AWS_BADGE_IMAGES, LINKS } from "@/lib/constants";
 import { useAvailabilityStatus } from "@/lib/hooks/use-availability-status";
-import { useRecentlyPlayed } from "@/lib/hooks/use-recently-played";
-import { getPlatformColor } from "@/lib/utils";
 
 interface LandingDict {
   greeting: string;
@@ -33,7 +23,6 @@ interface LandingDict {
   intro_team: string;
   intro_hiring: string;
   section_links: string;
-  section_projects: string;
   section_credentials: string;
   section_meta: string;
   section_contact: string;
@@ -41,16 +30,6 @@ interface LandingDict {
   contact_text: string;
   build_info: {
     label: string;
-  };
-  projects: {
-    chaos_recipe_enhancer: string;
-    now_playing: string;
-    backpocket: string;
-    blog: string;
-    create_mlpz_lambda: string;
-    vercel_bulk_waf_rules: string;
-    cordstruck: string;
-    guesschella: string;
   };
   credentials: {
     education_pre: string;
@@ -97,73 +76,6 @@ function LinkIcon({ icon: Icon }: { icon: LucideIcon }) {
   );
 }
 
-function ProjectBadge({
-  status,
-  logoSrc,
-  emoji,
-  icon: Icon,
-  iconHoverClass,
-  iconHoverColor,
-  name,
-}: {
-  status: ProjectStatus;
-  logoSrc?: string;
-  emoji?: string;
-  icon?: LucideIcon;
-  iconHoverClass?: string;
-  iconHoverColor?: string;
-  name: string;
-}) {
-  return (
-    <span className="relative inline-flex h-5 w-5 shrink-0 items-center justify-center">
-      {logoSrc ? (
-        <Image
-          src={logoSrc}
-          alt={`${name} logo`}
-          width={16}
-          height={16}
-          sizes="16px"
-          className="h-4 w-4 rounded-sm object-contain grayscale opacity-75 transition-[filter,opacity] duration-200 group-hover:grayscale-0 group-hover:opacity-100 group-focus-within:grayscale-0 group-focus-within:opacity-100"
-        />
-      ) : emoji ? (
-        <span
-          aria-hidden="true"
-          className="inline-flex h-4 w-4 items-center justify-center text-[12px] leading-none grayscale opacity-70 transition-[filter,opacity,transform] duration-200 group-hover:grayscale-0 group-hover:opacity-100 group-focus-within:grayscale-0 group-focus-within:opacity-100 group-hover:scale-105 group-focus-within:scale-105"
-        >
-          {emoji}
-        </span>
-      ) : Icon ? (
-        <span
-          className="inline-flex h-4 w-4 items-center justify-center"
-          style={
-            iconHoverColor
-              ? ({ "--project-icon-hover-color": iconHoverColor } as React.CSSProperties)
-              : undefined
-          }
-        >
-          <Icon
-            size={11}
-            strokeWidth={1.8}
-            className={`text-text-tertiary transition-colors ${
-              iconHoverColor
-                ? "group-hover:text-[var(--project-icon-hover-color)] group-focus-within:text-[var(--project-icon-hover-color)]"
-                : (iconHoverClass ??
-                  "group-hover:text-foreground group-focus-within:text-foreground")
-            }`}
-          />
-        </span>
-      ) : (
-        <span className="h-3.5 w-3.5 rounded-sm border border-border/80 bg-muted/20" />
-      )}
-      <span
-        className={`absolute -right-0.5 -bottom-0.5 h-1.5 w-1.5 rounded-full ring-1 ring-background ${
-          status === "active" ? "bg-emerald-500" : "bg-amber-500 animate-pulse"
-        }`}
-      />
-    </span>
-  );
-}
-
 function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <section className="mb-10 md:mb-12">
@@ -188,12 +100,6 @@ const LINK_ITEMS = [
     href: LINKS.LINKEDIN,
   },
   { icon: Twitter, label: "twitter", value: "twitter.com/HiMarioLopez", href: LINKS.TWITTER },
-  {
-    icon: Bookmark,
-    label: "backpocket",
-    value: "backpocket.mariolopez.org",
-    href: LINKS.BACKPOCKET_SPACE,
-  },
 ] as const;
 
 const RESUME_LINK_ITEMS = [
@@ -337,151 +243,6 @@ function ResumeLinkDrawer({ label }: { label: string }) {
   );
 }
 
-interface DescLink {
-  match: RegExp;
-  href: string;
-}
-
-type ProjectStatus = "active" | "building";
-
-interface ProjectItem {
-  name: string;
-  desc: string;
-  href: string;
-  status: ProjectStatus;
-  descLinks?: DescLink[];
-  logoSrc?: string;
-  emoji?: string;
-  icon?: LucideIcon;
-  iconHoverClass?: string;
-  iconHoverColor?: string;
-}
-
-function ProjectDescription({ text, links }: { text: string; links?: DescLink[] }) {
-  if (!links?.length) {
-    return <>{text}</>;
-  }
-
-  for (const link of links) {
-    const result = link.match.exec(text);
-    if (result) {
-      const before = text.slice(0, result.index);
-      const matched = result[0];
-      const after = text.slice(result.index + matched.length);
-
-      return (
-        <>
-          {before}
-          <a
-            href={link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="relative z-10 underline decoration-dotted underline-offset-2 decoration-muted-foreground/45 hover:text-foreground hover:decoration-foreground/65 transition-[color,text-decoration-color]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {matched}
-          </a>
-          {after}
-        </>
-      );
-    }
-  }
-
-  return <>{text}</>;
-}
-
-function getProjectItems(
-  dict: LandingDict,
-  nowPlayingIconHoverColor: string | null,
-): ProjectItem[] {
-  return [
-    {
-      name: "chaos-recipe-enhancer",
-      desc: dict.projects.chaos_recipe_enhancer,
-      href: LINKS.CHAOS_RECIPE_ENHANCER,
-      status: "active",
-      descLinks: [{ match: /Path of Exile|PoE/, href: LINKS.PATH_OF_EXILE }],
-      logoSrc: PROJECT_LOGOS.CHAOS_RECIPE_ENHANCER,
-    },
-    {
-      name: "now-playing",
-      desc: dict.projects.now_playing,
-      href: LINKS.MUSIC,
-      status: "active",
-      descLinks: [
-        {
-          match: /over-engineered|sobre-ingenierizado/i,
-          href: LINKS.MUSIC_REPO_OUTLINE,
-        },
-      ],
-      icon: Music,
-      iconHoverClass: "group-hover:text-emerald-400 group-focus-within:text-emerald-400",
-      iconHoverColor: nowPlayingIconHoverColor ?? undefined,
-    },
-    {
-      name: "backpocket",
-      desc: dict.projects.backpocket,
-      href: LINKS.BACKPOCKET,
-      status: "active",
-      descLinks: [{ match: /RIP Pocket|QEPD Pocket/i, href: LINKS.POCKET }],
-      logoSrc: PROJECT_LOGOS.BACKPOCKET,
-    },
-    {
-      name: "blog",
-      desc: dict.projects.blog,
-      href: LINKS.BLOG,
-      status: "active",
-      emoji: "🍝",
-    },
-    {
-      name: "create-mlpz-lambda",
-      desc: dict.projects.create_mlpz_lambda,
-      href: LINKS.CREATE_MLPZ_LAMBDA,
-      status: "active",
-      icon: Zap,
-      iconHoverClass: "group-hover:text-amber-400 group-focus-within:text-amber-400",
-    },
-    {
-      name: "vercel-bulk-waf-rules",
-      desc: dict.projects.vercel_bulk_waf_rules,
-      href: LINKS.VERCEL_BULK_WAF_RULES,
-      status: "active",
-      icon: Shield,
-      iconHoverClass: "group-hover:text-cyan-400 group-focus-within:text-cyan-400",
-    },
-    {
-      name: "cordstruck",
-      desc: dict.projects.cordstruck,
-      href: "#",
-      status: "building",
-      logoSrc: PROJECT_LOGOS.CORDSTRUCK,
-    },
-    {
-      name: "guesschella",
-      desc: dict.projects.guesschella,
-      href: "#",
-      status: "building",
-      logoSrc: PROJECT_LOGOS.GUESSCHELLA,
-    },
-  ];
-}
-
-function ProjectName({ name }: { name: string }) {
-  if (name !== "blog") {
-    return <>{name}</>;
-  }
-
-  const decoratedBlogLetters =
-    "transition-[color,text-decoration-color] duration-200 group-hover:text-rose-400 dark:group-hover:text-rose-300 group-hover:underline group-hover:decoration-dotted group-hover:decoration-2 group-hover:underline-offset-3 group-hover:decoration-rose-400 dark:group-hover:decoration-rose-300";
-
-  return (
-    <span>
-      <span className={decoratedBlogLetters}>b</span>o
-      <span className={decoratedBlogLetters}>log</span>nese
-    </span>
-  );
-}
-
 export function LandingPage({
   lang,
   dict,
@@ -494,14 +255,9 @@ export function LandingPage({
   buildMetadata: BuildMetadata;
 }) {
   const availabilityStatus = useAvailabilityStatus();
-  const { data: recentlyPlayed } = useRecentlyPlayed();
   const display = AVAILABILITY_DISPLAY[availabilityStatus];
   const locale = lang === "es-MX" ? "es-MX" : "en-US";
   const statusLabel = display.jsdoc[locale];
-  const nowPlayingIconHoverColor = recentlyPlayed?.platform
-    ? getPlatformColor(recentlyPlayed.platform)
-    : null;
-  const projectItems = getProjectItems(dict, nowPlayingIconHoverColor);
 
   return (
     <>
@@ -607,67 +363,6 @@ export function LandingPage({
                 </a>
               ))}
               <ResumeLinkDrawer label={dict.resume_label} />
-            </div>
-          </Section>
-
-          {/* Projects */}
-          <Section label={dict.section_projects}>
-            <div className="space-y-1">
-              {projectItems.map((project) => (
-                <div
-                  key={project.name}
-                  className={`group relative flex items-center gap-3 py-3 sm:py-2.5 -mx-3 px-3 rounded-md transition-colors ${
-                    project.status === "active"
-                      ? "hover:bg-accent"
-                      : "cursor-not-allowed bg-accent/40"
-                  }`}
-                  aria-disabled={project.status !== "active"}
-                >
-                  {project.status === "active" && (
-                    <a
-                      href={project.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="absolute inset-0 z-0"
-                      aria-label={project.name}
-                    >
-                      <span className="sr-only">{project.name}</span>
-                    </a>
-                  )}
-                  <ProjectBadge
-                    status={project.status}
-                    logoSrc={project.logoSrc}
-                    emoji={project.emoji}
-                    icon={project.icon}
-                    iconHoverClass={project.iconHoverClass}
-                    iconHoverColor={project.iconHoverColor}
-                    name={project.name}
-                  />
-                  <span className="text-sm text-text-secondary group-hover:text-foreground transition-colors shrink-0">
-                    <ProjectName name={project.name} />
-                  </span>
-                  <span className="text-text-decorative hidden sm:inline">&mdash;</span>
-                  <span className="text-xs text-text-secondary group-hover:text-foreground transition-colors truncate hidden sm:block">
-                    <ProjectDescription text={project.desc} links={project.descLinks} />
-                  </span>
-                  {project.status === "active" && (
-                    <svg
-                      className="ml-auto w-3.5 h-3.5 text-text-decorative group-hover:text-muted-foreground transition-colors shrink-0"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M7 17L17 7M17 7H7M17 7v10"
-                      />
-                    </svg>
-                  )}
-                </div>
-              ))}
             </div>
           </Section>
 

@@ -40,7 +40,6 @@
     "intro_team": "Team is",
     "intro_hiring": "hiring",
     "section_links": "links",
-    "section_projects": "projects",
     "section_credentials": "education & credentials",
     "section_meta": "meta",
     "section_contact": "contact",
@@ -48,16 +47,6 @@
     "contact_text": "Want to chat or work together? Would love to hear from you.",
     "build_info": {
       "label": "I last updated this site"
-    },
-    "projects": {
-      "chaos_recipe_enhancer": "Desktop automation for Path of Exile",
-      "now_playing": "An over-engineered site to track my now playing",
-      "backpocket": "Personal knowledge management · RIP Pocket",
-      "blog": "Technical writing & thoughts",
-      "create_mlpz_lambda": "CLI scaffold for AWS Lambda projects",
-      "vercel_bulk_waf_rules": "Bulk manage Vercel WAF rules",
-      "cordstruck": "In development",
-      "guesschella": "In development"
     },
     "credentials": {
       "education_pre": "Graduated from",
@@ -156,20 +145,8 @@
       "github": "GitHub:",
       "linkedin": "LinkedIn:",
       "twitter": "Twitter:",
-      "backpocket": "Backpocket:",
       "resume_pdf": "Resume PDF:",
       "resume_docx": "Resume DOCX:"
-    },
-    "projects_labels": {
-      "chaos_recipe_enhancer": "Chaos Recipe Enhancer:",
-      "now_playing": "Now Playing:",
-      "blog": "Blog:",
-      "create_mlpz_lambda": "create-mlpz-lambda:",
-      "vercel_bulk_waf_rules": "Vercel Bulk WAF Rules:",
-      "backpocket": "Backpocket:",
-      "cordstruck": "Cordstruck:",
-      "guesschella": "Guesschella:",
-      "building_status": "Building."
     },
     "footer_label": "Source:",
     "recently_played_template": "My most recently played song on %platform% is \"%song%\" by %artist% (played %timeAgo%).\n\nListen: %url%\n"

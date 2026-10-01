@@ -142,17 +142,6 @@ export const LINKS = {
     "https://www.perplexity.ai/search/what-is-a-platform-architect-Mf8B8rGgTZKkmxPXzqxZ1Q#0",
   VERCEL_FIELD_ENGINEERING: "https://vercel.com/careers?function=Field+Engineering",
   VERCEL_CUSTOMERS: "https://vercel.com/customers",
-  MUSIC: "https://music.mariolopez.org",
-  MUSIC_REPO_OUTLINE:
-    "https://github.com/HiMarioLopez/music.mariolopez.org?tab=readme-ov-file#outline",
-  POCKET: "https://getpocket.com/home",
-  BLOG: "https://bolognese.mariolopez.org",
-  CREATE_MLPZ_LAMBDA: "https://npmx.dev/package/create-mlpz-lambda",
-  VERCEL_BULK_WAF_RULES: "https://github.com/HiMarioLopez/vercel-bulk-waf-rules",
-  CHAOS_RECIPE_ENHANCER: "https://github.com/ChaosRecipeEnhancer/ChaosRecipeEnhancer",
-  PATH_OF_EXILE: "https://www.pathofexile.com/",
-  BACKPOCKET: "https://backpocket.my",
-  BACKPOCKET_SPACE: "https://backpocket.mariolopez.org",
   CHATGPT: "https://chatgpt.com",
   GEMINI: "https://gemini.google.com/app",
   CLAUDE: "https://claude.ai/new",
@@ -173,16 +162,6 @@ export const LINKS = {
     "https://www.credly.com/badges/b10ccd98-78ec-44c1-bc26-47737b00a98b/public_url",
   AWS_CERT_AI_PRACTITIONER:
     "https://www.credly.com/badges/88ffd888-be2a-42d7-bfe1-44964f1349ed/public_url",
-} as const;
-
-/**
- * Project logo assets
- */
-export const PROJECT_LOGOS = {
-  CHAOS_RECIPE_ENHANCER: "/images/CRELogo.webp",
-  BACKPOCKET: "/images/BackpocketLogo.webp",
-  CORDSTRUCK: "/images/CordstruckLogo.webp",
-  GUESSCHELLA: "/images/GuesschellaLogo.webp",
 } as const;
 
 /**
@@ -247,21 +226,9 @@ export const AVAILABILITY_CONFIG = {
   UPDATE_INTERVAL_MS: 60_000,
 } as const;
 
-export type AvailabilityStatus = "cranking" | "flowing" | "away" | "offline";
+export type AvailabilityStatus = "cranking" | "away" | "offline";
 
-export const AVAILABILITY_STATUSES = ["cranking", "flowing", "away", "offline"] as const;
-
-/**
- * Temporary status override configuration.
- * When active, replaces the normal availability logic during waking hours.
- * Set to null to disable.
- */
-export const STATUS_OVERRIDE = {
-  /** The status to show during the override period (during waking hours) */
-  status: "flowing" as AvailabilityStatus,
-  /** End date for the override (inclusive, Central US time - year, month (0-indexed), day) */
-  endDate: new Date(2026, 2, 28), // Through Saturday March 28, 2026
-} as const;
+export const AVAILABILITY_STATUSES = ["cranking", "away", "offline"] as const;
 
 export const AVAILABILITY_DISPLAY = {
   cranking: {
@@ -270,14 +237,6 @@ export const AVAILABILITY_DISPLAY = {
     desc: { "en-US": "Mon–Fri · 8 am – 5 pm CT", "es-MX": "Lun–Vie · 8 am – 5 pm CT" },
     dotClass: "bg-emerald-500",
     textClass: "text-emerald-700 dark:text-emerald-400",
-    pulse: true,
-  },
-  flowing: {
-    label: { "en-US": "Flowing", "es-MX": "En flujo" },
-    jsdoc: { "en-US": "Flowing", "es-MX": "En flujo" },
-    desc: { "en-US": "Not cranking, just vibing", "es-MX": "Sin prisa, disfrutando" },
-    dotClass: "bg-sky-400",
-    textClass: "text-sky-700 dark:text-sky-400",
     pulse: true,
   },
   away: {
