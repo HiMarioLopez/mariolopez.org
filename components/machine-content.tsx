@@ -117,7 +117,7 @@ ${dict.socials_labels.resume_docx} ${LINKS.RESUME_DOCX}
 [/section]
 
 [footer]
-© 2026, Mario Lopez Martinez
+© 2026, Mario Lopez
 ${dict.footer_label} ${LINKS.SITE_SOURCE}
 [/footer]
 [/content_end]

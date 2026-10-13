@@ -81,4 +81,4 @@ Application configuration is centralized in `lib/config.ts` and shared constants
 
 ## License
 
-MIT License - Copyright (c) 2026 Mario Lopez Martinez
+MIT License - Copyright (c) 2026 Mario Lopez
