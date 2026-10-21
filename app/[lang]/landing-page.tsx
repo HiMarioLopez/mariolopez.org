@@ -239,6 +239,9 @@ export function LandingPage({
   return (
     <>
       <main className="min-h-screen bg-background text-foreground font-mono antialiased selection:bg-foreground/15 selection:text-foreground">
+        <div className="w-full bg-gradient-to-r from-fuchsia-500 via-orange-400 to-cyan-400 py-3 text-center text-sm font-bold tracking-[0.2em] uppercase text-white shadow-lg">
+          ▲ Preview Deployment Demo ▲
+        </div>
         <div className="max-w-[680px] mx-auto px-5 sm:px-6 py-8 sm:py-10 md:py-16">
           {/* Header */}
           <header className="mb-10 md:mb-14">
