@@ -247,6 +247,9 @@ export function LandingPage({
                 <span>mariolopez.org</span>
                 <span className="text-text-decorative">/</span>
                 <span className="text-text-tertiary">~</span>
+                <span className="rounded-sm border border-border px-1.5 py-0.5 text-[10px] text-text-tertiary">
+                  preview-test
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-[11px] sm:text-xs text-text-tertiary">{dict.greeting}</span>
